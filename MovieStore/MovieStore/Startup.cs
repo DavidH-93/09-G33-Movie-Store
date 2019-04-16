@@ -34,11 +34,9 @@ namespace MovieStore
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<MovieStoreApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<MovieStoreDbContext>();
             services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<MovieStoreApplicationDbContext>();
+                .AddEntityFrameworkStores<MovieStoreDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
