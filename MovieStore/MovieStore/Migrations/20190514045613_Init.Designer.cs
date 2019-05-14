@@ -10,8 +10,8 @@ using MovieStore.Data;
 namespace MovieStore.Migrations
 {
     [DbContext(typeof(MovieStoreDbContext))]
-    [Migration("20190416064000_Add-Migration Initial")]
-    partial class AddMigrationInitial
+    [Migration("20190514045613_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -192,7 +192,11 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("ActorID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("DOB");
+
                     b.Property<string>("FirstName");
+
+                    b.Property<string>("Gender");
 
                     b.Property<string>("LastName");
 
@@ -206,19 +210,19 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("AddressID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CityID");
+                    b.Property<Guid?>("CityID");
 
-                    b.Property<int?>("CountryID");
+                    b.Property<Guid?>("CountryID");
 
                     b.Property<string>("Line1");
 
                     b.Property<string>("Line2");
 
-                    b.Property<int?>("LocalityID");
+                    b.Property<Guid?>("LocalityID");
 
-                    b.Property<int?>("PostCodeID");
+                    b.Property<Guid?>("PostCodeID");
 
-                    b.Property<int?>("RegionID");
+                    b.Property<Guid?>("RegionID");
 
                     b.HasKey("AddressID");
 
@@ -237,9 +241,8 @@ namespace MovieStore.Migrations
 
             modelBuilder.Entity("MovieStore.Models.City", b =>
                 {
-                    b.Property<int>("CityID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("CityID")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name");
 
@@ -250,11 +253,10 @@ namespace MovieStore.Migrations
 
             modelBuilder.Entity("MovieStore.Models.Country", b =>
                 {
-                    b.Property<int>("CountryID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("CountryID")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CapitalCityID");
+                    b.Property<Guid?>("CapitalCityID");
 
                     b.Property<string>("Name");
 
@@ -270,7 +272,11 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("DirectorID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("DOB");
+
                     b.Property<string>("FirstName");
+
+                    b.Property<string>("Gender");
 
                     b.Property<string>("LastName");
 
@@ -281,9 +287,8 @@ namespace MovieStore.Migrations
 
             modelBuilder.Entity("MovieStore.Models.Genre", b =>
                 {
-                    b.Property<int>("GenreID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("GenreID")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name");
 
@@ -294,13 +299,12 @@ namespace MovieStore.Migrations
 
             modelBuilder.Entity("MovieStore.Models.Locality", b =>
                 {
-                    b.Property<int>("LocalityID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("LocalityID")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name");
 
-                    b.Property<int?>("RegionID");
+                    b.Property<Guid?>("RegionID");
 
                     b.HasKey("LocalityID");
 
@@ -314,7 +318,11 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("MovieID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<TimeSpan>("Duration");
+
                     b.Property<double>("Price");
+
+                    b.Property<bool>("Published");
 
                     b.Property<int>("Quantity");
 
@@ -366,7 +374,7 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("MovieGenreID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("GenreID");
+                    b.Property<Guid?>("GenreID");
 
                     b.Property<Guid?>("MovieID");
 
@@ -441,9 +449,8 @@ namespace MovieStore.Migrations
 
             modelBuilder.Entity("MovieStore.Models.PostCode", b =>
                 {
-                    b.Property<int>("PostCodeID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("PostCodeID")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("Code");
 
@@ -457,7 +464,11 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("ProducerID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("DOB");
+
                     b.Property<string>("FirstName");
+
+                    b.Property<string>("Gender");
 
                     b.Property<string>("LastName");
 
@@ -468,13 +479,12 @@ namespace MovieStore.Migrations
 
             modelBuilder.Entity("MovieStore.Models.Region", b =>
                 {
-                    b.Property<int>("RegionID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("RegionID")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CapitalCityID");
+                    b.Property<Guid?>("CapitalCityID");
 
-                    b.Property<int?>("CountryID");
+                    b.Property<Guid?>("CountryID");
 
                     b.Property<string>("Name");
 

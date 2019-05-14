@@ -7,7 +7,7 @@ namespace MovieStore.Models
 {
     public class City
     {
-        public int CityID { get; set; }
+        public Guid CityID { get; set; }
         public string Name { get; set; }
 
     }

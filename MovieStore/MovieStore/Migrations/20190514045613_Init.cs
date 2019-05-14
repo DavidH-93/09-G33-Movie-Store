@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MovieStore.Migrations
 {
-    public partial class AddMigrationInitial : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,9 @@ namespace MovieStore.Migrations
                 {
                     ActorID = table.Column<Guid>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true)
+                    LastName = table.Column<string>(nullable: true),
+                    Gender = table.Column<string>(nullable: true),
+                    DOB = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,8 +41,7 @@ namespace MovieStore.Migrations
                 name: "City",
                 columns: table => new
                 {
-                    CityID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CityID = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -54,7 +55,9 @@ namespace MovieStore.Migrations
                 {
                     DirectorID = table.Column<Guid>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true)
+                    LastName = table.Column<string>(nullable: true),
+                    Gender = table.Column<string>(nullable: true),
+                    DOB = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,8 +68,7 @@ namespace MovieStore.Migrations
                 name: "Genre",
                 columns: table => new
                 {
-                    GenreID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    GenreID = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -81,7 +83,9 @@ namespace MovieStore.Migrations
                     MovieID = table.Column<Guid>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     Price = table.Column<double>(nullable: false),
-                    Quantity = table.Column<int>(nullable: false)
+                    Quantity = table.Column<int>(nullable: false),
+                    Published = table.Column<bool>(nullable: false),
+                    Duration = table.Column<TimeSpan>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -92,8 +96,7 @@ namespace MovieStore.Migrations
                 name: "PostCode",
                 columns: table => new
                 {
-                    PostCodeID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    PostCodeID = table.Column<Guid>(nullable: false),
                     Code = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -107,7 +110,9 @@ namespace MovieStore.Migrations
                 {
                     ProducerID = table.Column<Guid>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true)
+                    LastName = table.Column<string>(nullable: true),
+                    Gender = table.Column<string>(nullable: true),
+                    DOB = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -139,10 +144,9 @@ namespace MovieStore.Migrations
                 name: "Country",
                 columns: table => new
                 {
-                    CountryID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CountryID = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    CapitalCityID = table.Column<int>(nullable: true)
+                    CapitalCityID = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -211,7 +215,7 @@ namespace MovieStore.Migrations
                 {
                     MovieGenreID = table.Column<Guid>(nullable: false),
                     MovieID = table.Column<Guid>(nullable: true),
-                    GenreID = table.Column<int>(nullable: true)
+                    GenreID = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -259,11 +263,10 @@ namespace MovieStore.Migrations
                 name: "Region",
                 columns: table => new
                 {
-                    RegionID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    RegionID = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    CapitalCityID = table.Column<int>(nullable: true),
-                    CountryID = table.Column<int>(nullable: true)
+                    CapitalCityID = table.Column<Guid>(nullable: true),
+                    CountryID = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -286,10 +289,9 @@ namespace MovieStore.Migrations
                 name: "Locality",
                 columns: table => new
                 {
-                    LocalityID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    LocalityID = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    RegionID = table.Column<int>(nullable: true)
+                    RegionID = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -309,11 +311,11 @@ namespace MovieStore.Migrations
                     AddressID = table.Column<Guid>(nullable: false),
                     Line1 = table.Column<string>(nullable: true),
                     Line2 = table.Column<string>(nullable: true),
-                    CityID = table.Column<int>(nullable: true),
-                    LocalityID = table.Column<int>(nullable: true),
-                    PostCodeID = table.Column<int>(nullable: true),
-                    RegionID = table.Column<int>(nullable: true),
-                    CountryID = table.Column<int>(nullable: true)
+                    CityID = table.Column<Guid>(nullable: true),
+                    LocalityID = table.Column<Guid>(nullable: true),
+                    PostCodeID = table.Column<Guid>(nullable: true),
+                    RegionID = table.Column<Guid>(nullable: true),
+                    CountryID = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {

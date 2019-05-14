@@ -9,10 +9,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MovieStore.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
+using MovieStore.Models;
+using MovieStore.Data;
+using MovieStore.Services;
 namespace MovieStore
 {
     public class Startup
@@ -35,10 +38,15 @@ namespace MovieStore
             });
 
             services.AddDbContext<MovieStoreDbContext>();
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<MovieStoreDbContext>();
+            services.AddDefaultIdentity<User>()
+                .AddEntityFrameworkStores<MovieStoreDbContext>()
+                .AddDefaultTokenProviders()
+                .AddDefaultUI();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IMovieRepository, MovieRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +65,8 @@ namespace MovieStore
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+           
+            app.UseAuthentication();
             app.UseCookiePolicy();
 
             app.UseAuthentication();
