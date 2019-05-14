@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MovieStore.Migrations
 {
-    public partial class Init : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -82,9 +82,10 @@ namespace MovieStore.Migrations
                 {
                     MovieID = table.Column<Guid>(nullable: false),
                     Title = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
                     Price = table.Column<double>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
-                    Published = table.Column<bool>(nullable: false),
+                    ReleaseDate = table.Column<DateTime>(nullable: false),
                     Duration = table.Column<TimeSpan>(nullable: false)
                 },
                 constraints: table =>
@@ -156,106 +157,6 @@ namespace MovieStore.Migrations
                         column: x => x.CapitalCityID,
                         principalTable: "City",
                         principalColumn: "CityID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MovieActor",
-                columns: table => new
-                {
-                    MovieActorID = table.Column<Guid>(nullable: false),
-                    MovieID = table.Column<Guid>(nullable: true),
-                    ActorID = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MovieActor", x => x.MovieActorID);
-                    table.ForeignKey(
-                        name: "FK_MovieActor_Actor_ActorID",
-                        column: x => x.ActorID,
-                        principalTable: "Actor",
-                        principalColumn: "ActorID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_MovieActor_Movie_MovieID",
-                        column: x => x.MovieID,
-                        principalTable: "Movie",
-                        principalColumn: "MovieID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MovieDirector",
-                columns: table => new
-                {
-                    MovieDirectorID = table.Column<Guid>(nullable: false),
-                    MovieID = table.Column<Guid>(nullable: true),
-                    DirectorID = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MovieDirector", x => x.MovieDirectorID);
-                    table.ForeignKey(
-                        name: "FK_MovieDirector_Director_DirectorID",
-                        column: x => x.DirectorID,
-                        principalTable: "Director",
-                        principalColumn: "DirectorID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_MovieDirector_Movie_MovieID",
-                        column: x => x.MovieID,
-                        principalTable: "Movie",
-                        principalColumn: "MovieID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MovieGenre",
-                columns: table => new
-                {
-                    MovieGenreID = table.Column<Guid>(nullable: false),
-                    MovieID = table.Column<Guid>(nullable: true),
-                    GenreID = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MovieGenre", x => x.MovieGenreID);
-                    table.ForeignKey(
-                        name: "FK_MovieGenre_Genre_GenreID",
-                        column: x => x.GenreID,
-                        principalTable: "Genre",
-                        principalColumn: "GenreID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_MovieGenre_Movie_MovieID",
-                        column: x => x.MovieID,
-                        principalTable: "Movie",
-                        principalColumn: "MovieID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MovieProducer",
-                columns: table => new
-                {
-                    MovieProducerID = table.Column<Guid>(nullable: false),
-                    MovieID = table.Column<Guid>(nullable: true),
-                    ProducerID = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MovieProducer", x => x.MovieProducerID);
-                    table.ForeignKey(
-                        name: "FK_MovieProducer_Movie_MovieID",
-                        column: x => x.MovieID,
-                        principalTable: "Movie",
-                        principalColumn: "MovieID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_MovieProducer_Producer_ProducerID",
-                        column: x => x.ProducerID,
-                        principalTable: "Producer",
-                        principalColumn: "ProducerID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -600,46 +501,6 @@ namespace MovieStore.Migrations
                 column: "RegionID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MovieActor_ActorID",
-                table: "MovieActor",
-                column: "ActorID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MovieActor_MovieID",
-                table: "MovieActor",
-                column: "MovieID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MovieDirector_DirectorID",
-                table: "MovieDirector",
-                column: "DirectorID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MovieDirector_MovieID",
-                table: "MovieDirector",
-                column: "MovieID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MovieGenre_GenreID",
-                table: "MovieGenre",
-                column: "GenreID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MovieGenre_MovieID",
-                table: "MovieGenre",
-                column: "MovieID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MovieProducer_MovieID",
-                table: "MovieProducer",
-                column: "MovieID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MovieProducer_ProducerID",
-                table: "MovieProducer",
-                column: "ProducerID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Order_CustomerId",
                 table: "Order",
                 column: "CustomerId");
@@ -668,6 +529,9 @@ namespace MovieStore.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Actor");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -683,34 +547,19 @@ namespace MovieStore.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "MovieActor");
-
-            migrationBuilder.DropTable(
-                name: "MovieDirector");
-
-            migrationBuilder.DropTable(
-                name: "MovieGenre");
-
-            migrationBuilder.DropTable(
-                name: "MovieProducer");
-
-            migrationBuilder.DropTable(
-                name: "OrderItem");
-
-            migrationBuilder.DropTable(
-                name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "Actor");
-
-            migrationBuilder.DropTable(
                 name: "Director");
 
             migrationBuilder.DropTable(
                 name: "Genre");
 
             migrationBuilder.DropTable(
+                name: "OrderItem");
+
+            migrationBuilder.DropTable(
                 name: "Producer");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Movie");

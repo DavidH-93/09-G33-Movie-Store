@@ -6,13 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Migrations\20190416043943_Entities4.cs" />
-    <Compile Remove="Data\Migrations\20190416043943_Entities4.Designer.cs" />
-    <Compile Remove="Data\Migrations\20190416044052_Entities4.cs" />
-    <Compile Remove="Data\Migrations\20190416044052_Entities4.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" PrivateAssets="All" />
@@ -20,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Identity\Data\" />
     <Folder Include="Areas\Identity\Services\" />
-    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
 </Project>

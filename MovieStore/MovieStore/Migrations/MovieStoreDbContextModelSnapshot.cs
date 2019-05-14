@@ -316,91 +316,21 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("MovieID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Description");
+
                     b.Property<TimeSpan>("Duration");
 
                     b.Property<double>("Price");
 
-                    b.Property<bool>("Published");
-
                     b.Property<int>("Quantity");
+
+                    b.Property<DateTime>("ReleaseDate");
 
                     b.Property<string>("Title");
 
                     b.HasKey("MovieID");
 
                     b.ToTable("Movie");
-                });
-
-            modelBuilder.Entity("MovieStore.Models.MovieActor", b =>
-                {
-                    b.Property<Guid>("MovieActorID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid?>("ActorID");
-
-                    b.Property<Guid?>("MovieID");
-
-                    b.HasKey("MovieActorID");
-
-                    b.HasIndex("ActorID");
-
-                    b.HasIndex("MovieID");
-
-                    b.ToTable("MovieActor");
-                });
-
-            modelBuilder.Entity("MovieStore.Models.MovieDirector", b =>
-                {
-                    b.Property<Guid>("MovieDirectorID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid?>("DirectorID");
-
-                    b.Property<Guid?>("MovieID");
-
-                    b.HasKey("MovieDirectorID");
-
-                    b.HasIndex("DirectorID");
-
-                    b.HasIndex("MovieID");
-
-                    b.ToTable("MovieDirector");
-                });
-
-            modelBuilder.Entity("MovieStore.Models.MovieGenre", b =>
-                {
-                    b.Property<Guid>("MovieGenreID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid?>("GenreID");
-
-                    b.Property<Guid?>("MovieID");
-
-                    b.HasKey("MovieGenreID");
-
-                    b.HasIndex("GenreID");
-
-                    b.HasIndex("MovieID");
-
-                    b.ToTable("MovieGenre");
-                });
-
-            modelBuilder.Entity("MovieStore.Models.MovieProducer", b =>
-                {
-                    b.Property<Guid>("MovieProducerID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid?>("MovieID");
-
-                    b.Property<Guid?>("ProducerID");
-
-                    b.HasKey("MovieProducerID");
-
-                    b.HasIndex("MovieID");
-
-                    b.HasIndex("ProducerID");
-
-                    b.ToTable("MovieProducer");
                 });
 
             modelBuilder.Entity("MovieStore.Models.Order", b =>
@@ -592,50 +522,6 @@ namespace MovieStore.Migrations
                     b.HasOne("MovieStore.Models.Region")
                         .WithMany("Localities")
                         .HasForeignKey("RegionID");
-                });
-
-            modelBuilder.Entity("MovieStore.Models.MovieActor", b =>
-                {
-                    b.HasOne("MovieStore.Models.Actor", "Actor")
-                        .WithMany()
-                        .HasForeignKey("ActorID");
-
-                    b.HasOne("MovieStore.Models.Movie", "Movie")
-                        .WithMany("Actors")
-                        .HasForeignKey("MovieID");
-                });
-
-            modelBuilder.Entity("MovieStore.Models.MovieDirector", b =>
-                {
-                    b.HasOne("MovieStore.Models.Director", "Director")
-                        .WithMany()
-                        .HasForeignKey("DirectorID");
-
-                    b.HasOne("MovieStore.Models.Movie", "Movie")
-                        .WithMany("Directors")
-                        .HasForeignKey("MovieID");
-                });
-
-            modelBuilder.Entity("MovieStore.Models.MovieGenre", b =>
-                {
-                    b.HasOne("MovieStore.Models.Genre", "Genre")
-                        .WithMany()
-                        .HasForeignKey("GenreID");
-
-                    b.HasOne("MovieStore.Models.Movie", "Movie")
-                        .WithMany("Genres")
-                        .HasForeignKey("MovieID");
-                });
-
-            modelBuilder.Entity("MovieStore.Models.MovieProducer", b =>
-                {
-                    b.HasOne("MovieStore.Models.Movie", "Movie")
-                        .WithMany("Producers")
-                        .HasForeignKey("MovieID");
-
-                    b.HasOne("MovieStore.Models.Producer", "Producer")
-                        .WithMany()
-                        .HasForeignKey("ProducerID");
                 });
 
             modelBuilder.Entity("MovieStore.Models.Order", b =>
