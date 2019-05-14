@@ -7,7 +7,7 @@ namespace MovieStore.Models
 {
     public class Country
     {
-        public int CountryID { get; set; }
+        public Guid CountryID { get; set; }
         public string Name { get; set; }
         public City Capital { get; set; }
         public List<Region> Regions { get; set; }
