@@ -7,7 +7,7 @@ namespace MovieStore.Models
 {
     public class Genre
     {
-        public int GenreID { get; set; }
+        public Guid GenreID { get; set; }
         public string Name { get; set; }
 
     }

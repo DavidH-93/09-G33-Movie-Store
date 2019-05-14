@@ -7,7 +7,7 @@ namespace MovieStore.Models
 {
     public class PostCode
     {
-        public int PostCodeID { get; set; }
+        public Guid PostCodeID { get; set; }
         public int Code { get; set; }
 
     }
