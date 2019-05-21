@@ -7,6 +7,6 @@ namespace MovieStore.Models;
 {
     public class staff
     {
-        
+        public
     }
 }
