@@ -9,7 +9,9 @@ namespace MovieStore.Models;
     {
         public StaffID {get; set; }
         public string FirstName {get; set; }
-        public string 
+        public string LastName {get; set; }
+        public email {get; set; }
+        
         public Guid ActorID { get; set; }
         public string FirstName { get; set; }
     }
