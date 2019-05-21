@@ -46,7 +46,18 @@ namespace MovieStore
             services.AddMvc();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMovieRepository, MovieRepository>();
-
+            services.AddScoped<IGenreRepository, GenreRepository>();
+            services.AddScoped<IActorRepository, ActorRepository>();
+            services.AddScoped<IDirectorRepository, DirectorRepository>();
+            services.AddScoped<IProducerRepository, ProducerRepository>();
+            services.AddScoped<IStudioRepository, StudioRepository>();
+            services.AddScoped<IMovieGenreRepository, MovieGenreRepository>();
+            services.AddScoped<IMovieActorRepository, MovieActorRepository>();
+            services.AddScoped<IMovieDirectorRepository, MovieDirectorRepository>();
+            services.AddScoped<IMovieProducerRepository, MovieProducerRepository>();
+            services.AddScoped<IMovieStudioRepository, MovieStudioRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderItemRepository, OrderItemRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

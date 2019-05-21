@@ -8,15 +8,11 @@ namespace MovieStore.Models
     public class Order
     {
         public Guid OrderID { get; set; }
-        public User Customer { get; set; }
+        public Guid UserID { get; set; }
         public List<OrderItem> OrderItems { get; set; }
         public double Total { get; set; }
         public DateTime Creation { get; set; }
         public DateTime Closed { get; set; }
-        public int Status { get; set; }
-
-
-
-
+        public string Status { get; set; }
     }
 }

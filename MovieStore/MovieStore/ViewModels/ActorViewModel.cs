@@ -8,6 +8,7 @@ namespace MovieStore.ViewModels
 {
     public class ActorViewModel
     {
+        public Guid ActorID { get; set; }
         [Required]
         [Display(Name ="First Name")]
         public string FirstName { get; set; }

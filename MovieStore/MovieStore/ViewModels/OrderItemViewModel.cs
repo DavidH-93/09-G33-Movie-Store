@@ -3,19 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MovieStore.Models
+namespace MovieStore.ViewModels
 {
-    public class OrderItem
+    public class OrderItemViewModel
     {
         public Guid OrderItemID { get; set; }
-        public Guid MovieID { get; set; }
+        public OrderMovieViewModel Movie { get; set; }
         public int Quantity { get; set; }
         public double Price { get; set; }
-        public double Total()
-        {
-            double total = Quantity * Price;
-            return total;
-        }
-
+        public double Total { get; set; }
     }
 }

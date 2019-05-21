@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<MovieStore.ViewModels.MovieViewModel>
 
 @{
-    ViewData["Title"] = "List";
+    ViewData["Title"] = "Catalogue";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -15,6 +15,9 @@
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Duration)
@@ -38,6 +41,9 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Duration)
             </td>
             <td>
@@ -50,9 +56,9 @@
                 @Html.DisplayFor(modelItem => item.ReleaseDate)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "Edit", new { id = item.MovieID }) |
+                @Html.ActionLink("Details", "Read", new { id = item.MovieID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.MovieID })
             </td>
         </tr>
 }

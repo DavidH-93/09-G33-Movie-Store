@@ -10,7 +10,7 @@ using MovieStore.Data;
 namespace MovieStore.Migrations
 {
     [DbContext(typeof(MovieStoreDbContext))]
-    [Migration("20190514115839_Initial")]
+    [Migration("20190521025213_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -320,7 +320,7 @@ namespace MovieStore.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<TimeSpan>("Duration");
+                    b.Property<int>("Duration");
 
                     b.Property<double>("Price");
 
@@ -333,6 +333,76 @@ namespace MovieStore.Migrations
                     b.HasKey("MovieID");
 
                     b.ToTable("Movie");
+                });
+
+            modelBuilder.Entity("MovieStore.Models.MovieActor", b =>
+                {
+                    b.Property<Guid>("MovieActorID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("ActorID");
+
+                    b.Property<Guid>("MovieID");
+
+                    b.HasKey("MovieActorID");
+
+                    b.ToTable("MovieActor");
+                });
+
+            modelBuilder.Entity("MovieStore.Models.MovieDirector", b =>
+                {
+                    b.Property<Guid>("MovieDirectorID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("DirectorID");
+
+                    b.Property<Guid>("MovieID");
+
+                    b.HasKey("MovieDirectorID");
+
+                    b.ToTable("MovieDirector");
+                });
+
+            modelBuilder.Entity("MovieStore.Models.MovieGenre", b =>
+                {
+                    b.Property<Guid>("MovieGenreID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("GenreID");
+
+                    b.Property<Guid>("MovieID");
+
+                    b.HasKey("MovieGenreID");
+
+                    b.ToTable("MovieGenre");
+                });
+
+            modelBuilder.Entity("MovieStore.Models.MovieProducer", b =>
+                {
+                    b.Property<Guid>("MovieProducerID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("MovieID");
+
+                    b.Property<Guid>("ProducerID");
+
+                    b.HasKey("MovieProducerID");
+
+                    b.ToTable("MovieProducer");
+                });
+
+            modelBuilder.Entity("MovieStore.Models.MovieStudio", b =>
+                {
+                    b.Property<Guid>("MovieStudioID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("MovieID");
+
+                    b.Property<Guid>("StudioID");
+
+                    b.HasKey("MovieStudioID");
+
+                    b.ToTable("MovieStudio");
                 });
 
             modelBuilder.Entity("MovieStore.Models.Order", b =>
@@ -425,6 +495,18 @@ namespace MovieStore.Migrations
                     b.HasIndex("CountryID");
 
                     b.ToTable("Region");
+                });
+
+            modelBuilder.Entity("MovieStore.Models.Studio", b =>
+                {
+                    b.Property<Guid>("StudioID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("StudioID");
+
+                    b.ToTable("Studio");
                 });
 
             modelBuilder.Entity("MovieStore.Models.User", b =>

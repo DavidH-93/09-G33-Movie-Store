@@ -9,6 +9,9 @@ namespace MovieStore.ViewModels
 {
     public class StudioViewModel
     {
+
+        public Guid StudioID { get; set; }
+
         [Required]
         [Display(Name = "Studio")]
 
