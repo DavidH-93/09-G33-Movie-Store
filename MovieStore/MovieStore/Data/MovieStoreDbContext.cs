@@ -26,6 +26,7 @@ namespace MovieStore.Data
         public DbSet<Producer> Producer { get; set; }
         public DbSet<Order> Order { get; set; }
 
+        public DbSet<AccessLog> AccessLog { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder option)
         {
             option.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=MovieStore;Trusted_Connection=True;MultipleActiveResultSets=true");

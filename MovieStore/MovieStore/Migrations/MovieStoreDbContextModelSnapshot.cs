@@ -185,6 +185,22 @@ namespace MovieStore.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("MovieStore.Models.AccessLog", b =>
+                {
+                    b.Property<Guid>("AccessLogID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AccessType");
+
+                    b.Property<DateTime>("LogTime");
+
+                    b.Property<string>("UserID");
+
+                    b.HasKey("AccessLogID");
+
+                    b.ToTable("AccessLog");
+                });
+
             modelBuilder.Entity("MovieStore.Models.Actor", b =>
                 {
                     b.Property<Guid>("ActorID")

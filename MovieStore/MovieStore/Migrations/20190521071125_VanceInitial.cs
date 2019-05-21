@@ -4,10 +4,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MovieStore.Migrations
 {
-    public partial class Initial : Migration
+    public partial class VanceInitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AccessLog",
+                columns: table => new
+                {
+                    AccessLogID = table.Column<Guid>(nullable: false),
+                    UserID = table.Column<string>(nullable: true),
+                    LogTime = table.Column<DateTime>(nullable: false),
+                    AccessType = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccessLog", x => x.AccessLogID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Actor",
                 columns: table => new
@@ -528,6 +542,9 @@ namespace MovieStore.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AccessLog");
+
             migrationBuilder.DropTable(
                 name: "Actor");
 

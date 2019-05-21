@@ -10,8 +10,8 @@ using MovieStore.Data;
 namespace MovieStore.Migrations
 {
     [DbContext(typeof(MovieStoreDbContext))]
-    [Migration("20190514115839_Initial")]
-    partial class Initial
+    [Migration("20190521071125_VanceInitial")]
+    partial class VanceInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -185,6 +185,22 @@ namespace MovieStore.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("MovieStore.Models.AccessLog", b =>
+                {
+                    b.Property<Guid>("AccessLogID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AccessType");
+
+                    b.Property<DateTime>("LogTime");
+
+                    b.Property<string>("UserID");
+
+                    b.HasKey("AccessLogID");
+
+                    b.ToTable("AccessLog");
                 });
 
             modelBuilder.Entity("MovieStore.Models.Actor", b =>
