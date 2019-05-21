@@ -11,8 +11,7 @@ namespace MovieStore.Models;
         public string FirstName {get; set; }
         public string LastName {get; set; }
         public email {get; set; }
-        
-        public Guid ActorID { get; set; }
-        public string FirstName { get; set; }
+        public position {get; set; }
+        public Address {get; set; }
     }
 }
