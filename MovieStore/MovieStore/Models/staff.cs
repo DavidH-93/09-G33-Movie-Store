@@ -6,4 +6,7 @@ using System.Threading.Tasks;
 namespace MovieStore.Models;
 {
     public class staff
+    {
+        
+    }
 }
