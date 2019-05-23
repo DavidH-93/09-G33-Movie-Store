@@ -1,0 +1,58 @@
+﻿@model IEnumerable<MovieStore.ViewModels.UserViewModel>
+
+@{
+    ViewData["Title"] = "Admin Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Admin Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                Location
+            </th>
+            <th>
+                Options
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Email
+                </td>
+                <td>
+                    @item.FirstName&nbsp;@item.LastName
+                </td>
+                <td>
+                    @item.UserName
+                </td>
+                <td>
+                    @item.Address.City.Name,&nbsp;@item.Address.Country.Name
+                </td>
+                <td>
+                    <a asp-action="Edit"    asp-route-id="@item.Email">Edit   </a> |
+                    <a asp-action="Details" asp-route-id="@item.Email">Details</a> |
+                    <a asp-action="Delete"  asp-route-id="@item.Email">Delete </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
