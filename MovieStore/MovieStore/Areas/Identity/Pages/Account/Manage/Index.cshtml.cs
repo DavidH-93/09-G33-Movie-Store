@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MovieStore.Models;
-
+using MovieStore.Services;
 namespace MovieStore.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
@@ -17,15 +17,18 @@ namespace MovieStore.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IEmailSender _emailSender;
+        private readonly IUserRepository _userRepo;
 
         public IndexModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IUserRepository userRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _userRepo = userRepo;
         }
 
         public string Username { get; set; }
@@ -40,13 +43,30 @@ namespace MovieStore.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
+            internal string UserName;
+
             [Required]
             [EmailAddress]
             public string Email { get; set; }
 
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Phone")]
             public string PhoneNumber { get; set; }
+            //user details
+
+            [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
+            [StringLength(30)]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
+            [StringLength(30)]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [StringLength(30)]
+            [Display(Name = "Username")]
+            public string Username { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -61,12 +81,19 @@ namespace MovieStore.Areas.Identity.Pages.Account.Manage
             var email = await _userManager.GetEmailAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
+            //user data assignment
+            string firstName = user.FirstName;
+            string lastName = user.LastName;
             Username = userName;
 
             Input = new InputModel
             {
                 Email = email,
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                FirstName = firstName,
+                LastName = lastName,
+                Username = userName,
+                //user viewModel data binding
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
