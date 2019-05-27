@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieStore.Data;
 
 namespace MovieStore.Migrations
 {
     [DbContext(typeof(MovieStoreDbContext))]
-    partial class MovieStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190514120225_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -190,11 +192,7 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("ActorID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("DOB");
-
                     b.Property<string>("FirstName");
-
-                    b.Property<string>("Gender");
 
                     b.Property<string>("LastName");
 
@@ -208,19 +206,19 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("AddressID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("CityID");
+                    b.Property<int?>("CityID");
 
-                    b.Property<Guid?>("CountryID");
+                    b.Property<int?>("CountryID");
 
                     b.Property<string>("Line1");
 
                     b.Property<string>("Line2");
 
-                    b.Property<Guid?>("LocalityID");
+                    b.Property<int?>("LocalityID");
 
-                    b.Property<Guid?>("PostCodeID");
+                    b.Property<int?>("PostCodeID");
 
-                    b.Property<Guid?>("RegionID");
+                    b.Property<int?>("RegionID");
 
                     b.HasKey("AddressID");
 
@@ -239,8 +237,9 @@ namespace MovieStore.Migrations
 
             modelBuilder.Entity("MovieStore.Models.City", b =>
                 {
-                    b.Property<Guid>("CityID")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("CityID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name");
 
@@ -251,10 +250,11 @@ namespace MovieStore.Migrations
 
             modelBuilder.Entity("MovieStore.Models.Country", b =>
                 {
-                    b.Property<Guid>("CountryID")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("CountryID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid?>("CapitalCityID");
+                    b.Property<int?>("CapitalCityID");
 
                     b.Property<string>("Name");
 
@@ -270,11 +270,7 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("DirectorID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("DOB");
-
                     b.Property<string>("FirstName");
-
-                    b.Property<string>("Gender");
 
                     b.Property<string>("LastName");
 
@@ -285,8 +281,9 @@ namespace MovieStore.Migrations
 
             modelBuilder.Entity("MovieStore.Models.Genre", b =>
                 {
-                    b.Property<Guid>("GenreID")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("GenreID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name");
 
@@ -297,12 +294,13 @@ namespace MovieStore.Migrations
 
             modelBuilder.Entity("MovieStore.Models.Locality", b =>
                 {
-                    b.Property<Guid>("LocalityID")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("LocalityID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name");
 
-                    b.Property<Guid?>("RegionID");
+                    b.Property<int?>("RegionID");
 
                     b.HasKey("LocalityID");
 
@@ -316,17 +314,11 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("MovieID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Description");
-
-                    b.Property<int>("Duration");
-
                     b.Property<double>("Price");
 
                     b.Property<bool>("Published");
 
                     b.Property<int>("Quantity");
-
-                    b.Property<DateTime>("ReleaseDate");
 
                     b.Property<string>("Title");
 
@@ -340,11 +332,15 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("MovieActorID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("ActorID");
+                    b.Property<Guid?>("ActorID");
 
-                    b.Property<Guid>("MovieID");
+                    b.Property<Guid?>("MovieID");
 
                     b.HasKey("MovieActorID");
+
+                    b.HasIndex("ActorID");
+
+                    b.HasIndex("MovieID");
 
                     b.ToTable("MovieActor");
                 });
@@ -354,11 +350,15 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("MovieDirectorID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("DirectorID");
+                    b.Property<Guid?>("DirectorID");
 
-                    b.Property<Guid>("MovieID");
+                    b.Property<Guid?>("MovieID");
 
                     b.HasKey("MovieDirectorID");
+
+                    b.HasIndex("DirectorID");
+
+                    b.HasIndex("MovieID");
 
                     b.ToTable("MovieDirector");
                 });
@@ -368,11 +368,15 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("MovieGenreID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("GenreID");
+                    b.Property<int?>("GenreID");
 
-                    b.Property<Guid>("MovieID");
+                    b.Property<Guid?>("MovieID");
 
                     b.HasKey("MovieGenreID");
+
+                    b.HasIndex("GenreID");
+
+                    b.HasIndex("MovieID");
 
                     b.ToTable("MovieGenre");
                 });
@@ -382,27 +386,17 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("MovieProducerID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("MovieID");
+                    b.Property<Guid?>("MovieID");
 
-                    b.Property<Guid>("ProducerID");
+                    b.Property<Guid?>("ProducerID");
 
                     b.HasKey("MovieProducerID");
 
+                    b.HasIndex("MovieID");
+
+                    b.HasIndex("ProducerID");
+
                     b.ToTable("MovieProducer");
-                });
-
-            modelBuilder.Entity("MovieStore.Models.MovieStudio", b =>
-                {
-                    b.Property<Guid>("MovieStudioID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("MovieID");
-
-                    b.Property<Guid>("StudioID");
-
-                    b.HasKey("MovieStudioID");
-
-                    b.ToTable("MovieStudio");
                 });
 
             modelBuilder.Entity("MovieStore.Models.Order", b =>
@@ -414,13 +408,15 @@ namespace MovieStore.Migrations
 
                     b.Property<DateTime>("Creation");
 
-                    b.Property<string>("Status");
+                    b.Property<string>("CustomerId");
+
+                    b.Property<int>("Status");
 
                     b.Property<double>("Total");
 
-                    b.Property<Guid>("UserID");
-
                     b.HasKey("OrderID");
+
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Order");
                 });
@@ -430,15 +426,15 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("OrderItemID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("MovieID");
+                    b.Property<Guid?>("MovieID");
 
                     b.Property<Guid?>("OrderID");
-
-                    b.Property<double>("Price");
 
                     b.Property<int>("Quantity");
 
                     b.HasKey("OrderItemID");
+
+                    b.HasIndex("MovieID");
 
                     b.HasIndex("OrderID");
 
@@ -447,8 +443,9 @@ namespace MovieStore.Migrations
 
             modelBuilder.Entity("MovieStore.Models.PostCode", b =>
                 {
-                    b.Property<Guid>("PostCodeID")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("PostCodeID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Code");
 
@@ -462,11 +459,7 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("ProducerID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("DOB");
-
                     b.Property<string>("FirstName");
-
-                    b.Property<string>("Gender");
 
                     b.Property<string>("LastName");
 
@@ -477,12 +470,13 @@ namespace MovieStore.Migrations
 
             modelBuilder.Entity("MovieStore.Models.Region", b =>
                 {
-                    b.Property<Guid>("RegionID")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("RegionID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid?>("CapitalCityID");
+                    b.Property<int?>("CapitalCityID");
 
-                    b.Property<Guid?>("CountryID");
+                    b.Property<int?>("CountryID");
 
                     b.Property<string>("Name");
 
@@ -493,18 +487,6 @@ namespace MovieStore.Migrations
                     b.HasIndex("CountryID");
 
                     b.ToTable("Region");
-                });
-
-            modelBuilder.Entity("MovieStore.Models.Studio", b =>
-                {
-                    b.Property<Guid>("StudioID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("StudioID");
-
-                    b.ToTable("Studio");
                 });
 
             modelBuilder.Entity("MovieStore.Models.User", b =>
@@ -606,8 +588,63 @@ namespace MovieStore.Migrations
                         .HasForeignKey("RegionID");
                 });
 
+            modelBuilder.Entity("MovieStore.Models.MovieActor", b =>
+                {
+                    b.HasOne("MovieStore.Models.Actor", "Actor")
+                        .WithMany()
+                        .HasForeignKey("ActorID");
+
+                    b.HasOne("MovieStore.Models.Movie", "Movie")
+                        .WithMany("Actors")
+                        .HasForeignKey("MovieID");
+                });
+
+            modelBuilder.Entity("MovieStore.Models.MovieDirector", b =>
+                {
+                    b.HasOne("MovieStore.Models.Director", "Director")
+                        .WithMany()
+                        .HasForeignKey("DirectorID");
+
+                    b.HasOne("MovieStore.Models.Movie", "Movie")
+                        .WithMany("Directors")
+                        .HasForeignKey("MovieID");
+                });
+
+            modelBuilder.Entity("MovieStore.Models.MovieGenre", b =>
+                {
+                    b.HasOne("MovieStore.Models.Genre", "Genre")
+                        .WithMany()
+                        .HasForeignKey("GenreID");
+
+                    b.HasOne("MovieStore.Models.Movie", "Movie")
+                        .WithMany("Genres")
+                        .HasForeignKey("MovieID");
+                });
+
+            modelBuilder.Entity("MovieStore.Models.MovieProducer", b =>
+                {
+                    b.HasOne("MovieStore.Models.Movie", "Movie")
+                        .WithMany("Producers")
+                        .HasForeignKey("MovieID");
+
+                    b.HasOne("MovieStore.Models.Producer", "Producer")
+                        .WithMany()
+                        .HasForeignKey("ProducerID");
+                });
+
+            modelBuilder.Entity("MovieStore.Models.Order", b =>
+                {
+                    b.HasOne("MovieStore.Models.User", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId");
+                });
+
             modelBuilder.Entity("MovieStore.Models.OrderItem", b =>
                 {
+                    b.HasOne("MovieStore.Models.Movie", "Movie")
+                        .WithMany()
+                        .HasForeignKey("MovieID");
+
                     b.HasOne("MovieStore.Models.Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderID");
