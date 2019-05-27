@@ -171,13 +171,13 @@ namespace MovieStore.Controllers
             return RedirectToAction("/Account/Login", "Identity");
         }
 
-        public async Task<IActionResult> Remove(Guid id)
-        {
-            if (_signInManager.IsSignedIn(User))
-            {
+        //public async Task<IActionResult> Remove(Guid id)
+        //{
+        //    if (_signInManager.IsSignedIn(User))
+        //    {
 
-            }
-        }
+        //    }
+        //}
 
         //// GET: Order/Details/5
         //public async Task<IActionResult> Details(Guid? id)
