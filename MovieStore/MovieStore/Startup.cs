@@ -58,6 +58,7 @@ namespace MovieStore
             services.AddScoped<IMovieStudioRepository, MovieStudioRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            services.AddScoped<IAccessLogRepository, AccessLogRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
