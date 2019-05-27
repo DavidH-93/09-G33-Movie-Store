@@ -7,45 +7,50 @@
 
 <h2>Index</h2>
 
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                Movie
-            </th>
-            <th>
+            <td>
+                TItle
+            </td>
+            <td>
                 Quantity
-            </th>
-            <th>
+            </td>
+            <td>
                 Price
-            </th>
-            <th>
+            </td>
+            <td>
                 Total
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.OrderItems) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Movie.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Movie.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Movie.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Total)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Remove", "Remove")
             </td>
         </tr>
-}
+     </thead>
+        @foreach (var item in Model.OrderItems)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Movie.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td>
+                    @Html.ActionLink("Remove", "Remove", new { id = item.OrderItemID })
+                </td>
+            </tr>
+        }
     </tbody>
+    @Html.DisplayNameFor(model => model.Total)
+
 </table>

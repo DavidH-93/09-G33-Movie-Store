@@ -8,19 +8,10 @@ namespace MovieStore.ViewModels
     {
         public Guid OrderID { get; set; }
         public string UserID { get; set; }
-        public List<OrderItemViewModel> OrderItems { get; set; }
+        public double Total { get; set; }
         public DateTime Creation { get; set; }
-        public DateTime Closed { get; set; }
+        public List<OrderItemViewModel> OrderItems { get; set; }
         public string Status { get; set; }
-        public double Total()
-        {
-            double t = 0;
-            foreach (OrderItemViewModel order in OrderItems)
-            {
-                t += order.Total;
-            }
-            return t;
-        }
 
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MovieStore.Migrations
 {
-    public partial class Initial : Migration
+    public partial class _1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -156,6 +156,38 @@ namespace MovieStore.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MovieStudio", x => x.MovieStudioID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Order",
+                columns: table => new
+                {
+                    OrderID = table.Column<Guid>(nullable: false),
+                    UserID = table.Column<string>(nullable: true),
+                    Total = table.Column<double>(nullable: false),
+                    Creation = table.Column<DateTime>(nullable: false),
+                    Closed = table.Column<bool>(nullable: false),
+                    Status = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Order", x => x.OrderID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderItem",
+                columns: table => new
+                {
+                    OrderItemID = table.Column<Guid>(nullable: false),
+                    UserID = table.Column<string>(nullable: true),
+                    OrderID = table.Column<Guid>(nullable: false),
+                    MovieID = table.Column<Guid>(nullable: false),
+                    Amount = table.Column<int>(nullable: false),
+                    Price = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderItem", x => x.OrderItemID);
                 });
 
             migrationBuilder.CreateTable(
@@ -450,54 +482,6 @@ namespace MovieStore.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Order",
-                columns: table => new
-                {
-                    OrderID = table.Column<Guid>(nullable: false),
-                    CustomerId = table.Column<string>(nullable: true),
-                    Total = table.Column<double>(nullable: false),
-                    Creation = table.Column<DateTime>(nullable: false),
-                    Closed = table.Column<DateTime>(nullable: false),
-                    Status = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Order", x => x.OrderID);
-                    table.ForeignKey(
-                        name: "FK_Order_AspNetUsers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "OrderItem",
-                columns: table => new
-                {
-                    OrderItemID = table.Column<Guid>(nullable: false),
-                    MovieID = table.Column<Guid>(nullable: true),
-                    Quantity = table.Column<int>(nullable: false),
-                    OrderID = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrderItem", x => x.OrderItemID);
-                    table.ForeignKey(
-                        name: "FK_OrderItem_Movie_MovieID",
-                        column: x => x.MovieID,
-                        principalTable: "Movie",
-                        principalColumn: "MovieID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_OrderItem_Order_OrderID",
-                        column: x => x.OrderID,
-                        principalTable: "Order",
-                        principalColumn: "OrderID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Address_CityID",
                 table: "Address",
@@ -578,21 +562,6 @@ namespace MovieStore.Migrations
                 column: "RegionID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_CustomerId",
-                table: "Order",
-                column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderItem_MovieID",
-                table: "OrderItem",
-                column: "MovieID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderItem_OrderID",
-                table: "OrderItem",
-                column: "OrderID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Region_CapitalCityID",
                 table: "Region",
                 column: "CapitalCityID");
@@ -630,6 +599,9 @@ namespace MovieStore.Migrations
                 name: "Genre");
 
             migrationBuilder.DropTable(
+                name: "Movie");
+
+            migrationBuilder.DropTable(
                 name: "MovieActor");
 
             migrationBuilder.DropTable(
@@ -645,6 +617,9 @@ namespace MovieStore.Migrations
                 name: "MovieStudio");
 
             migrationBuilder.DropTable(
+                name: "Order");
+
+            migrationBuilder.DropTable(
                 name: "OrderItem");
 
             migrationBuilder.DropTable(
@@ -655,12 +630,6 @@ namespace MovieStore.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "Movie");
-
-            migrationBuilder.DropTable(
-                name: "Order");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

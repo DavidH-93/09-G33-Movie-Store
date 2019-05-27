@@ -23,12 +23,14 @@ namespace MovieStore.Data
         public DbSet<Director> Director { get; set; }
         public DbSet<Producer> Producer { get; set; }
         public DbSet<Studio> Studio { get; set; }
-        public DbSet<Order> Order { get; set; }
         public DbSet<MovieActor> MovieActor { get; set; }
         public DbSet<MovieDirector> MovieDirector { get; set; }
         public DbSet<MovieGenre> MovieGenre { get; set; }
         public DbSet<MovieProducer> MovieProducer { get; set; }
         public DbSet<MovieStudio> MovieStudio { get; set; }
+
+        public DbSet<Order> Order { get; set; }
+        public DbSet<OrderItem> OrderItem { get; set; } 
 
         protected override void OnConfiguring(DbContextOptionsBuilder option)
         {

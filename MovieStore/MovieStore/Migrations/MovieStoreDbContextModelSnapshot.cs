@@ -408,7 +408,7 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("OrderID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("Closed");
+                    b.Property<bool>("Closed");
 
                     b.Property<DateTime>("Creation");
 
@@ -416,7 +416,7 @@ namespace MovieStore.Migrations
 
                     b.Property<double>("Total");
 
-                    b.Property<Guid>("UserID");
+                    b.Property<string>("UserID");
 
                     b.HasKey("OrderID");
 
@@ -428,17 +428,17 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("OrderItemID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("Amount");
+
                     b.Property<Guid>("MovieID");
 
-                    b.Property<Guid?>("OrderID");
+                    b.Property<Guid>("OrderID");
 
                     b.Property<double>("Price");
 
-                    b.Property<int>("Quantity");
+                    b.Property<string>("UserID");
 
                     b.HasKey("OrderItemID");
-
-                    b.HasIndex("OrderID");
 
                     b.ToTable("OrderItem");
                 });
@@ -602,13 +602,6 @@ namespace MovieStore.Migrations
                     b.HasOne("MovieStore.Models.Region")
                         .WithMany("Localities")
                         .HasForeignKey("RegionID");
-                });
-
-            modelBuilder.Entity("MovieStore.Models.OrderItem", b =>
-                {
-                    b.HasOne("MovieStore.Models.Order")
-                        .WithMany("OrderItems")
-                        .HasForeignKey("OrderID");
                 });
 
             modelBuilder.Entity("MovieStore.Models.Region", b =>
