@@ -20,9 +20,8 @@ namespace MovieStore.Controllers
         private readonly IUserRepository _userRepo;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly MovieStoreDbContext _context;
 
-        public OrderController(IOrderRepository orderRepo, IOrderItemRepository orderItemRepo, IMovieRepository movieRepo, IUserRepository userRepo, IGenreRepository genreRepo, IActorRepository actorRepo, IDirectorRepository directorRepo, IProducerRepository producerRepo, IStudioRepository studioRepo, IMovieGenreRepository movieGenreRepo, IMovieActorRepository movieActorRepo, IMovieDirectorRepository movieDirectorRepo, IMovieProducerRepository movieProducerRepo, IMovieStudioRepository movieStudioRepo, UserManager<User> userManager, SignInManager<User> signInManager, MovieStoreDbContext context)
+        public OrderController(IOrderRepository orderRepo, IOrderItemRepository orderItemRepo, IMovieRepository movieRepo, IUserRepository userRepo, IGenreRepository genreRepo, IActorRepository actorRepo, IDirectorRepository directorRepo, IProducerRepository producerRepo, IStudioRepository studioRepo, IMovieGenreRepository movieGenreRepo, IMovieActorRepository movieActorRepo, IMovieDirectorRepository movieDirectorRepo, IMovieProducerRepository movieProducerRepo, IMovieStudioRepository movieStudioRepo, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _orderRepo = orderRepo;
             _orderItemRepo = orderItemRepo;
@@ -30,153 +29,54 @@ namespace MovieStore.Controllers
             _userRepo = userRepo;
             _userManager = userManager;
             _signInManager = signInManager;
-            _context = context;
         }
 
-        [HttpGet]
+
+        //GET: Order
         public async Task<IActionResult> Index()
         {
-            Order userOrder;
-            IEnumerable<OrderItem> userOrderItems;
-            MovieOrderItemViewModel movieViewModel;
-            OrderViewModel orderViewModel;
-            OrderItemViewModel orderItemViewModel = new OrderItemViewModel();
-            List<OrderItemViewModel> orderItemViewModels = new List<OrderItemViewModel>();
-            Movie movie = new Movie();
             if (_signInManager.IsSignedIn(User))
             {
                 User u = await _userManager.GetUserAsync(User);
-                if (_context.Order.Any(o => o.UserID == u.Id))
+                if(u!= null)
                 {
-                    userOrder = _orderRepo.GetSingle(o => o.UserID == u.Id && o.Closed == false);
-                    userOrderItems = _orderItemRepo.Query(o => o.OrderID == userOrder.OrderID);
-                    orderViewModel = new OrderViewModel()
-                    {
-                        Creation = userOrder.Creation,
-                        OrderID = userOrder.OrderID,
-                        Status = userOrder.Status,
-                        Total = userOrder.Total,
-                        UserID = userOrder.UserID
-                    };
-                    foreach (OrderItem o in userOrderItems)
+                    Order order = _orderRepo.GetSingle(o => o.UserID.ToString() == u.Id);
+                    IEnumerable<OrderItem> orderItems = _orderItemRepo.GetAll();
+                    OrderItemViewModel orderItemVm = new OrderItemViewModel();
+                    List<OrderItemViewModel> orderItemsVm = new List<OrderItemViewModel>();
+                    Movie movie = new Movie();
+                    OrderMovieViewModel movieVm = new OrderMovieViewModel();
+                    foreach (OrderItem o in orderItems)
                     {
                         movie = _movieRepo.GetSingle(m => m.MovieID == o.MovieID);
-                        movieViewModel = new MovieOrderItemViewModel()
-                        {
-                            MovieID = movie.MovieID,
-                            Title = movie.Title
-                        };
-                        orderItemViewModel.OrderItemID = o.OrderItemID;
-                        orderItemViewModel.Price = o.Price;
-                        orderItemViewModel.Total = o.Total();
-                        orderItemViewModel.Quantity = o.Amount;
-                        orderItemViewModel.Movie = movieViewModel;
-                        orderItemViewModels.Add(orderItemViewModel);
-                    };
-                    orderViewModel.OrderItems = orderItemViewModels;
-                    return View(orderViewModel);
-                }
-                return RedirectToAction("Empty", "Order");
-            }
-            return RedirectToAction("/Account/Login", "Identity");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Add(Guid id, MovieViewModel vm)
-        {
-            Order userOrder;
-            Order newOrder;
-            Movie movie;
-            OrderItem newOrderItem;
-            //OrderOrderItem newOrderOrderItem;
-            List<OrderItem> orderItems = new List<OrderItem>();
-            IEnumerable<OrderItem> userOrderItems = new List<OrderItem>();
-            //IEnumerable<OrderOrderItem> userOrderOrderItems;
-            if (_signInManager.IsSignedIn(User))
-            {
-                //ADD ITEM TO ORDER
-
-                //get user
-                User u = await _userManager.GetUserAsync(User);
-                movie = _movieRepo.GetSingle(m => m.MovieID == id);
-                //check if user has an existing order item for the same item
-                if (_context.Order.Any(o => o.UserID == u.Id))
-                 {
-                    //get open user order
-                    userOrder = _orderRepo.GetSingle(o => o.UserID == u.Id && o.Closed == false);
+                        movieVm.MovieID = movie.MovieID;
+                        movieVm.Title = movie.Title;
+                        movieVm.Quantity = movie.Quantity;
+                        movieVm.Price = movie.Price;
+                        orderItemVm.Movie = movieVm;
+                        orderItemVm.Price = o.Total();
+                        orderItemsVm.Add(orderItemVm);
+                    }
 
 
-                        //populate list of order items
-                        userOrderItems = _orderItemRepo.Query(o => o.OrderID == userOrder.OrderID);
-                        //test list for matching existing items
-                        foreach (OrderItem item in userOrderItems)
-                        {
-                            if (item.MovieID == movie.MovieID)
-                            {
-                                //add to existing order item
-                                item.Amount += vm.Amount;
-                                _orderItemRepo.Update(item);
-                                userOrder.Total = userOrder.CalculateTotal(userOrderItems);
-
-                                _orderItemRepo.Update(item);
-                                _orderRepo.Update(userOrder);
-                                return RedirectToAction("ReadAll", "Movie");
-                            }
-                        }
-                        //create new order item
-                        newOrderItem = new OrderItem()
-                        {
-                            OrderItemID = new Guid(),
-                            OrderID = userOrder.OrderID,
-                            UserID = u.Id,
-                            MovieID = movie.MovieID,
-                            Price = movie.Price,
-                            Amount = vm.Amount
-                        };
-
-                        userOrderItems.Append<OrderItem>(newOrderItem);
-                        userOrder.Total = userOrder.CalculateTotal(userOrderItems);
-
-                        //create new order item to existing user order
-                        _orderItemRepo.Create(newOrderItem);
-                        _orderRepo.Update(userOrder);
-                        return RedirectToAction("ReadAll", "Movie");     
-                }
-                else
-                {
-                    newOrder = new Order()
+                    OrderViewModel orderVm = new OrderViewModel()
                     {
-                        OrderID = new Guid(),
+                        OrderID = order.OrderID,
                         UserID = u.Id,
-                        Closed = false,
-                        Creation = DateTime.Now,
-                        Status = "Open"
+                        Status = order.Status,
+                        Creation = order.Creation,
+                        Closed = order.Closed
                     };
-                    newOrderItem = new OrderItem()
+                    foreach (OrderItemViewModel item in orderItemsVm)
                     {
-                        OrderItemID = new Guid(),
-                        OrderID = newOrder.OrderID,
-                        UserID = u.Id,
-                        MovieID = movie.MovieID,
-                        Price = movie.Price,
-                        Amount = vm.Amount
-                    };
-                    newOrder.Total = newOrderItem.Price * newOrderItem.Amount;
-
-                    _orderItemRepo.Create(newOrderItem);
-                    _orderRepo.Create(newOrder);
-                    return RedirectToAction("ReadAll", "Movie");
+                        orderVm.OrderItems.Add(item);
+                    }
+                    return View(orderVm);
                 }
             }
-            return RedirectToAction("/Account/Login", "Identity");
-        }
+            return View("Index");
 
-        public async Task<IActionResult> Remove(Guid id)
-        {
-            if (_signInManager.IsSignedIn(User))
-            {
 
-            }
         }
 
         //// GET: Order/Details/5
@@ -292,5 +192,9 @@ namespace MovieStore.Controllers
         //    return RedirectToAction(nameof(Index));
         //}
 
+        //private bool OrderExists(Guid id)
+        //{
+        //    return _context.Order.Any(e => e.OrderID == id);
+        //}
     }
 }

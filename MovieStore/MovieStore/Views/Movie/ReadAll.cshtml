@@ -6,6 +6,10 @@
 }
 
 <h2>ReadAll</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
 <table class="table">
     <thead>
         <tr>
@@ -54,8 +58,7 @@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.MovieID }) |
                 @Html.ActionLink("Details", "Read", new { id = item.MovieID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.MovieID }) |
-
+                @Html.ActionLink("Delete", "Delete", new { id = item.MovieID })
             </td>
         </tr>
 }

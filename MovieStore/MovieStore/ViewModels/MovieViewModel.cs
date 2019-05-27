@@ -48,7 +48,5 @@ namespace MovieStore.ViewModels
         [Required]
         [Display(Name = "Studio")]
         public StudioViewModel Studio { get; set; }
-
-        public int Amount { get; set; }
     }
 }

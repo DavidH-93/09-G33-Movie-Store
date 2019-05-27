@@ -10,8 +10,8 @@ using MovieStore.Data;
 namespace MovieStore.Migrations
 {
     [DbContext(typeof(MovieStoreDbContext))]
-    [Migration("20190523123244_1")]
-    partial class _1
+    [Migration("20190521025213_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -410,17 +410,19 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("OrderID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("Closed");
+                    b.Property<DateTime>("Closed");
 
                     b.Property<DateTime>("Creation");
 
-                    b.Property<string>("Status");
+                    b.Property<string>("CustomerId");
+
+                    b.Property<int>("Status");
 
                     b.Property<double>("Total");
 
-                    b.Property<string>("UserID");
-
                     b.HasKey("OrderID");
+
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Order");
                 });
@@ -430,17 +432,17 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("OrderItemID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Amount");
+                    b.Property<Guid?>("MovieID");
 
-                    b.Property<Guid>("MovieID");
+                    b.Property<Guid?>("OrderID");
 
-                    b.Property<Guid>("OrderID");
-
-                    b.Property<double>("Price");
-
-                    b.Property<string>("UserID");
+                    b.Property<int>("Quantity");
 
                     b.HasKey("OrderItemID");
+
+                    b.HasIndex("MovieID");
+
+                    b.HasIndex("OrderID");
 
                     b.ToTable("OrderItem");
                 });
@@ -604,6 +606,24 @@ namespace MovieStore.Migrations
                     b.HasOne("MovieStore.Models.Region")
                         .WithMany("Localities")
                         .HasForeignKey("RegionID");
+                });
+
+            modelBuilder.Entity("MovieStore.Models.Order", b =>
+                {
+                    b.HasOne("MovieStore.Models.User", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId");
+                });
+
+            modelBuilder.Entity("MovieStore.Models.OrderItem", b =>
+                {
+                    b.HasOne("MovieStore.Models.Movie", "Movie")
+                        .WithMany()
+                        .HasForeignKey("MovieID");
+
+                    b.HasOne("MovieStore.Models.Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderID");
                 });
 
             modelBuilder.Entity("MovieStore.Models.Region", b =>
