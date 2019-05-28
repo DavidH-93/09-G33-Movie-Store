@@ -208,31 +208,21 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("AddressID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("CityID");
+                    b.Property<Guid>("CityID");
 
-                    b.Property<Guid?>("CountryID");
+                    b.Property<Guid>("CountryID");
 
                     b.Property<string>("Line1");
 
                     b.Property<string>("Line2");
 
-                    b.Property<Guid?>("LocalityID");
+                    b.Property<Guid>("LocalityID");
 
-                    b.Property<Guid?>("PostCodeID");
+                    b.Property<Guid>("PostCodeID");
 
-                    b.Property<Guid?>("RegionID");
+                    b.Property<Guid>("RegionID");
 
                     b.HasKey("AddressID");
-
-                    b.HasIndex("CityID");
-
-                    b.HasIndex("CountryID");
-
-                    b.HasIndex("LocalityID");
-
-                    b.HasIndex("PostCodeID");
-
-                    b.HasIndex("RegionID");
 
                     b.ToTable("Address");
                 });
@@ -321,8 +311,6 @@ namespace MovieStore.Migrations
                     b.Property<TimeSpan>("Duration");
 
                     b.Property<double>("Price");
-
-                    b.Property<bool>("Published");
 
                     b.Property<int>("Quantity");
 
@@ -431,13 +419,11 @@ namespace MovieStore.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<Guid?>("AddressID");
+                    b.Property<Guid>("AddressID");
 
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
-
-                    b.HasIndex("AddressID");
 
                     b.ToTable("User");
 
@@ -489,29 +475,6 @@ namespace MovieStore.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("MovieStore.Models.Address", b =>
-                {
-                    b.HasOne("MovieStore.Models.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityID");
-
-                    b.HasOne("MovieStore.Models.Country", "Country")
-                        .WithMany()
-                        .HasForeignKey("CountryID");
-
-                    b.HasOne("MovieStore.Models.Locality", "Locality")
-                        .WithMany()
-                        .HasForeignKey("LocalityID");
-
-                    b.HasOne("MovieStore.Models.PostCode", "PostCode")
-                        .WithMany()
-                        .HasForeignKey("PostCodeID");
-
-                    b.HasOne("MovieStore.Models.Region", "Region")
-                        .WithMany()
-                        .HasForeignKey("RegionID");
-                });
-
             modelBuilder.Entity("MovieStore.Models.Country", b =>
                 {
                     b.HasOne("MovieStore.Models.City", "Capital")
@@ -553,13 +516,6 @@ namespace MovieStore.Migrations
                     b.HasOne("MovieStore.Models.Country")
                         .WithMany("Regions")
                         .HasForeignKey("CountryID");
-                });
-
-            modelBuilder.Entity("MovieStore.Models.User", b =>
-                {
-                    b.HasOne("MovieStore.Models.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressID");
                 });
 #pragma warning restore 612, 618
         }

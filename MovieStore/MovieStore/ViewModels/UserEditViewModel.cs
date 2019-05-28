@@ -2,7 +2,7 @@
 
 namespace MovieStore.ViewModels
 {
-    public class UserViewModel
+    public class UserEditViewModel
     {
         [Required]
         [StringLength(30)]
@@ -26,9 +26,6 @@ namespace MovieStore.ViewModels
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
 
         [Required]
         public AddressViewModel Address { get; set; }

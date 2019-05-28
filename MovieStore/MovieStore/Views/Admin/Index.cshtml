@@ -32,27 +32,26 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @item.Email
-                </td>
-                <td>
-                    @item.FirstName&nbsp;@item.LastName
-                </td>
-                <td>
-                    @item.UserName
-                </td>
-                <td>
-                    @item.Address.City.Name,&nbsp;@item.Address.Country.Name
-                </td>
-                <td>
-                    <a asp-action="Edit"    asp-route-id="@item.Email">Edit   </a> |
-                    <a asp-action="Details" asp-route-id="@item.Email">Details</a> |
-                    <a asp-action="Delete"  asp-route-id="@item.Email">Delete </a>
-                </td>
-            </tr>
+        @foreach (var item in Model) {
+        <tr>
+            <td>
+                @item.Email
+            </td>
+            <td>
+                @item.FirstName&nbsp;@item.LastName
+            </td>
+            <td>
+                @item.UserName
+            </td>
+            <td>
+                @item.Address.City.Name&nbsp;@item.Address.Region.Name
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Email">Edit   </a> |
+                <a asp-action="Details" asp-route-id="@item.Email">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Email">Delete </a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
