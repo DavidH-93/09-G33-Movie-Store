@@ -21,12 +21,17 @@ namespace MovieStore.Controllers {
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index(string EmailSearchString, string PhoneSearchString) {
-            var users = from m in _context.User
-                         select m;
+        public async Task<IActionResult> Index(string NameSearchString, string PhoneSearchString) {
+            var users = from m in _context.User select m;
 
-            if(!String.IsNullOrEmpty(EmailSearchString)) {
-                users = users.Where(s => s.Email.Contains(EmailSearchString));
+            if(!String.IsNullOrEmpty(NameSearchString)) {
+                if (NameSearchString.Contains(' ')) { 
+                    String[] names = NameSearchString.Split(' ');
+                    users = users.Where(s => s.FirstName.Contains(names[0]) || s.LastName.Contains(names[1]));
+                }
+                else {
+                    users = users.Where(s => s.FirstName.Contains(NameSearchString) || s.LastName.Contains(NameSearchString));
+                }
             }
 
             if (!String.IsNullOrEmpty(PhoneSearchString))
@@ -34,7 +39,7 @@ namespace MovieStore.Controllers {
                 users = users.Where(s => s.PhoneNumber.Contains(PhoneSearchString));
             }
 
-            return View(await users.Select(user => new UserViewModel {
+            return View(await users.Select(user => new UserEditViewModel {
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -46,7 +51,8 @@ namespace MovieStore.Controllers {
                     Region = new RegionViewModel {
                         Name = _context.Region.FirstOrDefault(r => r.RegionID == (_context.Address.FirstOrDefault(a => a.AddressID == user.AddressID).RegionID)).Name
                     }
-                }
+                },
+                LockoutEnabled = user.LockoutEnabled
             }).ToListAsync());
         }
 
@@ -221,12 +227,13 @@ namespace MovieStore.Controllers {
                     Country = new CountryViewModel {
                         Name = country.Name
                     }
-                }
+                },
+                LockoutEnabled = user.LockoutEnabled
             });
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(string id, [Bind("UserName, FirstName, LastName, Email, PhoneNumber, Address")] UserEditViewModel userViewModel) {
+        public async Task<IActionResult> Edit(string id, [Bind("UserName, FirstName, LastName, Email, PhoneNumber, Address, LockoutEnabled")] UserEditViewModel userViewModel) {
             if (id != userViewModel.Email) {
                 return NotFound();
             }
@@ -299,6 +306,16 @@ namespace MovieStore.Controllers {
                 address.PostCodeID = postcode.PostCodeID;
                 address.RegionID = region.RegionID;
                 address.CountryID = country.CountryID;
+
+                if (userViewModel.LockoutEnabled) {
+                    user.LockoutEnabled = true;
+                    user.LockoutEnd = DateTime.Today.AddYears(100);
+                }
+                else {
+                    user.LockoutEnabled = true;
+                    user.LockoutEnd = DateTime.Now;
+                }
+                user.LockoutEnabled = userViewModel.LockoutEnabled;
 
                 await _userManager.UpdateAsync(user);
                 return RedirectToAction(nameof(Index));

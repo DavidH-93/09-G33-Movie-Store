@@ -26,12 +26,16 @@ namespace MovieStore.ViewModels
         [Display(Name = "Email")]
         public string Email { get; set; }
 
+        [Required]
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; }
+
 
         [Required]
         public AddressViewModel Address { get; set; }
 
         [Required]
-        [Display(Name = "Phone Number")]
-        public string PhoneNumber { get; set; }
+        [Display(Name = "Current Status (Lockout)")]
+        public bool LockoutEnabled { get; set; }
     }
 }

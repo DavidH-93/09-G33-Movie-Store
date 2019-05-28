@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MovieStore.ViewModels.UserViewModel>
+﻿@model IEnumerable<MovieStore.ViewModels.UserEditViewModel>
 
 @{
     ViewData["Title"] = "Admin Index";
@@ -16,7 +16,7 @@
 
 <form asp-controller="Admin" asp-action="Index">
     <p>
-        Search by Email:&nbsp;&nbsp;<input type="text" name="EmailSearchString">
+        Search by Name:&nbsp;&nbsp;<input type="text" name="NameSearchString">
         <input type="submit" value="Filter" />
     </p>
 </form>
@@ -44,6 +44,9 @@
                 Location
             </th>
             <th>
+                Locked Out Status
+            </th>
+            <th>
                 Options
             </th>
         </tr>
@@ -62,6 +65,9 @@
             </td>
             <td>
                 @item.Address.City.Name&nbsp;@item.Address.Region.Name
+            </td>
+            <td>
+                @item.LockoutEnabled
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Email">Edit   </a> |
