@@ -21,12 +21,24 @@ namespace MovieStore.Controllers {
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index() {
-            return View(await _context.User.Select(user => new UserViewModel {
+        public async Task<IActionResult> Index(string EmailSearchString, string PhoneSearchString) {
+            var users = from m in _context.User
+                         select m;
+
+            if(!String.IsNullOrEmpty(EmailSearchString)) {
+                users = users.Where(s => s.Email.Contains(EmailSearchString));
+            }
+
+            if (!String.IsNullOrEmpty(PhoneSearchString))
+            {
+                users = users.Where(s => s.PhoneNumber.Contains(PhoneSearchString));
+            }
+
+            return View(await users.Select(user => new UserViewModel {
                 Email = user.Email,
-                UserName = user.UserName,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
                 Address = new AddressViewModel {
                     City = new CityViewModel {
                         Name = _context.City.FirstOrDefault(c => c.CityID == (_context.Address.FirstOrDefault(a => a.AddressID == user.AddressID).CityID)).Name
