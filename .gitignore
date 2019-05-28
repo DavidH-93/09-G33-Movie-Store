@@ -259,3 +259,6 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/MovieStore/MovieStore/Migrations/MovieStoreDbContextModelSnapshot.cs
+/MovieStore/MovieStore/Migrations/20190528171024_Init.Designer.cs
+/MovieStore/MovieStore/Migrations/20190528171024_Init.cs

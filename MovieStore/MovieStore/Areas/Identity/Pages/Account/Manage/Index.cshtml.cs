@@ -152,6 +152,7 @@ namespace MovieStore.Areas.Identity.Pages.Account.Manage
                     return NotFound($"Unable to load user with ID '{user.Id}'.");
                 }
 
+                user.UserName = Input.Username;
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
                 user.Email = Input.Email;
