@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +13,7 @@ using MovieStore.Models;
 using MovieStore.ViewModels;
 
 namespace MovieStore.Controllers {
+    [Authorize(Roles="Admin")]
     public class AdminController : Controller {
         private readonly MovieStoreDbContext _context;
         private readonly UserManager<User> _userManager;
@@ -25,9 +27,9 @@ namespace MovieStore.Controllers {
             var users = from m in _context.User select m;
 
             if(!String.IsNullOrEmpty(NameSearchString)) {
-                if (NameSearchString.Contains(' ')) { 
+                if (NameSearchString.Trim().Contains(' ')) { 
                     String[] names = NameSearchString.Split(' ');
-                    users = users.Where(s => s.FirstName.Contains(names[0]) || s.LastName.Contains(names[1]));
+                    users = users.Where(s => s.FirstName.Contains(names[0]) && s.LastName.Contains(names[1]));
                 }
                 else {
                     users = users.Where(s => s.FirstName.Contains(NameSearchString) || s.LastName.Contains(NameSearchString));
@@ -36,8 +38,10 @@ namespace MovieStore.Controllers {
 
             if (!String.IsNullOrEmpty(PhoneSearchString))
             {
-                users = users.Where(s => s.PhoneNumber.Contains(PhoneSearchString));
+                users = users.Where(s => s.PhoneNumber.Contains(PhoneSearchString.Trim()));
             }
+
+            users = users.Where(s => s.UserName != "Admin");
 
             return View(await users.Select(user => new UserEditViewModel {
                 Email = user.Email,
@@ -177,8 +181,12 @@ namespace MovieStore.Controllers {
                     LastName = userViewModel.LastName,
                     Email = userViewModel.Email,
                     PhoneNumber = userViewModel.PhoneNumber,
-                    AddressID = address.AddressID
+                    AddressID = address.AddressID,
                 }, userViewModel.Password);
+
+                User user = await _userManager.FindByEmailAsync(userViewModel.Email);
+                user.LockoutEnabled = false;
+                await _userManager.UpdateAsync(user);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -312,10 +320,9 @@ namespace MovieStore.Controllers {
                     user.LockoutEnd = DateTime.Today.AddYears(100);
                 }
                 else {
-                    user.LockoutEnabled = true;
+                    user.LockoutEnabled = false;
                     user.LockoutEnd = DateTime.Now;
                 }
-                user.LockoutEnabled = userViewModel.LockoutEnabled;
 
                 await _userManager.UpdateAsync(user);
                 return RedirectToAction(nameof(Index));

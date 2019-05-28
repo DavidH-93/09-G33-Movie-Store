@@ -29,9 +29,7 @@ namespace MovieStore.Data {
             // creating a super user who could maintain the web api
             var poweruser = new User {
                 UserName = "Admin",
-                Email = Configuration.GetSection("UserSettings")["UserEmail"],
-                LockoutEnabled = false,
-                LockoutEnd = DateTime.Now
+                Email = Configuration.GetSection("UserSettings")["UserEmail"]
             };
 
             string userPassword = Configuration.GetSection("UserSettings")["UserPassword"];

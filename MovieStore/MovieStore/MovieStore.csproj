@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190514120225_Init.cs" />
+    <Compile Remove="Migrations\20190514120225_Init.Designer.cs" />
+    <Compile Remove="Migrations\20190527050025_UserUpdate.cs" />
+    <Compile Remove="Migrations\20190527050025_UserUpdate.Designer.cs" />
     <Compile Remove="Migrations\20190521070120_AccessLogs.cs" />
     <Compile Remove="Migrations\20190521070120_AccessLogs.Designer.cs" />
   </ItemGroup>
@@ -22,7 +26,6 @@
   <ItemGroup>
     <Folder Include="Areas\Identity\Data\" />
     <Folder Include="Areas\Identity\Services\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
