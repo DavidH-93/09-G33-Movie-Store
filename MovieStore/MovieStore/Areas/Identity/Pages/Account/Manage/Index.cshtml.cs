@@ -43,7 +43,7 @@ namespace MovieStore.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            internal string UserName;
+            public string UserName;
 
             [Required]
             [EmailAddress]
