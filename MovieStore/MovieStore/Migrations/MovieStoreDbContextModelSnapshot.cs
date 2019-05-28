@@ -338,8 +338,6 @@ namespace MovieStore.Migrations
 
                     b.Property<double>("Price");
 
-                    b.Property<bool>("Published");
-
                     b.Property<int>("Quantity");
 
                     b.Property<DateTime>("ReleaseDate");

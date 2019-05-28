@@ -49,7 +49,6 @@ namespace MovieStore
             services.AddMvc();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMovieRepository, MovieRepository>();
-<<<<<<< HEAD
             services.AddScoped<IGenreRepository, GenreRepository>();
             services.AddScoped<IActorRepository, ActorRepository>();
             services.AddScoped<IDirectorRepository, DirectorRepository>();
@@ -63,9 +62,7 @@ namespace MovieStore
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderItemRepository, OrderItemRepository>();
             services.AddScoped<IAccessLogRepository, AccessLogRepository>();
-=======
             services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
->>>>>>> origin/James
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<ul class="list-unstyled">
+    <li class="media">
+        <img src="" class="mr-3" alt="" />
+        <div class="media-body ">
+            @* Pass ID *@
+            <h5 class="mt-0 mb-1"><a asp-controller="Catalogue" asp-action="MovieDetail" class=" btn btn-link">Title</a></h5>
+            <ul class="list-group">
+                @* Pass ID *@
+                <li class="list-group-item">Genre</li>
+                <li class="list-group-item">Duration</li>
+                <li class="list-group-item">ReleaseDate</li>
+                <li class="list-group-item">Quantity</li>
+                <li class="list-group-item">Rating</li>
+            </ul>
+        </div>
+    </li>
+</ul>

@@ -3,11 +3,23 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <ul class="nav">
-        <li class="nav-item">
-            <a asp-area="" asp-controller="Movie" asp-action="Create" class="navbar-link">Create</a>
-        </li>
-        <li class="nav-item">
-            <a asp-area="" asp-controller="Movie" asp-action="ReadAll" class="navbar-link">Read All</a>
-        </li>
-    </ul>
+
+<aside class="mdc-drawer">
+    <div class="mdc-drawer__content">
+        <nav class="mdc-list">
+            <a class="mdc-list-item" asp-area="" asp-controller="Movie" asp-action="Create" class="navbar-link">
+                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">create</i>
+                <span class="mdc-list-item__text">Create</span>
+            </a>
+            <a class="mdc-list-item" asp-area="" asp-controller="Movie" asp-action="Create" class="navbar-link">
+                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">create</i>
+                <span class="mdc-list-item__text">Create</span>
+            </a>
+            <a class="mdc-list-item" asp-area="" asp-controller="Movie" asp-action="ReadAll" class="navbar-link">
+                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">create</i>
+                Read All
+            </a>
+
+        </nav>
+    </div>
+</aside>
