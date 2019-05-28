@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MovieStore.ViewModels.UserViewModel>
+﻿@model IEnumerable<MovieStore.ViewModels.UserEditViewModel>
 
 @{
     ViewData["Title"] = "Admin Index";
@@ -9,7 +9,24 @@
 
 <p>
     <a asp-action="Create">Create New</a>
+    &nbsp;&nbsp;|&nbsp;&nbsp;
+    <a asp-action="Index">Clear Search</a>
 </p>
+
+
+<form asp-controller="Admin" asp-action="Index">
+    <p>
+        Search by Name:&nbsp;&nbsp;<input type="text" name="NameSearchString">
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
+<form asp-controller="Admin" asp-action="Index">
+    <p>
+        Search by Phone: <input type="text" name="PhoneSearchString">
+        <input type="submit" value="Filter" />
+    </p>
+</form>
 
 <table class="table">
     <thead>
@@ -21,10 +38,13 @@
                 Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserName)
+                @Html.DisplayNameFor(model => model.PhoneNumber)
             </th>
             <th>
                 Location
+            </th>
+            <th>
+                Locked Out Status
             </th>
             <th>
                 Options
@@ -32,27 +52,29 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @item.Email
-                </td>
-                <td>
-                    @item.FirstName&nbsp;@item.LastName
-                </td>
-                <td>
-                    @item.UserName
-                </td>
-                <td>
-                    @item.Address.City.Name,&nbsp;@item.Address.Country.Name
-                </td>
-                <td>
-                    <a asp-action="Edit"    asp-route-id="@item.Email">Edit   </a> |
-                    <a asp-action="Details" asp-route-id="@item.Email">Details</a> |
-                    <a asp-action="Delete"  asp-route-id="@item.Email">Delete </a>
-                </td>
-            </tr>
+        @foreach (var item in Model) {
+        <tr>
+            <td>
+                @item.Email
+            </td>
+            <td>
+                @item.FirstName&nbsp;@item.LastName
+            </td>
+            <td>
+                @item.PhoneNumber
+            </td>
+            <td>
+                @item.Address.City.Name&nbsp;@item.Address.Region.Name
+            </td>
+            <td>
+                @item.LockoutEnabled
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Email">Edit   </a> |
+                <a asp-action="Details" asp-route-id="@item.Email">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Email">Delete </a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

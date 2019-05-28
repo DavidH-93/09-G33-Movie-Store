@@ -1,5 +1,4 @@
-﻿using MovieStore.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MovieStore.ViewModels
 {
