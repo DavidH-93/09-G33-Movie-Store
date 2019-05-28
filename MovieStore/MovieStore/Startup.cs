@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using MovieStore.Models;
 using MovieStore.Data;
 using MovieStore.Services;
+using Stripe;
+
 namespace MovieStore
 {
     public class Startup
@@ -47,12 +49,27 @@ namespace MovieStore
             services.AddMvc();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMovieRepository, MovieRepository>();
-
+            services.AddScoped<IGenreRepository, GenreRepository>();
+            services.AddScoped<IActorRepository, ActorRepository>();
+            services.AddScoped<IDirectorRepository, DirectorRepository>();
+            services.AddScoped<IProducerRepository, ProducerRepository>();
+            services.AddScoped<IStudioRepository, StudioRepository>();
+            services.AddScoped<IMovieGenreRepository, MovieGenreRepository>();
+            services.AddScoped<IMovieActorRepository, MovieActorRepository>();
+            services.AddScoped<IMovieDirectorRepository, MovieDirectorRepository>();
+            services.AddScoped<IMovieProducerRepository, MovieProducerRepository>();
+            services.AddScoped<IMovieStudioRepository, MovieStudioRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            services.AddScoped<IAccessLogRepository, AccessLogRepository>();
+            services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            StripeConfiguration.SetApiKey(Configuration.GetSection("Stripe")["SecretKey"]);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

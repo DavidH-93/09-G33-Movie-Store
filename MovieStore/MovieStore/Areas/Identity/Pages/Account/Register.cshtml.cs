@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using MovieStore.Models;
-
+using MovieStore.Services;
 namespace MovieStore.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
@@ -20,17 +20,23 @@ namespace MovieStore.Areas.Identity.Pages.Account
         private readonly UserManager<User> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IAccessLogRepository _accessRepo;
+        private readonly IUserRepository _userRepository;
 
         public RegisterModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IAccessLogRepository accessRepo,
+            IUserRepository userRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _accessRepo = accessRepo;
+            _userRepository = userRepository;
         }
 
         [BindProperty]
@@ -41,9 +47,31 @@ namespace MovieStore.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
+            [StringLength(30)]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
+            [StringLength(30)]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [Required]
+            [StringLength(30)]
+            [Display(Name = "Username")]
+            public string UserName { get; set; }
+
+            [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
+
+            [Required]
+            [Phone]
+            [Display(Name = "Phone")]
+            public string PhoneNumber { get; set; }
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
@@ -67,10 +95,20 @@ namespace MovieStore.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = Input.Email, Email = Input.Email };
+                var user = new User { UserName = Input.UserName, Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName, PhoneNumber = Input.PhoneNumber};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    AccessLog log = new AccessLog()
+                    {
+                        UserID = user.Id,
+                        AccessLogID = new Guid(),
+                        AccessType = "Registered",
+                        LogTime = DateTime.Now
+                    };
+
+                    _accessRepo.Create(log);
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

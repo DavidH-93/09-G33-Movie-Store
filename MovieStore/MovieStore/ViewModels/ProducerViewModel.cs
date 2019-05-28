@@ -5,6 +5,9 @@ namespace MovieStore.ViewModels
 {
     public class ProducerViewModel
     {
+
+        public Guid ProducerID { get; set; }
+
         [Required]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
