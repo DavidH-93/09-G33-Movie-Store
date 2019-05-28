@@ -3,9 +3,7 @@
 namespace MovieStore.ViewModels
 {
     public class UserEditViewModel
-    {
-        [Required]
-        [StringLength(30)]
+    { 
         [Display(Name = "Username")]
         public string UserName { get; set; }
 
@@ -29,7 +27,6 @@ namespace MovieStore.ViewModels
         [Required]
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
-
 
         [Required]
         public AddressViewModel Address { get; set; }
