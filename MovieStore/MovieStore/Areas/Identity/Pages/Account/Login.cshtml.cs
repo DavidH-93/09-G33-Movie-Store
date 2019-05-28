@@ -11,20 +11,23 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using MovieStore.Models;
 using MovieStore.Services;
+using MovieStore.Data;
 
 namespace MovieStore.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
+        private readonly MovieStoreDbContext _context;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly IAccessLogRepository _accessRepo;
 
-        public LoginModel(UserManager<User> userManager, SignInManager<User> signInManager, ILogger<LoginModel> logger, IAccessLogRepository accessRepo
+        public LoginModel(UserManager<User> userManager, SignInManager<User> signInManager, MovieStoreDbContext context, ILogger<LoginModel> logger, IAccessLogRepository accessRepo
             )
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
@@ -83,14 +86,13 @@ namespace MovieStore.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
+                    
                     AccessLog log = new AccessLog()
                     {
-                        UserID = _userManager.GetUserId(User),
-                        AccessLogID = new Guid(),
+                        UserID = _context.User.First(u => u.UserName == Input.UserName).Id,
                         AccessType = "Logged In",
                         LogTime = DateTime.Now
                     };
-
                     _accessRepo.Create(log);
                    
 

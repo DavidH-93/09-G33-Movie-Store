@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MovieStore.Models;
+using MovieStore.Data;
 using MovieStore.Services;
 namespace MovieStore.Areas.Identity.Pages.Account.Manage
 {
@@ -18,17 +19,20 @@ namespace MovieStore.Areas.Identity.Pages.Account.Manage
         private readonly SignInManager<User> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly IUserRepository _userRepo;
+        private readonly IAccessLogRepository _accessRepo;
 
         public IndexModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             IEmailSender emailSender,
-            IUserRepository userRepo)
+            IUserRepository userRepo,
+            IAccessLogRepository accessRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _userRepo = userRepo;
+            _accessRepo = accessRepo;
         }
 
         public string Username { get; set; }
@@ -135,6 +139,8 @@ namespace MovieStore.Areas.Identity.Pages.Account.Manage
                     throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
                 }
             }
+
+            
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";

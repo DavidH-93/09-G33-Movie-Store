@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +23,12 @@ namespace MovieStore.Data
         public DbSet<Actor> Actor { get; set; }
         public DbSet<Genre> Genre { get; set; }
         public DbSet<Director> Director { get; set; }
+
+        internal Task GetUserAsync(ClaimsPrincipal user)
+        {
+            throw new NotImplementedException();
+        }
+
         public DbSet<Producer> Producer { get; set; }
         public DbSet<Studio> Studio { get; set; }
         public DbSet<MovieActor> MovieActor { get; set; }
