@@ -2,7 +2,7 @@
 
 namespace MovieStore.ViewModels
 {
-    public class UserViewModel
+    public class UserEditViewModel
     {
         [Required]
         [StringLength(30)]
@@ -27,14 +27,15 @@ namespace MovieStore.ViewModels
         public string Email { get; set; }
 
         [Required]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; }
+
 
         [Required]
         public AddressViewModel Address { get; set; }
 
         [Required]
-        [Display(Name = "Phone Number")]
-        public string PhoneNumber { get; set; }
+        [Display(Name = "Current Status (Lockout)")]
+        public bool LockoutEnabled { get; set; }
     }
 }
