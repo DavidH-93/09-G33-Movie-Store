@@ -18,24 +18,24 @@ namespace MovieStore.Controllers
             return View();
         }
 
-        public IActionResult Charge(string StripeEmail, string StripeToken)
-        { 
+        //public IActionResult Charge(string StripeEmail, string StripeToken)
+        //{ 
         
-            var customerService = new StripeCustomerService();
-            var ChargeService = new StripeChargeService();
+        //    var customerService = new StripeCustomerService();
+        //    var ChargeService = new StripeChargeService();
 
-            var customer = new CustomerService.Create(new StripeCustomerCreateOptions { 
-                Email = StripeEmail,
-                SourceToken = StripeToken
-            });
+        //    var customer = new CustomerService.Create(new StripeCustomerCreateOptions { 
+        //        Email = StripeEmail,
+        //        SourceToken = StripeToken
+        //    });
 
-            var charge = chargeService.Create(new StripeChargeCreateOptions {
-                Amount = 500,
-                Description = "Movie Store Stripe Test",
-                Currency = "aud",
-                CustomerId = customer.Id
-            });
-            return View();
-        }
+        //    var charge = chargeService.Create(new StripeChargeCreateOptions {
+        //        Amount = 500,
+        //        Description = "Movie Store Stripe Test",
+        //        Currency = "aud",
+        //        CustomerId = customer.Id
+        //    });
+        //    return View();
+        //}
     }
 }

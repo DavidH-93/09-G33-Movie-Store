@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text.Encodings.Web;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Encodings.Web;
+using System.ComponentModel.DataAnnotations;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+
 using MovieStore.Data;
 using MovieStore.Models;
-using MovieStore.Services;
 namespace MovieStore.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
@@ -19,23 +18,17 @@ namespace MovieStore.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IEmailSender _emailSender;
-        private readonly IUserRepository _userRepo;
-        private readonly IAccessLogRepository _accessRepo;
 
         public IndexModel(
             MovieStoreDbContext context,
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            IEmailSender emailSender,
-            IUserRepository userRepo,
-            IAccessLogRepository accessRepo)
+            IEmailSender emailSender)
         {
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
-            _userRepo = userRepo;
-            _accessRepo = accessRepo;
         }
 
         public string Username { get; set; }
@@ -106,12 +99,22 @@ namespace MovieStore.Areas.Identity.Pages.Account.Manage
         {
             var user = await _userManager.GetUserAsync(User);
 
+            Locality locality  = null;
+            City city = null;
+            PostCode postcode = null;
+            Region region = null;
+            Country country = null;
+
             Address address = _context.Address.FirstOrDefault(l => l.AddressID == user.AddressID);
-            Locality locality = _context.Locality.FirstOrDefault(l => l.LocalityID == address.LocalityID);
-            City city = _context.City.FirstOrDefault(l => l.CityID == address.CityID);
-            PostCode postcode = _context.PostCode.FirstOrDefault(l => l.PostCodeID == address.PostCodeID);
-            Region region = _context.Region.FirstOrDefault(l => l.RegionID == address.RegionID);
-            Country country = _context.Country.FirstOrDefault(l => l.CountryID == address.CountryID);
+
+            if (address != null)
+            {
+                locality = _context.Locality.FirstOrDefault(l => l.LocalityID == address.LocalityID);
+                city = _context.City.FirstOrDefault(l => l.CityID == address.CityID);
+                postcode = _context.PostCode.FirstOrDefault(l => l.PostCodeID == address.PostCodeID);
+                region = _context.Region.FirstOrDefault(l => l.RegionID == address.RegionID);
+                country = _context.Country.FirstOrDefault(l => l.CountryID == address.CountryID);
+            }
 
             if (user == null)
             {
@@ -125,13 +128,13 @@ namespace MovieStore.Areas.Identity.Pages.Account.Manage
                 PhoneNumber = user.PhoneNumber,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Line1 = address.Line1,
-                Line2 = address.Line2,
-                Locality = locality.Name,
-                City = city.Name,
-                PostCode = postcode.Code,
-                Region = region.Name,
-                Country = country.Name
+                Line1 = address == null ? "" : address.Line1,
+                Line2 = address == null ? "" : address.Line2,
+                Locality = locality == null ? "" : locality.Name,
+                City = city == null ? "" : city.Name,
+                PostCode = postcode == null ? 0 : postcode.Code,
+                Region = region == null ? "" : region.Name,
+                Country = country == null ? "" : country.Name
             };
 
             IsEmailConfirmed = user.EmailConfirmed;
@@ -143,7 +146,7 @@ namespace MovieStore.Areas.Identity.Pages.Account.Manage
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(Input.Email);
+                var user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
                 if (user == null)
                 {
                     return NotFound($"Unable to load user with ID '{user.Id}'.");
@@ -255,7 +258,7 @@ namespace MovieStore.Areas.Identity.Pages.Account.Manage
             var callbackUrl = Url.Page(
                 "/Account/ConfirmEmail",
                 pageHandler: null,
-                values: new { userId = userId, code = code },
+                values: new {userId, code},
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 email,
