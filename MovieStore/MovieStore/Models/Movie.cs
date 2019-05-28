@@ -16,6 +16,7 @@ namespace MovieStore.Models
         public int Quantity { get; set; }
         public DateTime ReleaseDate { get; set; }
         public int Duration { get; set; }
+        public int Rating { get; set; }
 
 
 

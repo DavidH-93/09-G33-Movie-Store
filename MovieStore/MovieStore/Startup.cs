@@ -41,6 +41,7 @@ namespace MovieStore
 
             services.AddDbContext<MovieStoreDbContext>();
             services.AddDefaultIdentity<User>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<MovieStoreDbContext>()
                 .AddDefaultTokenProviders()
                 .AddDefaultUI();
@@ -94,6 +95,8 @@ namespace MovieStore
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            var movieData = System.IO.File.ReadAllText(@"C:\Users\efbdi\Source\Repos\Movie Store\MovieStore\MovieStore\Data\Movie.json");
+            //Seeder.Seed(movieData, app.ApplicationServices);
         }
     }
 }

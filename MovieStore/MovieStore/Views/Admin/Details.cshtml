@@ -13,6 +13,12 @@
         <div class="card-text">
             <dl class="dl-horizontal">
                 <dt>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.UserName)
+                </dd>
+                <dt>
                     @Html.DisplayNameFor(model => model.FirstName)
                 </dt>
                 <dd>
@@ -23,6 +29,54 @@
                 </dt>
                 <dd>
                     @Html.DisplayFor(model => model.LastName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.PhoneNumber)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address.Line1)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Address.Line1)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address.Line2)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Address.Line2)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address.Locality.Name)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Address.Locality.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address.City.Name)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Address.City.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address.PostCode.Code)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Address.PostCode.Code)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address.Region.Name)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Address.Region.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address.Country.Name)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Address.Country.Name)
                 </dd>
             </dl>
         </div>

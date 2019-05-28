@@ -11,7 +11,6 @@ namespace MovieStore.Data
 {
     public class MovieStoreDbContext : IdentityDbContext
     {
-
         public DbSet<User> User { get; set; }
         public DbSet<Address> Address { get; set; }
         public DbSet<City> City { get; set; }
@@ -44,6 +43,12 @@ namespace MovieStore.Data
         protected override void OnConfiguring(DbContextOptionsBuilder option)
         {
             option.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=MovieStore;Trusted_Connection=True;MultipleActiveResultSets=true");
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            
         }
     }
 }
