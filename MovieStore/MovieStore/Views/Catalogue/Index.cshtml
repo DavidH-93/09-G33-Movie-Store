@@ -1,25 +1,43 @@
-﻿
+﻿@model MovieStore.ViewModels.CatalogueViewModel
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<div id="featured-div" class="container-fluid">
+    <div class="card-group">
+        @foreach (var item in Model.Featured)
+        {
+            <div class="card text-white border-dark bg-transparent mb-4" style="max-width: 22rem;">
+                <div class="card-header">
+                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text"> @Html.DisplayFor(modelItem => item.Description)</p>
+                </div>
+                <ul class="list-group list-group-flush border-dark bg-transparent">
+                    <li class="list-group-item border-dark bg-transparent">@foreach (var i in item.Genres)
+                    {
+                        @Html.DisplayFor(modelItem => i.Name)
+                    }</li>
+                    <li class="list-group-item border-dark bg-transparent">
+                        @Html.DisplayFor(modelItem => item.Duration)
+                    </li>
+                    <li class="list-group-item border-dark bg-transparent">
+                    @Html.DisplayFor(modelItem => item.ReleaseDate)
+                    </li>
+                </ul>
+                <div class="card-footer bg-transparent border-success">
+                    <div class="btn-group-justified" role="group">
+                        <a controller="Catalogue" asp-action="Details" class="btn btn-outline-danger">Details</a>
+                        <a controller="Order" asp-action="Add" class="btn btn-outline-success">
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
 
-
-<ul class="list-unstyled">
-    <li class="media">
-        <img src="" class="mr-3" alt="" />
-        <div class="media-body ">
-            @* Pass ID *@
-            <h5 class="mt-0 mb-1"><a asp-controller="Catalogue" asp-action="MovieDetail" class=" btn btn-link">Title</a></h5>
-            <ul class="list-group">
-                @* Pass ID *@
-                <li class="list-group-item">Genre</li>
-                <li class="list-group-item">Duration</li>
-                <li class="list-group-item">ReleaseDate</li>
-                <li class="list-group-item">Quantity</li>
-                <li class="list-group-item">Rating</li>
-            </ul>
-        </div>
-    </li>
-</ul>
+    </div>
+</div>

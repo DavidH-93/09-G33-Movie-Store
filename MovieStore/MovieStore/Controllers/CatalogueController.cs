@@ -62,23 +62,71 @@ namespace MovieStore.Controllers
 
         public IActionResult Index()
         {
-            MovieViewModel vm = new MovieViewModel();
-            List<MovieViewModel> lvm = new List<MovieViewModel>();
+            CatalogueViewModel vm = new CatalogueViewModel();
+
+            CatalogueMovieViewModel movievm = new CatalogueMovieViewModel();
+            CatalogueGenreViewModel genrevm = new CatalogueGenreViewModel();
+            CatalogueActorViewModel actorvm = new CatalogueActorViewModel();
+            CatalogueDirectorViewModel directorvm = new CatalogueDirectorViewModel();
+            CatalogueProducerViewModel producervm = new CatalogueProducerViewModel();
+            CatalogueStudioViewModel studiovm = new CatalogueStudioViewModel();
+
             List<Movie> movies = _movieRepo.GetAll().ToList<Movie>();
+            List<Genre> genres = _genreRepo.GetAll().ToList<Genre>();
+            List<Actor> actors = _actorRepo.GetAll().ToList<Actor>();
+            List<Director> directors = _directorRepo.GetAll().ToList<Director>();
+            List<Producer> producers = _producerRepo.GetAll().ToList<Producer>();
+            List<Studio> studios = _studioRepo.GetAll().ToList<Studio>();
+            
             foreach (Movie movie in movies)
             {
-                vm.MovieID = movie.MovieID;
-                vm.Title = movie.Title;
-                vm.Description = movie.Description;
-                vm.Duration = movie.Duration;
-                vm.Price = movie.Price;
-                vm.Quantity = movie.Quantity;
-                lvm.Add(vm);
+                movievm.MovieID = movie.MovieID;
+                movievm.Title = movie.Title;
+                movievm.Description = movie.Description;
+                movievm.Duration = movie.Duration;
+                movievm.Price = movie.Price;
+                movievm.Quantity = movie.Quantity;
+                vm.Featured.Add(movievm);
             }
-            if (lvm.Count() > 0)
+            foreach (Genre genre in genres)
             {
-                return View(lvm);
+                genrevm.GenreID = genre.GenreID;
+                genrevm.Name = genrevm.Name;
+                vm.Genres.Add(genrevm);
             }
+            foreach (Actor actor in actors)
+            {
+                actorvm.ActorID = actor.ActorID;
+                actorvm.Gender = actor.Gender;
+                actorvm.DOB = actor.DOB;
+                actorvm.Name = actor.FirstName + " " + actor.LastName;
+                vm.Actors.Add(actorvm);
+            }
+            foreach (Director director in directors)
+            {
+                directorvm.DirectorID = director.DirectorID;
+                directorvm.Gender = director.Gender;
+                directorvm.Name = director.FirstName + " " + director.LastName;
+                vm.Directors.Add(directorvm);
+            }
+            foreach (Producer producer in producers)
+            {
+                producervm.ProducerID = producer.ProducerID;
+                producervm.Gender = producer.Gender;
+                producervm.Name = producer.FirstName + " "  + producer.LastName;
+                vm.Producers.Add(producervm);
+            }
+            foreach (Studio studio in studios)
+            {
+                studiovm.StudioID = studio.StudioID;
+                studiovm.Name = studio.Name;
+                vm.Studios.Add(studiovm);
+            }
+            return View(vm);
+        }
+
+        public IActionResult Search()
+        {
             return View();
         }
 

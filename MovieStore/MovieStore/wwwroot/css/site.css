@@ -12,7 +12,7 @@ color:#ffffff;
 #nav {
     margin-bottom:0;
 }
-#home-a, #register-a, #login-a, #account-a, #logout-btn, #catalogue-a, #order-a, #admin-a, #dashboard-a, #staff-a {
+#home-a, #account-a, #logout-btn, #catalogue-a, #order-a, #admin-a, #dashboard-a, #staff-a {
     color: #ffffff;
 }
 #home-a {
