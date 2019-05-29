@@ -34,5 +34,9 @@ namespace MovieStore.ViewModels
         [Required]
         [Display(Name = "Current Status (Lockout)")]
         public bool LockoutEnabled { get; set; }
+
+        [Required]
+        [Display(Name = "User Type")]
+        public string Type { get; set; }
     }
 }

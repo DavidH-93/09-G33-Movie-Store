@@ -53,6 +53,11 @@ namespace MovieStore.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [StringLength(30)]
+            [Display(Name = "Username")]
+            public string UserName { get; set; }
+
+            [Required]
             [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
             [StringLength(30)]
             [Display(Name = "First Name")]
@@ -65,11 +70,6 @@ namespace MovieStore.Areas.Identity.Pages.Account
             public string LastName { get; set; }
 
             [Required]
-            [StringLength(30)]
-            [Display(Name = "Username")]
-            public string UserName { get; set; }
-
-            [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -78,6 +78,9 @@ namespace MovieStore.Areas.Identity.Pages.Account
             [Phone]
             [Display(Name = "Phone")]
             public string PhoneNumber { get; set; }
+
+            [BindProperty, Required]
+            public string Position { get; set; }
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
@@ -118,6 +121,9 @@ namespace MovieStore.Areas.Identity.Pages.Account
             [Required]
             [Display(Name = "Country")]
             public string Country { get; set; }
+
+            [Display(Name = "Staff Key")]
+            public string key { get; set; }
         }
 
         public void OnGet(string returnUrl = null)
@@ -219,6 +225,28 @@ namespace MovieStore.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     user = await _userManager.FindByEmailAsync(Input.Email);
+
+                    Dictionary<string, string> keys = new Dictionary<string, string>();
+
+                    keys.Add("xzo67", "Sales Clerk");
+                    keys.Add("pdtv&", "Warehouse");
+                    keys.Add("s3m6b", "Manager");
+                    keys.Add("a!6tk", "Accountant");
+
+
+                    foreach (KeyValuePair<string, string> key in keys)
+                    {
+                        if (Input.key == key.Key)
+                        {
+                            user.Type = key.Value;
+                            await _userManager.AddToRoleAsync(user, "Staff");
+                        }
+                    }
+
+                    if (user.Type == null)
+                        user.Type = Input.Position;
+                        await _userManager.AddToRoleAsync(user, "Customer");
+
                     user.LockoutEnabled = false;
                     await _userManager.UpdateAsync(user);
 
@@ -231,7 +259,6 @@ namespace MovieStore.Areas.Identity.Pages.Account
                     };
 
                     _accessRepo.Create(log);
-
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

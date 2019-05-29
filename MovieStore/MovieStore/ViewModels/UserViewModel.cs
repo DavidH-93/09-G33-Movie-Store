@@ -36,5 +36,9 @@ namespace MovieStore.ViewModels
         [Required]
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
+
+        [Required]
+        [Display(Name = "User Type")]
+        public string Type { get; set; }
     }
 }
