@@ -262,3 +262,5 @@ __pycache__/
 /MovieStore/MovieStore/Migrations/MovieStoreDbContextModelSnapshot.cs
 /MovieStore/MovieStore/Migrations/20190528171024_Init.Designer.cs
 /MovieStore/MovieStore/Migrations/20190528171024_Init.cs
+/MovieStore/MovieStore/Migrations/20190529193533_Init.Designer.cs
+/MovieStore/MovieStore/Migrations/20190529193533_Init.cs

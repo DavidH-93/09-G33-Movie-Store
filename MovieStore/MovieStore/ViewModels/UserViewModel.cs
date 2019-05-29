@@ -26,12 +26,8 @@ namespace MovieStore.ViewModels
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
         [Display(Name = "Password")]
         public string Password { get; set; }
-
-        [Required]
-        public AddressViewModel Address { get; set; }
 
         [Required]
         [Display(Name = "Phone Number")]
@@ -39,6 +35,13 @@ namespace MovieStore.ViewModels
 
         [Required]
         [Display(Name = "User Type")]
-        public string Type { get; set; }
+        public string Position { get; set; }
+
+        [Required]
+        public AddressViewModel Address { get; set; }
+
+        [Required]
+        [Display(Name = "Lockout Status")]
+        public bool LockoutEnabled { get; set; }
     }
 }

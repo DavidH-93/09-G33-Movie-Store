@@ -238,13 +238,13 @@ namespace MovieStore.Areas.Identity.Pages.Account
                     {
                         if (Input.key == key.Key)
                         {
-                            user.Type = key.Value;
+                            user.Position = key.Value;
                             await _userManager.AddToRoleAsync(user, "Staff");
                         }
                     }
 
-                    if (user.Type == null)
-                        user.Type = Input.Position;
+                    if (user.Position == null)
+                        user.Position = Input.Position;
                         await _userManager.AddToRoleAsync(user, "Customer");
 
                     user.LockoutEnabled = false;

@@ -8,7 +8,7 @@ namespace MovieStore.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public string Type { get; set; }
+        public string Position { get; set; }
 
         public Guid AddressID { get; set; }
     }
