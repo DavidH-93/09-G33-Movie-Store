@@ -1,6 +1,0 @@
-﻿Error occurred while restoring NuGet packages: The operation failed as details for project MovieStore could not be loaded.
-1>------ Build started: Project: MovieStore, Configuration: Debug Any CPU ------
-1>Controllers\HomeController.cs(8,7,8,13): error CS0246: The type or namespace name 'Stripe' could not be found (are you missing a using directive or an assembly reference?)
-1>Startup.cs(19,7,19,13): error CS0246: The type or namespace name 'Stripe' could not be found (are you missing a using directive or an assembly reference?)
-1>Done building project "MovieStore.csproj" -- FAILED.
-========== Build: 0 succeeded, 1 failed, 0 up-to-date, 0 skipped ==========

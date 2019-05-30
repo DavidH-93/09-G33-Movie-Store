@@ -72,8 +72,6 @@ namespace MovieStore
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-           
-            app.UseAuthentication();
             app.UseCookiePolicy();
 
             app.UseAuthentication();
