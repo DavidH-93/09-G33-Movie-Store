@@ -19,7 +19,8 @@ else if (User.IsInRole("Staff"))
     <a class="navbar-link btn navbar-btn btn-primary" id="dashboard-a" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
 </div>
 }
-else if (SignInManager.IsSignedIn(User))
+
+@if (SignInManager.IsSignedIn(User))
 {
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
         <div class="nav navbar-nav navbar-right btn-group">
