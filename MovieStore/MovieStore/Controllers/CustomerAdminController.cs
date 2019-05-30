@@ -15,6 +15,7 @@ using MovieStore.ViewModels;
 
 namespace MovieStore.Controllers
 {
+    //Only Allow Admins to Access Admin Page
     [Authorize(Roles = "Admin")]
     public class CustomerAdminController : Controller
     {
@@ -29,6 +30,7 @@ namespace MovieStore.Controllers
 
         public IActionResult Index(string nameSearchString, string phoneSearchString, string positionSearchString)
         {
+            //Get a Queryable Array from user/role data source
             IQueryable<User> users = from a in _context.Roles
                                      join h in _context.UserRoles on a.Id equals h.RoleId
                                      join c in _context.User on h.UserId equals c.Id
@@ -37,6 +39,7 @@ namespace MovieStore.Controllers
                                      where a.Name == "Customer"
                                      select m;
 
+            //Filtering Logic
             if (!String.IsNullOrEmpty(nameSearchString))
             {
                 if (nameSearchString.Trim().Contains(' '))
@@ -60,6 +63,7 @@ namespace MovieStore.Controllers
                 users = users.Where(u => u.Position.Contains(positionSearchString.Trim()));
             }
 
+            //Return information to be displayed
             return View(users.Select(user => new UserViewModel
             {
                 Email = user.Email,
@@ -87,8 +91,10 @@ namespace MovieStore.Controllers
         [HttpGet]
         public IActionResult Details(string id)
         {
+            //Get User by Email
             User user = _context.User.FirstOrDefault(u => u.Email == id);
 
+            //Get Users address information
             Address address = _context.Address.FirstOrDefault(a => a.AddressID == user.AddressID);
 
             Locality locality = _context.Locality.FirstOrDefault(l => l.LocalityID == address.LocalityID);
@@ -97,6 +103,7 @@ namespace MovieStore.Controllers
             Region region = _context.Region.FirstOrDefault(r => r.RegionID == address.RegionID);
             Country country = _context.Country.FirstOrDefault(c => c.CountryID == address.CountryID);
 
+            //Return information to be displayed
             return View(new UserViewModel
             {
                 UserName = user.UserName,
@@ -147,12 +154,14 @@ namespace MovieStore.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Check if inputted address information is already in the database
                 Locality locality = _context.Locality.FirstOrDefault(l => l.Name == userViewModel.Address.Locality.Name);
                 City city = _context.City.FirstOrDefault(c => c.Name == userViewModel.Address.City.Name);
                 PostCode postcode = _context.PostCode.FirstOrDefault(p => p.Code == userViewModel.Address.PostCode.Code);
                 Region region = _context.Region.FirstOrDefault(r => r.Name == userViewModel.Address.Region.Name);
                 Country country = _context.Country.FirstOrDefault(c => c.Name == userViewModel.Address.Country.Name);
 
+                //Create new database entrys for location information if it does not exist
                 if (locality == null)
                 {
                     locality = new Locality
@@ -208,6 +217,7 @@ namespace MovieStore.Controllers
                     _context.SaveChanges();
                 }
 
+                //Create Address
                 Address address = new Address
                 {
                     Line1 = userViewModel.Address.Line1,
@@ -221,6 +231,7 @@ namespace MovieStore.Controllers
                 _context.Address.Add(address);
                 _context.SaveChanges();
 
+                //Add New Customer to Database
                 await _userManager.CreateAsync(new User
                 {
                     UserName = userViewModel.UserName,
@@ -232,11 +243,14 @@ namespace MovieStore.Controllers
                     AddressID = address.AddressID,
                 }, userViewModel.Password);
 
+                //Retrieve newly added user from database
                 User user = await _userManager.FindByEmailAsync(userViewModel.Email);
 
+                //Assign Customer Role & Disable Lockout
                 await _userManager.AddToRoleAsync(user, "Customer");
                 user.LockoutEnabled = false;
 
+                //Update User & Save Changes to Database
                 await _userManager.UpdateAsync(user);
                 await _context.SaveChangesAsync();
 
@@ -249,6 +263,7 @@ namespace MovieStore.Controllers
         [HttpGet]
         public IActionResult Edit(string id)
         {
+            
             User user = _context.User.FirstOrDefault(u => u.Email == id);
 
             Address address = _context.Address.FirstOrDefault(a => a.AddressID == user.AddressID);

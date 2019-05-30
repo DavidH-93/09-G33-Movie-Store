@@ -3,8 +3,7 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
-@if (User.IsInRole("Admin"))
-{
+@if (User.IsInRole("Admin")) {
     <ul class="nav navbar-nav navbar-right btn-group btn-group-sm">
         <li class="navbar-link btn navbar-btn btn-info">
             <a id="staff-a" asp-controller="Staff" asp-action="Index">Staff</a>
@@ -17,8 +16,7 @@
         </li>
     </ul>
 }
-else
-{
+else {
     <ul class="nav navbar-nav navbar-right btn-group btn-group-sm">
         <li class="navbar-link btn navbar-btn btn-info">
             <a id="staff-a" asp-controller="Staff" asp-action="Index">Staff</a>
@@ -28,8 +26,7 @@ else
         </li>
     </ul>
 }
-@if (SignInManager.IsSignedIn(User))
-{
+@if (SignInManager.IsSignedIn(User)) {
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
@@ -41,8 +38,7 @@ else
         </ul>
     </form>
 }
-else
-{
+else {
     <ul id="login-ul" class="nav navbar-nav navbar-right btn-group btn-group-sm">
         <li  class="btn navbar-btn btn-outline-light"><a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
         <li class="btn navbar-btn btn-outline-light"><a asp-area="Identity" asp-page="/Account/Login">Login</a></li>

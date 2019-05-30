@@ -5,19 +5,19 @@ namespace MovieStore.ViewModels
     public class UserViewModel
     {
         [Required]
-        [StringLength(30)]
+        [StringLength(30, ErrorMessage = "The {0} can only be {1} characters long at max")]
         [Display(Name = "Username")]
         public string UserName { get; set; }
 
         [Required]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
-        [StringLength(30)]
+        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$", ErrorMessage = "{0} must contain a capital letter")]
+        [StringLength(30, ErrorMessage = "{0}'s can only be {1} characters long at max")]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
         [Required]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
-        [StringLength(30)]
+        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$", ErrorMessage = "{0} must contain a capital letter")]
+        [StringLength(30, ErrorMessage = "{0}'s can only be {1} characters long at max")]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 

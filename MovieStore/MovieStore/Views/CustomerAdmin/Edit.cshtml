@@ -39,16 +39,14 @@
             <div class="form-group">
                 <label asp-for="Position" class="control-label"></label>
                 <br />
-                @if (Model.Position == "Individual")
-                {
+                @if (Model.Position == "Individual") {
                     <label class="control-label">Individual</label>
                     <input type="radio" value="Individual" id="Position" name="Position" checked />
                     <br />
                     <label class="control-label">Company</label>
                     <input type="radio" value="Company" id="Position" name="Position" />
                 }
-                else
-                {
+                else {
                     <label class="control-label">Individual</label>
                     <input type="radio" value="Individual" id="Position" name="Position" />
                     <br />
