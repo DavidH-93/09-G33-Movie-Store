@@ -383,6 +383,8 @@ namespace MovieStore.Migrations
 
                     b.Property<string>("LastName");
 
+                    b.Property<string>("Position");
+
                     b.ToTable("User");
 
                     b.HasDiscriminator().HasValue("User");

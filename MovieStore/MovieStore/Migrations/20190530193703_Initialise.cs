@@ -76,6 +76,7 @@ namespace MovieStore.Migrations
                     Discriminator = table.Column<string>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
+                    Position = table.Column<string>(nullable: true),
                     AddressID = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>

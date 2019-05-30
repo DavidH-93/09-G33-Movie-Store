@@ -25,25 +25,15 @@
     </environment>
 </head>
 <body>
-    <div class="container">
         <nav id="nav" class="navbar navbar-inverse navbar-fixed-top">
             <a id="home-a" asp-controller="Home" asp-action="Index" class="navbar-brand">Movie Store</a>
-
             <div class="nav navbar-nav btn-group btn-group">
                 <a class="navbar-link btn navbar-btn btn-danger" id="catalogue-a" asp-controller="Catalogue" asp-action="Index">Catalogue</a>
                 <a class="navbar-link btn navbar-btn btn-success" id="order-a" asp-controller="Order" asp-action="Index">Order</a>
             </div>
-
-            <div class="nav navbar-nav navbar-right btn-group">
-                <a id="staff-a" asp-controller="Staff" asp-action="Index" class="navbar-link btn navbar-btn btn-info">Staff</a>
-                <a id="admin-a" asp-controller="Admin" asp-action="Index" class="navbar-link btn navbar-btn btn-dark">Admin</a>
-            </div>
-            <div class="nav navbar-nav navbar-right btn-group">
-                <a id="dashboard-a" asp-controller="Dashboard" asp-action="Index" class="navbar-link btn navbar-btn btn-primary">Dashboard</a>
-            </div>
             <partial name="_LoginPartial" />
         </nav>
-    </div>
+
    
 
 

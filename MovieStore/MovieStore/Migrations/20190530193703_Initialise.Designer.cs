@@ -10,7 +10,7 @@ using MovieStore.Data;
 namespace MovieStore.Migrations
 {
     [DbContext(typeof(MovieStoreDbContext))]
-    [Migration("20190530182350_Initialise")]
+    [Migration("20190530193703_Initialise")]
     partial class Initialise
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -384,6 +384,8 @@ namespace MovieStore.Migrations
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
+
+                    b.Property<string>("Position");
 
                     b.ToTable("User");
 
