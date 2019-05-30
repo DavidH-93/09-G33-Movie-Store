@@ -7,6 +7,10 @@ namespace MovieStore.ViewModels
 {
     public class OrderViewModel
     {
+        public OrderViewModel()
+        {
+        }
+
         public OrderViewModel(Order o, IEnumerable<OrderItem> iList)
         {
             OrderID = o.OrderID;
@@ -17,6 +21,7 @@ namespace MovieStore.ViewModels
             Closed = Closed;
             ClosedString = o.ClosedToString();
             NumItems = o.NumItems;
+            TotalCents = o.TotalCents;
             OrderItems = new List<OrderItemViewModel>();
             foreach (OrderItem i in iList)
             {
@@ -24,7 +29,6 @@ namespace MovieStore.ViewModels
                 OrderItems.Add(ivm);
             }
         }
-
         public Guid OrderID { get; set; }
         public string UserID { get; set; }
         public double Total { get; set; }
@@ -34,6 +38,8 @@ namespace MovieStore.ViewModels
         public string ClosedString { get; set; }
         public int NumItems { get; set; }
         public List<OrderItemViewModel> OrderItems { get; set; }
+
+        public double TotalCents { get; set; }
 
 
 
