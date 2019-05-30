@@ -1,0 +1,50 @@
+﻿@model IEnumerable<MovieStore.ViewModels.LogViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<form asp-controller="AccessLogs" asp-action="Index">
+<p>
+    Search by Date:<input type ="date" name="date" />
+    <input type="submit" value="Filter" />
+</p>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LogTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccessType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LogTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccessType)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.AccessLogID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.AccessLogID">Delete</a>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MovieStore.Controllers {
     [Authorize(Roles = "Admin")]
-    public class AdminController : Controller {
+    public class StaffAdminController : Controller {
         public IActionResult Index() {
             return View();
         }

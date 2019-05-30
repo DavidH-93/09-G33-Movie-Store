@@ -12,7 +12,6 @@ namespace MovieStore.Controllers
     public class HomeController : Controller
     {
 
-
         //httpget
         public IActionResult Index()
         {
@@ -20,26 +19,23 @@ namespace MovieStore.Controllers
         }
 
         //public IActionResult Charge(string StripeEmail, string StripeToken)
-        //{
+        //{ 
+        
         //    var customerService = new StripeCustomerService();
         //    var ChargeService = new StripeChargeService();
 
-        //    var customer = new CustomerService.Create(new StripeCustomerCreateOptions
-        //    {
+        //    var customer = new CustomerService.Create(new StripeCustomerCreateOptions { 
         //        Email = StripeEmail,
         //        SourceToken = StripeToken
         //    });
 
-        //    var charge = chargeService.Create(new StripeChargeCreateOptions
-        //    {
+        //    var charge = chargeService.Create(new StripeChargeCreateOptions {
         //        Amount = 500,
-        //        Description = "Movie Store Test",
+        //        Description = "Movie Store Stripe Test",
         //        Currency = "aud",
         //        CustomerId = customer.Id
         //    });
-
         //    return View();
-
         //}
     }
 }
