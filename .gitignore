@@ -270,3 +270,5 @@ __pycache__/
 /MovieStore/MovieStore/Migrations/20190530195157_Init.cs
 /MovieStore/MovieStore/Migrations/20190530204840_Init.Designer.cs
 /MovieStore/MovieStore/Migrations/20190530204840_Init.cs
+/MovieStore/MovieStore/Migrations/20190530200227_Initialise.Designer.cs
+/MovieStore/MovieStore/Migrations/20190530200227_Initialise.cs
