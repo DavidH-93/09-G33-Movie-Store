@@ -17,280 +17,159 @@ namespace MovieStore.Controllers
         private readonly IOrderRepository _orderRepo;
         private readonly IOrderItemRepository _orderItemRepo;
         private readonly IMovieRepository _movieRepo;
-        private readonly IUserRepository _userRepo;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly MovieStoreDbContext _context;
 
-        public OrderController(IOrderRepository orderRepo, IOrderItemRepository orderItemRepo, IMovieRepository movieRepo, IUserRepository userRepo, IGenreRepository genreRepo, IActorRepository actorRepo, IDirectorRepository directorRepo, IProducerRepository producerRepo, IStudioRepository studioRepo, IMovieGenreRepository movieGenreRepo, IMovieActorRepository movieActorRepo, IMovieDirectorRepository movieDirectorRepo, IMovieProducerRepository movieProducerRepo, IMovieStudioRepository movieStudioRepo, UserManager<User> userManager, SignInManager<User> signInManager, MovieStoreDbContext context)
+        public OrderController(IOrderRepository orderRepo, IOrderItemRepository orderItemRepo, IMovieRepository movieRepo, UserManager<User> userManager, SignInManager<User> signInManager, MovieStoreDbContext context)
         {
             _orderRepo = orderRepo;
             _orderItemRepo = orderItemRepo;
             _movieRepo = movieRepo;
-            _userRepo = userRepo;
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
         }
 
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            Order userOrder;
-            IEnumerable<OrderItem> userOrderItems;
-            MovieOrderItemViewModel movieViewModel;
-            OrderViewModel orderViewModel;
-            OrderItemViewModel orderItemViewModel = new OrderItemViewModel();
-            List<OrderItemViewModel> orderItemViewModels = new List<OrderItemViewModel>();
-            Movie movie = new Movie();
             if (_signInManager.IsSignedIn(User))
             {
                 User u = await _userManager.GetUserAsync(User);
+
+                Movie movie;
+                Order order;
+                IEnumerable<OrderItem> items;
+                OrderViewModel vm;
+
+                if (_context.Order.Any(o => o.UserID == u.Id && o.Status == "Open"))
+                {
+                    order = _orderRepo.GetSingle(o => o.UserID == u.Id && o.Status == "Open");
+                    items = _orderItemRepo.Query(i => i.OrderID == order.OrderID);
+                    if(items.Count() > 0)
+                    {
+                        vm = new OrderViewModel(order, items);
+                        return View(vm);
+                    }
+                    return RedirectToAction("Empty", "Order");
+                }
+                return RedirectToAction("Empty", "Order");
+            }
+            return RedirectToAction("/Account/Login", "Identity");
+            }
+
+        public async Task<IActionResult> History()
+        {
+            if (_signInManager.IsSignedIn(User))
+            {
+                User u = await _userManager.GetUserAsync(User);
+                IEnumerable<Order> orders;
+                IEnumerable<OrderItem> items;
+
+                OrderViewModel ovm;
+                List<OrderViewModel> ovms = new List<OrderViewModel>();
+                List<OrderItemViewModel> ivms = new List<OrderItemViewModel>();
+
                 if (_context.Order.Any(o => o.UserID == u.Id))
                 {
-                    userOrder = _orderRepo.GetSingle(o => o.UserID == u.Id && o.Closed == false);
-                    userOrderItems = _orderItemRepo.Query(o => o.OrderID == userOrder.OrderID);
-                    orderViewModel = new OrderViewModel()
+                    orders = _orderRepo.Query(o => o.UserID == u.Id);
+                    foreach (Order o in orders)
                     {
-                        Creation = userOrder.Creation,
-                        OrderID = userOrder.OrderID,
-                        Status = userOrder.Status,
-                        Total = userOrder.Total,
-                        UserID = userOrder.UserID
-                    };
-                    foreach (OrderItem o in userOrderItems)
-                    {
-                        movie = _movieRepo.GetSingle(m => m.MovieID == o.MovieID);
-                        movieViewModel = new MovieOrderItemViewModel()
+                        items = _orderItemRepo.Query(i => i.OrderID == o.OrderID);
+                        foreach (OrderItem i in items)
                         {
-                            MovieID = movie.MovieID,
-                            Title = movie.Title
-                        };
-                        orderItemViewModel.OrderItemID = o.OrderItemID;
-                        orderItemViewModel.Price = o.Price;
-                        orderItemViewModel.Total = o.Total();
-                        orderItemViewModel.Quantity = o.Amount;
-                        orderItemViewModel.Movie = movieViewModel;
-                        orderItemViewModels.Add(orderItemViewModel);
-                    };
-                    orderViewModel.OrderItems = orderItemViewModels;
-                    return View(orderViewModel);
+                            ivms.Add(new OrderItemViewModel(i));
+                        }
+                        ovm = new OrderViewModel(o, items);
+                        ovms.Add(ovm);
+                    }
+                    return View(ovms);
                 }
                 return RedirectToAction("Empty", "Order");
             }
             return RedirectToAction("/Account/Login", "Identity");
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Add(Guid id, MovieViewModel vm)
+        //this method is horrible because i didnt use the viewmodel paradigm
+        public async Task<IActionResult> Add(Guid id)
         {
-            Order userOrder;
-            Order newOrder;
-            Movie movie;
-            OrderItem newOrderItem;
-            //OrderOrderItem newOrderOrderItem;
-            List<OrderItem> orderItems = new List<OrderItem>();
-            IEnumerable<OrderItem> userOrderItems = new List<OrderItem>();
-            //IEnumerable<OrderOrderItem> userOrderOrderItems;
             if (_signInManager.IsSignedIn(User))
             {
-                //ADD ITEM TO ORDER
+                OrderItem item;
+                Order order;
+                var u = await _userManager.GetUserAsync(User);
 
-                //get user
-                User u = await _userManager.GetUserAsync(User);
-                movie = _movieRepo.GetSingle(m => m.MovieID == id);
-                //check if user has an existing order item for the same item
-                if (_context.Order.Any(o => o.UserID == u.Id))
-                 {
-                    //get open user order
-                    userOrder = _orderRepo.GetSingle(o => o.UserID == u.Id && o.Closed == false);
-
-
-                        //populate list of order items
-                        userOrderItems = _orderItemRepo.Query(o => o.OrderID == userOrder.OrderID);
-                        //test list for matching existing items
-                        foreach (OrderItem item in userOrderItems)
-                        {
-                            if (item.MovieID == movie.MovieID)
-                            {
-                                //add to existing order item
-                                item.Amount += vm.Amount;
-                                _orderItemRepo.Update(item);
-                                userOrder.Total = userOrder.CalculateTotal(userOrderItems);
-
-                                _orderItemRepo.Update(item);
-                                _orderRepo.Update(userOrder);
-                                return RedirectToAction("ReadAll", "Movie");
-                            }
-                        }
-                        //create new order item
-                        newOrderItem = new OrderItem()
-                        {
-                            OrderItemID = new Guid(),
-                            OrderID = userOrder.OrderID,
-                            UserID = u.Id,
-                            MovieID = movie.MovieID,
-                            Price = movie.Price,
-                            Amount = vm.Amount
-                        };
-
-                        userOrderItems.Append<OrderItem>(newOrderItem);
-                        userOrder.Total = userOrder.CalculateTotal(userOrderItems);
-
-                        //create new order item to existing user order
-                        _orderItemRepo.Create(newOrderItem);
-                        _orderRepo.Update(userOrder);
-                        return RedirectToAction("ReadAll", "Movie");     
-                }
-                else
+                Movie movie = _movieRepo.GetSingle(m => m.MovieID == id);
+                if (_context.Order.Any(o => o.UserID == u.Id && o.Status == "Open"))
                 {
-                    newOrder = new Order()
+                    order = _orderRepo.GetSingle(o => o.UserID == u.Id && o.Status == "Open");
+                    IEnumerable<OrderItem> uItems = _orderItemRepo.Query(i => i.OrderID == order.OrderID && i.MovieID == id);
+                    if (uItems.Count() > 0)
                     {
-                        OrderID = new Guid(),
-                        UserID = u.Id,
-                        Closed = false,
-                        Creation = DateTime.Now,
-                        Status = "Open"
-                    };
-                    newOrderItem = new OrderItem()
-                    {
-                        OrderItemID = new Guid(),
-                        OrderID = newOrder.OrderID,
-                        UserID = u.Id,
-                        MovieID = movie.MovieID,
-                        Price = movie.Price,
-                        Amount = vm.Amount
-                    };
-                    newOrder.Total = newOrderItem.Price * newOrderItem.Amount;
-
-                    _orderItemRepo.Create(newOrderItem);
-                    _orderRepo.Create(newOrder);
-                    return RedirectToAction("ReadAll", "Movie");
+                        foreach (OrderItem i in uItems)
+                        {
+                            i.Quantity += 1;
+                            i.setTotal();
+                            order.NumItems += 1;
+                            order.Total += i.Price;
+                            _context.Order.Update(order);
+                            //_context.SaveChanges();
+                            _context.OrderItem.Update(i);
+                            _context.SaveChanges();
+                            return RedirectToAction("Index");
+                            
+                        }
+                    }
+                    item = new OrderItem(u.Id, order.OrderID, id, movie.Title, 1, movie.Price, movie.Price);
+                    _orderItemRepo.Create(item);
+                    order.Total += item.Total;
+                    order.NumItems += 1;
+                    _orderRepo.Update(order);
+                    return RedirectToAction("Index");
                 }
+                order = new Order(u.Id, movie.Price);
+                item = new OrderItem(u.Id, order.OrderID, id, movie.Title, 1, movie.Price, movie.Price);
+                _orderItemRepo.Create(item);
+                _orderRepo.Create(order);
+                return RedirectToAction("Index");
+
             }
             return RedirectToAction("/Account/Login", "Identity");
         }
 
-        //public async Task<IActionResult> Remove(Guid id)
-        //{
-        //    if (_signInManager.IsSignedIn(User))
-        //    {
 
-        //    }
-        //}
+        public IActionResult Remove(Guid id)
+        {
+            if (_signInManager.IsSignedIn(User))
+            {
+                OrderItem orderItem = _orderItemRepo.GetSingle(i => i.OrderItemID == id);
+                Order order = _orderRepo.GetSingle(o => o.OrderID == orderItem.OrderID);
+                order.Total -= orderItem.Total;
+                order.NumItems -= orderItem.Quantity;
+                _orderItemRepo.Delete(orderItem);
+                _orderRepo.Update(order);
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("/Account/Login", "Identity");
+        }
 
-        //// GET: Order/Details/5
-        //public async Task<IActionResult> Details(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(order);
-        //}
+        public IActionResult Cancel(Guid id)
+        {
+            if (_signInManager.IsSignedIn(User))
+            {
+                Order order = _orderRepo.GetSingle(o => o.OrderID == id);
+                order.Closed = true;
+                order.Status = "Cancelled";
+                _orderRepo.Update(order);
+                return RedirectToAction("Empty", "Order");
+            }
+            return RedirectToAction("/Account/Login", "Identity");
+        }
 
-        //// GET: Order/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        //// POST: Order/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("OrderID,Total,Creation,Closed,Status")] Order order)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        order.OrderID = Guid.NewGuid();
-        //        _context.Add(order);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(order);
-        //}
-
-        //// GET: Order/Edit/5
-        //public async Task<IActionResult> Edit(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var order = await _context.Order.FindAsync(id);
-        //    if (order == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(order);
-        //}
-
-        //// POST: Order/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(Guid id, [Bind("OrderID,Total,Creation,Closed,Status")] Order order)
-        //{
-        //    if (id != order.OrderID)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(order);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!OrderExists(order.OrderID))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(order);
-        //}
-
-        //// GET: Order/Delete/5
-        //public async Task<IActionResult> Delete(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var order = await _context.Order
-        //        .FirstOrDefaultAsync(m => m.OrderID == id);
-        //    if (order == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(order);
-        //}
-
-        //// POST: Order/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(Guid id)
-        //{
-        //    var order = await _context.Order.FindAsync(id);
-        //    _context.Order.Remove(order);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
-
+        public IActionResult Empty()
+        {
+            return View();
+        }
     }
 }

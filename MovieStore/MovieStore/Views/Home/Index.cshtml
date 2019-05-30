@@ -1,16 +1,18 @@
 ﻿@{
     ViewData["Title"] = "Home";
 }
+    <div class="container">
+        <div id="jumbotron-div" class="jumbotron jumbotron-fluid">
+            <h1 class="display-4">Welcome!</h1>
+            <p class="lead">Access all of your favourite movies, anytime, anywhere.</p>
+            <hr class="my-4">
+            <p>Browse and order anonymously, or register or login to your account to finalise, purchase and track your orders.</p>
+            <p class="lead btn-group btn-group-justified">
+                <a asp-controller="Catalogue" asp-action="Index" class="btn btn-outline-danger btn-lg" role="button">Browse</a>
+                <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline-light btn-lg" role="button">Register</a>
+                <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-outline-light btn-lg" role="button">Login</a>
 
-    <div id="jumbotron-div" class="jumbotron jumbotron-fluid">
-        <h1 class="display-4">Welcome!</h1>
-        <p class="lead">Access all of your favourite movies, anytime, anywhere.</p>
-        <hr class="my-4">
-        <p>Browse and order anonymously, or register or login to your account to finalise, purchase and track your orders.</p>
-        <p class="lead btn-group btn-group-justified">
-            <a asp-controller="Catalogue" asp-action="Index" class="btn btn-outline-danger btn-lg" role="button">Browse</a>
-            <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline-light btn-lg" role="button">Register</a>
-            <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-outline-light btn-lg" role="button">Login</a>
-
-        </p>
+            </p>
+        </div>
     </div>
+    

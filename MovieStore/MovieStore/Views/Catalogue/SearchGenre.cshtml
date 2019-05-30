@@ -1,7 +1,7 @@
-﻿@model MovieStore.ViewModels.CatalogueViewModel
+﻿@model List<MovieStore.ViewModels.CatalogueMovieViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Search";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
     <div class="container">
@@ -19,29 +19,29 @@
                                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                                 </button>
                             </div>
-
                         </form>
                     </div>
                 </div>
                 <div class="card bg-transparent border-light">
-                        <div class="card-header">
-                            Search for Genres
-                        </div>
-                        <div class="card-body">
-                            <form id="search-form" asp-controller="Catalogue" asp-action="SearchGenre" class="form form-inline" method="post">
-                                <div class="form-group">
-                                    <input class="form-control" type="search" placeholder="Genre" name="genre" aria-label="Search" />
-                                    <button class="btn btn-outline-light" type="submit">
-                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                    <div class="card-header">
+                        Search for Genres
+                    </div>
+                    <div class="card-body">
+                        <form id="search-form" asp-controller="Catalogue" asp-action="SearchGenre" class="form form-inline" method="post">
+                            <div class="form-group">
+                                <input class="form-control" type="search" placeholder="Genre" name="genre" aria-label="Search" />
+                                <button class="btn btn-outline-light" type="submit">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-            <div class="col-8">
+            </div>
+        <div class="col-8">
+                <h2 class="display-4">Results</h2>
                 <ul class="list-unstyled">
-                    @foreach (var item in Model.Movies)
+                    @foreach (var item in Model)
                     {
                         <li class="media">
                             <div class="media-body">
@@ -68,6 +68,7 @@
                                             <li class="list-group-item bg-transparent text-white">Rating: @item.Rating</li>
                                         </ul>
                                     </div>
+
                                 </div>
                             </div>
                         </li>

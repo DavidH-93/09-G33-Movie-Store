@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MovieStore.ViewModels
 {
-    public class CatalogueMovieViewModel
+    public class DashboardMovieViewModel
     {
         public Guid MovieID { get; set; }
         public string Title { get; set; }
@@ -16,6 +16,5 @@ namespace MovieStore.ViewModels
         public int Duration { get; set; }
         public int Rating { get; set; }
         public string Genre { get; set; }
-
     }
 }

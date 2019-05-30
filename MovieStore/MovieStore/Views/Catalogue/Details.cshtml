@@ -1,0 +1,33 @@
+﻿@model MovieStore.ViewModels.CatalogueMovieViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <div class="card text-center bg-transparent text-white border-success">
+        <div class="card-header">
+            <h3 class="card-title">
+                @Model.Title
+            </h3>
+        </div>
+        <div class="card-body">
+            <p class="card-text">Synopsis</p>
+
+            <p class="card-text">@Model.Description</p>
+            <ul class="list-group list-group-horizontal center-block">
+                <li class="list-group-item bg-transparent text-white">@Model.Genre</li>
+                <li class="list-group-item bg-transparent text-white">Stock: @Model.Stock</li>
+                <li class="list-group-item bg-transparent text-white">Release: @Model.Release</li>
+                <li class="list-group-item bg-transparent text-white">Duration: @Model.Duration</li>
+                <li class="list-group-item bg-transparent text-white">Rating: @Model.Rating</li>
+            </ul>
+        </div>
+        <div class="card-footer">
+            <ul class="nav nav-pills card-header-pills">
+                <li class="nav-item nav-justified">
+                    <a asp-controller="Order" asp-action="Add" asp-route-id="@Model.MovieID" class="btn btn-success">Add to Order</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+

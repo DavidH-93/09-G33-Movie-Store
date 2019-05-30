@@ -11,17 +11,32 @@ namespace MovieStore.Models
         public string UserID { get; set; }
         public double Total { get; set; }
         public DateTime Creation { get; set; }
+        public int NumItems { get; set; }
+
         public bool Closed { get; set; }
         public string Status { get; set; }
-
-        public double CalculateTotal(IEnumerable<OrderItem> l)
+        public Order(string userID, double total)
         {
-            double t = 0;
-            foreach (var i in l)
+            OrderID = Guid.NewGuid();
+            UserID = userID;
+            Total = total;
+            NumItems = 1;
+            Creation = DateTime.Now;
+            Closed = false;
+            Status = "Open";
+        }
+
+        public string CreationToString()
+        {
+            return Creation.Day.ToString() + "/" + Creation.Month.ToString() + "/" + Creation.Year.ToString();
+        }
+        public string ClosedToString()
+        {
+            if (Closed == false)
             {
-                t += i.Amount;
+                return "Closed";
             }
-            return t;
+            else return "Open";
         }
     }
 }

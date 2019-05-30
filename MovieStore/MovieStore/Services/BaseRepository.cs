@@ -54,5 +54,14 @@ namespace MovieStore.Services
             _context.SaveChanges();
             return entity;
         }
+        public T UpdateN(T entity)
+        {
+            _context.Entry(entity).State = EntityState.Modified;
+            return entity;
+        }
+        public void SaveChanges()
+        {
+            _context.SaveChanges();
+        }
     }
 }

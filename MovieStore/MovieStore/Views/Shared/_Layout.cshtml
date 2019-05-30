@@ -25,40 +25,26 @@
     </environment>
 </head>
 <body>
-    <nav id="nav" class="navbar navbar-inverse navbar-fixed-top">
-            <a id="home-a" asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Movie Store</a>
+    <div class="container">
+        <nav id="nav" class="navbar navbar-inverse navbar-fixed-top">
+            <a id="home-a" asp-controller="Home" asp-action="Index" class="navbar-brand">Movie Store</a>
 
-            <ul class="nav navbar-nav btn-group btn-group-sm">
+            <div class="nav navbar-nav btn-group btn-group">
+                <a class="navbar-link btn navbar-btn btn-danger" id="catalogue-a" asp-controller="Catalogue" asp-action="Index">Catalogue</a>
+                <a class="navbar-link btn navbar-btn btn-success" id="order-a" asp-controller="Order" asp-action="Index">Order</a>
+            </div>
 
-                <li class="navbar-link btn navbar-btn btn-danger">
-                    <a id="catalogue-a" asp-controller="Catalogue" asp-action="Index">Catalogue</a>
-                </li>
-                <li class="navbar-link btn navbar-btn btn-success">
-                    <a id="order-a" asp-area="" asp-controller="Order" asp-action="Index">Order</a>
-                </li>
-            </ul>
-            <form id="search-form" asp-controller="Catalogue" asp-action="Search" class="navbar-form navbar-left form-inline" method="post">
-                <div class="form-group">
-                    <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
-                    <button class="btn btn-outline-light" type="submit">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                    </button>
-                </div>
-
-            </form>
-            <ul class="nav navbar-nav navbar-right btn-group btn-group-sm">
-                <li class="navbar-link btn navbar-btn btn-info">
-                    <a id="staff-a" asp-controller="Staff" asp-action="Index">Staff</a>
-                </li>
-                <li class="navbar-link btn navbar-btn btn-primary">
-                    <a id="dashboard-a" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
-                </li>
-                <li class="navbar-link btn navbar-btn btn-dark">
-                    <a id="admin-a" asp-controller="Admin" asp-action="Index">Admin</a>
-                </li>
-            </ul>
+            <div class="nav navbar-nav navbar-right btn-group">
+                <a id="staff-a" asp-controller="Staff" asp-action="Index" class="navbar-link btn navbar-btn btn-info">Staff</a>
+                <a id="admin-a" asp-controller="Admin" asp-action="Index" class="navbar-link btn navbar-btn btn-dark">Admin</a>
+            </div>
+            <div class="nav navbar-nav navbar-right btn-group">
+                <a id="dashboard-a" asp-controller="Dashboard" asp-action="Index" class="navbar-link btn navbar-btn btn-primary">Dashboard</a>
+            </div>
             <partial name="_LoginPartial" />
-    </nav>
+        </nav>
+    </div>
+   
 
 
     <div class="container body-content">
