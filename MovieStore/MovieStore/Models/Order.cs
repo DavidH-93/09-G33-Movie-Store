@@ -15,6 +15,9 @@ namespace MovieStore.Models
 
         public bool Closed { get; set; }
         public string Status { get; set; }
+
+        public double TotalCents { get; set; }
+
         public Order(string userID, double total)
         {
             OrderID = Guid.NewGuid();
@@ -24,6 +27,7 @@ namespace MovieStore.Models
             Creation = DateTime.Now;
             Closed = false;
             Status = "Open";
+            TotalCents = TotalToCents();
         }
 
         public string CreationToString()
@@ -37,6 +41,10 @@ namespace MovieStore.Models
                 return "Closed";
             }
             else return "Open";
+        }
+        public double TotalToCents()
+        {
+            return TotalCents = Total * 100;
         }
     }
 }

@@ -21,7 +21,7 @@
                 <div class="card-footer">
                     <div class="btn-group btn-group-justified">
                         <a asp-controller="Order" asp-action="Cancel" asp-route-id="@Model.OrderID" class="btn btn-danger">Cancel</a>
-                        <a asp-controller="Payment" asp-action="Charge" asp-route-id="@Model.Total" class="btn btn-warning">Pay</a>
+                        <a asp-controller="Payment" asp-action="Index" asp-route-id="@Model.OrderID" class="btn btn-warning">Pay</a>
                         <a asp-controller="Order" asp-action="History" class="btn btn-primary">History</a>
                     </div>
                 </div>
