@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using MovieStore.Models;
 using MovieStore.Data;
 using MovieStore.Services;
+using Stripe;
+
 namespace MovieStore
 {
     public class Startup
@@ -38,7 +40,7 @@ namespace MovieStore
             });
 
             services.AddDbContext<MovieStoreDbContext>();
-            services.AddDefaultIdentity<User>()
+            services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<MovieStoreDbContext>()
                 .AddDefaultTokenProviders()
                 .AddDefaultUI();
@@ -46,12 +48,27 @@ namespace MovieStore
             services.AddMvc();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMovieRepository, MovieRepository>();
-
+            services.AddScoped<IGenreRepository, GenreRepository>();
+            services.AddScoped<IActorRepository, ActorRepository>();
+            services.AddScoped<IDirectorRepository, DirectorRepository>();
+            services.AddScoped<IProducerRepository, ProducerRepository>();
+            services.AddScoped<IStudioRepository, StudioRepository>();
+            services.AddScoped<IMovieGenreRepository, MovieGenreRepository>();
+            services.AddScoped<IMovieActorRepository, MovieActorRepository>();
+            services.AddScoped<IMovieDirectorRepository, MovieDirectorRepository>();
+            services.AddScoped<IMovieProducerRepository, MovieProducerRepository>();
+            services.AddScoped<IMovieStudioRepository, MovieStudioRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            services.AddScoped<IAccessLogRepository, AccessLogRepository>();
+            services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            StripeConfiguration.SetApiKey(Configuration.GetSection("Stripe")["SecretKey"]);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -65,8 +82,6 @@ namespace MovieStore
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-           
-            app.UseAuthentication();
             app.UseCookiePolicy();
 
             app.UseAuthentication();
@@ -77,6 +92,8 @@ namespace MovieStore
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            //var movieData = System.IO.File.ReadAllText(@"C:\Users\efbdi\Source\Repos\Movie Store\MovieStore\MovieStore\Data\Movie.json");
+            //Seeder.Seed(movieData, app.ApplicationServices);
         }
     }
 }

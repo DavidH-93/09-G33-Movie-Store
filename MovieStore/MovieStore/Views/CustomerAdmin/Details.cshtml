@@ -1,0 +1,94 @@
+﻿@model MovieStore.ViewModels.UserViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card" style="width: 30rem;">
+    <div class="card-body">
+        <h5 class="card-title">User @Model.Email</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Details</h6>
+        <hr />
+        <div class="card-text">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.UserName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.FirstName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.LastName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.PhoneNumber)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Type)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Type)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address.Line1)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Address.Line1)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address.Line2)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Address.Line2)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address.Locality.Name)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Address.Locality.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address.City.Name)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Address.City.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address.PostCode.Code)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Address.PostCode.Code)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address.Region.Name)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Address.Region.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address.Country.Name)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Address.Country.Name)
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.Email">Edit</a> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
+</div>

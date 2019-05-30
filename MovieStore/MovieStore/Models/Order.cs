@@ -8,15 +8,20 @@ namespace MovieStore.Models
     public class Order
     {
         public Guid OrderID { get; set; }
-        public User Customer { get; set; }
-        public List<OrderItem> OrderItems { get; set; }
+        public string UserID { get; set; }
         public double Total { get; set; }
         public DateTime Creation { get; set; }
-        public DateTime Closed { get; set; }
-        public int Status { get; set; }
+        public bool Closed { get; set; }
+        public string Status { get; set; }
 
-
-
-
+        public double CalculateTotal(IEnumerable<OrderItem> l)
+        {
+            double t = 0;
+            foreach (var i in l)
+            {
+                t += i.Amount;
+            }
+            return t;
+        }
     }
 }

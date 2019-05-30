@@ -8,8 +8,8 @@ namespace MovieStore.Models
     public class MovieActor
     {
         public Guid MovieActorID { get; set; }
-        public Movie Movie { get; set; }
-        public Actor Actor { get; set; }
+        public Guid MovieID { get; set; }
+        public Guid ActorID { get; set; }
 
     }
 }

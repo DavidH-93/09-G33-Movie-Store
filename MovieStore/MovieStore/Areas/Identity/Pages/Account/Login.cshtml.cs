@@ -10,19 +10,28 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using MovieStore.Models;
+using MovieStore.Services;
+using MovieStore.Data;
 
 namespace MovieStore.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
+        private readonly MovieStoreDbContext _context;
+        private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IAccessLogRepository _accessRepo;
 
-        public LoginModel(SignInManager<User> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(UserManager<User> userManager, SignInManager<User> signInManager, MovieStoreDbContext context, ILogger<LoginModel> logger, IAccessLogRepository accessRepo
+            )
         {
+            _context = context;
+            _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _accessRepo = accessRepo;
         }
 
         [BindProperty]
@@ -38,8 +47,7 @@ namespace MovieStore.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
-            public string Email { get; set; }
+            public string UserName { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
@@ -72,13 +80,25 @@ namespace MovieStore.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
+
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+                var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
+                    
+                    AccessLog log = new AccessLog()
+                    {
+                        UserID = _context.User.First(u => u.UserName == Input.UserName).Id,
+                        AccessType = "Logged In",
+                        LogTime = DateTime.Now
+                    };
+                    _accessRepo.Create(log);
+                   
+
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
+
                 }
                 if (result.RequiresTwoFactor)
                 {

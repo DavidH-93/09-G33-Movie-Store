@@ -3,21 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-
+using Microsoft.AspNetCore.Http;
 
 namespace MovieStore.ViewModels
 {
     public class MovieViewModel
     {
+        public Guid MovieID { get; set; }
         [Required]
         [Display(Name = "Title")]
         public string Title { get; set; }
+        //[Required]
+        //[Display(Name = "Image")]
+        //public IFormFile MovieImageUpload { get; set; }
+
         [Required]
         [Display(Name = "Description")]
         public string Description { get; set; }
         [Required]
         [Display(Name = "Duration")]
-        public TimeSpan Duration { get; set; }
+        public int Duration { get; set; }
         [Required]
         [Display(Name = "Price")]
         public double Price { get; set; }
@@ -30,18 +35,20 @@ namespace MovieStore.ViewModels
 
         [Required]
         [Display(Name = "Genre")]
-        public List<GenreViewModel> Genres { get; set; }
+        public GenreViewModel Genre { get; set; }
         [Required]
         [Display(Name ="Actor")]
-        public List<ActorViewModel> Actors { get; set; }
+        public ActorViewModel Actor { get; set; }
         [Required]
         [Display(Name ="Director")]
-        public List<DirectorViewModel> Directors { get; set; }
+        public DirectorViewModel Director { get; set; }
         [Required]
         [Display(Name = "Producer")]
-        public List<ProducerViewModel> Producers { get; set; }
+        public ProducerViewModel Producer { get; set; }
         [Required]
         [Display(Name = "Studio")]
-        public List<StudioViewModel> Studios { get; set; }
+        public StudioViewModel Studio { get; set; }
+
+        public int Amount { get; set; }
     }
 }
