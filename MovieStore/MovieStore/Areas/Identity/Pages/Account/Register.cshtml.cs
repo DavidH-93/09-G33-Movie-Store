@@ -244,8 +244,10 @@ namespace MovieStore.Areas.Identity.Pages.Account
                     }
 
                     if (user.Position == null)
+                    {
                         user.Position = Input.Position;
                         await _userManager.AddToRoleAsync(user, "Customer");
+                    }
 
                     user.LockoutEnabled = false;
                     await _userManager.UpdateAsync(user);
