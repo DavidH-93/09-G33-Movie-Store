@@ -17,8 +17,10 @@ namespace MovieStore {
                 try {
                     var serviceProvider = services.GetRequiredService<IServiceProvider>();
                     var configuration = services.GetRequiredService<IConfiguration>();
+                    var context = services.GetRequiredService<MovieStoreDbContext>();
 
                     Seed.CreateRoles(serviceProvider, configuration).Wait();
+                    Seed.SeedCustomers(serviceProvider, configuration, context).Wait();
                 }
                 catch (Exception exception) {
                     var logger = services.GetRequiredService<ILogger<Program>>();

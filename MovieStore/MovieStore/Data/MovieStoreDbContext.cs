@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,23 +17,6 @@ namespace MovieStore.Data
         public DbSet<Region> Region { get; set; }
         public DbSet<PostCode> PostCode { get; set; }
         public DbSet<Movie> Movie { get; set; }
-        public DbSet<Actor> Actor { get; set; }
-        public DbSet<Genre> Genre { get; set; }
-        public DbSet<Director> Director { get; set; }
-
-        internal Task GetUserAsync(ClaimsPrincipal user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public DbSet<Producer> Producer { get; set; }
-        public DbSet<Studio> Studio { get; set; }
-        public DbSet<MovieActor> MovieActor { get; set; }
-        public DbSet<MovieDirector> MovieDirector { get; set; }
-        public DbSet<MovieGenre> MovieGenre { get; set; }
-        public DbSet<MovieProducer> MovieProducer { get; set; }
-        public DbSet<MovieStudio> MovieStudio { get; set; }
-
         public DbSet<Order> Order { get; set; }
         public DbSet<OrderItem> OrderItem { get; set; } 
 

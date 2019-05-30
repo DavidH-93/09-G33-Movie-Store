@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MovieStore.ViewModels.UserEditViewModel>
+﻿@model IEnumerable<MovieStore.ViewModels.UserViewModel>
 
 @{
     ViewData["Title"] = "Customer List";
@@ -19,17 +19,15 @@
         <input type="submit" value="Filter" />
     </p>
 </form>
-
 <form asp-controller="CustomerAdmin" asp-action="Index">
     <p>
         Search by Phone: <input type="text" name="phoneSearchString">
         <input type="submit" value="Filter" />
     </p>
 </form>
-
 <form asp-controller="CustomerAdmin" asp-action="Index">
     <p>
-        Search by Type:&nbsp;&nbsp;&nbsp; <input type="text" name="typeSearchString">
+        Search by Type:&nbsp;&nbsp;&nbsp; <input type="text" name="positionSearchString">
         <input type="submit" value="Filter" />
     </p>
 </form>
@@ -50,10 +48,10 @@
                 Location
             </th>
             <th>
-                Type
+                @Html.DisplayNameFor(model => model.Position)
             </th>
             <th>
-                Locked Out Status
+                @Html.DisplayNameFor(model => model.LockoutEnabled)
             </th>
             <th>
                 Options
@@ -74,10 +72,10 @@
                 @item.PhoneNumber
             </td>
             <td>
-                @item.Address.City.Name&nbsp;@item.Address.Region.Name
+                @item.Address.City.Name,&nbsp;@item.Address.Region.Name
             </td>
             <td>
-                @item.Type
+                @item.Position
             </td>
             <td>
                 @item.LockoutEnabled

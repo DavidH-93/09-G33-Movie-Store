@@ -6,10 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="JsonNet.ContractResolvers" Version="1.1.0" />
+    <PackageReference Include="JsonNet.PrivateSettersContractResolvers.Source" Version="0.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" PrivateAssets="All" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="Stripe" Version="1.12.0" />
     <PackageReference Include="Stripe.net" Version="25.19.0" />
   </ItemGroup>
@@ -19,6 +24,7 @@
     <Folder Include="Areas\Identity\Services\" />
   </ItemGroup>
 
+<<<<<<< HEAD
   <ItemGroup>
     <Content Update="Views\Staff\Create.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
@@ -55,6 +61,8 @@
     </Content>
   </ItemGroup>
 
+=======
+>>>>>>> 2bc623a57f5b2fb2a9507d53b2e5f879a82e3290
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

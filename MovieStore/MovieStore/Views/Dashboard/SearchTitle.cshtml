@@ -1,0 +1,129 @@
+﻿@model List<MovieStore.ViewModels.DashboardMovieViewModel>
+
+@{
+    ViewData["Title"] = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="containter-fluid">
+
+    <div class="row">
+        <div class="col-2">
+            <div class="card bg-transparent border-light">
+                <div class="card-body">
+                    <h5 class="card-title">Search for Titles</h5>
+                    <form id="search-form" asp-controller="Dashboard" asp-action="SearchTitle" class="form form-inline" method="post">
+                        <div class="form-group">
+                            <input class="form-control" type="search" placeholder="Title" name="title" aria-label="Search" />
+                            <button class="btn btn-outline-light" type="submit">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card bg-transparent border-light">
+                <div class="card-body">
+                    <h5 class="card-title">Search for Genres</h5>
+                    <form id="search-form" asp-controller="Dashboard" asp-action="SearchGenre" class="form form-inline" method="post">
+                        <div class="form-group">
+                            <input class="form-control" type="search" placeholder="Genre" name="genre" aria-label="Search" />
+                            <button class="btn btn-outline-light" type="submit">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <h4 class="display-4">
+            Results
+        </h4>
+        <div class="container">
+            <table class="table text-white bg-transparent">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            MovieID
+                        </th>
+                        <th scope="col">
+                            Title
+                        </th>
+                        <th scope="col">
+                            Description
+                        </th>
+                        <th scope="col">
+                            Price
+                        </th>
+                        <th scope="col">
+                            Stock
+                        </th>
+                        <th scope="col">
+                            Release
+                        </th>
+                        <th scope="col">
+                            Duration
+                        </th>
+                        <th scope="col">
+                            Rating
+                        </th>
+                        <th scope="col">
+                            Genre
+                        </th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MovieID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Stock)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Release)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Duration)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Rating)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Genre)
+                            </td>
+                            <td>
+                                <a asp-controller="Dashboard" asp-action="Edit" asp-route-id="@item.MovieID" class="btn btn-primary">Edit</a>
+                                <a asp-controller="Dashboard" asp-action="Delete" asp-route-id="@item.MovieID" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-2">
+            <div class="card bg-transparent text-white border-primary">
+                <div class="card-header">
+                    Actions
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-transparent">
+                        <a asp-controller="Dashboard" asp-action="Create" class="btn btn-success btn-block">New</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

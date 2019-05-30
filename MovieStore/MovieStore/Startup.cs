@@ -48,16 +48,6 @@ namespace MovieStore
             services.AddMvc();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMovieRepository, MovieRepository>();
-            services.AddScoped<IGenreRepository, GenreRepository>();
-            services.AddScoped<IActorRepository, ActorRepository>();
-            services.AddScoped<IDirectorRepository, DirectorRepository>();
-            services.AddScoped<IProducerRepository, ProducerRepository>();
-            services.AddScoped<IStudioRepository, StudioRepository>();
-            services.AddScoped<IMovieGenreRepository, MovieGenreRepository>();
-            services.AddScoped<IMovieActorRepository, MovieActorRepository>();
-            services.AddScoped<IMovieDirectorRepository, MovieDirectorRepository>();
-            services.AddScoped<IMovieProducerRepository, MovieProducerRepository>();
-            services.AddScoped<IMovieStudioRepository, MovieStudioRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderItemRepository, OrderItemRepository>();
             services.AddScoped<IAccessLogRepository, AccessLogRepository>();
@@ -82,6 +72,8 @@ namespace MovieStore
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+           
+            app.UseAuthentication();
             app.UseCookiePolicy();
 
             app.UseAuthentication();
@@ -92,8 +84,10 @@ namespace MovieStore
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            //var movieData = System.IO.File.ReadAllText(@"C:\Users\efbdi\Source\Repos\Movie Store\MovieStore\MovieStore\Data\Movie.json");
-            //Seeder.Seed(movieData, app.ApplicationServices);
+            var movieData = System.IO.File.ReadAllText(@"Data\Movie.json");
+
+            Seeder.Seed(movieData,  app.ApplicationServices);
+
         }
     }
 }

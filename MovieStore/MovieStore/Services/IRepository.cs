@@ -14,5 +14,7 @@ namespace MovieStore.Services
         bool Delete(T entity);
         T GetSingle(Expression<Func<T, bool>> predicate);
         IEnumerable<T> Query(Expression<Func<T, bool>> predicate);
+        T UpdateN(T Entity);
+        void SaveChanges();
     }
 }

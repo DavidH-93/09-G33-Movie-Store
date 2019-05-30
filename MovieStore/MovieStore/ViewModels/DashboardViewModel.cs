@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace MovieStore.ViewModels
 {
-    public class CatalogueStudioViewModel
+    public class DashboardViewModel
     {
-        public Guid StudioID { get; set; }
-        public string Name { get; set; }
+        public List<DashboardMovieViewModel> Movies { get; set; }
     }
 }
