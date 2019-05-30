@@ -416,7 +416,8 @@ namespace MovieStore.Controllers
             User user = _context.User.FirstOrDefault(u => u.Email == id);
 
             var ordersQuery = from o in _context.Order
-                         where o.UserID == user.Id
+                         where o.UserID == user.Id 
+                         && o.Closed == false
                          select o;
             var orders = ordersQuery.ToList();
 
