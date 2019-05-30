@@ -40,8 +40,7 @@ namespace MovieStore
             });
 
             services.AddDbContext<MovieStoreDbContext>();
-            services.AddDefaultIdentity<User>()
-                .AddRoles<IdentityRole>()
+            services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<MovieStoreDbContext>()
                 .AddDefaultTokenProviders()
                 .AddDefaultUI();
