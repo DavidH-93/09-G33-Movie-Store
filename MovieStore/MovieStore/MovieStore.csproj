@@ -6,11 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20190521070120_AccessLogs.cs" />
-    <Compile Remove="Migrations\20190521070120_AccessLogs.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="JsonNet.ContractResolvers" Version="1.1.0" />
     <PackageReference Include="JsonNet.PrivateSettersContractResolvers.Source" Version="0.1.0">
       <PrivateAssets>all</PrivateAssets>
