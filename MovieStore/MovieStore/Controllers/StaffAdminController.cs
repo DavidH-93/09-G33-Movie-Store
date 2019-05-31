@@ -20,10 +20,10 @@ namespace MovieStore.Controllers
 
         private readonly MovieStoreDbContext _context;
 
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<Staff> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public StaffAdminController(MovieStoreDbContext context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public StaffAdminController(MovieStoreDbContext context, UserManager<Staff> userManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
 
