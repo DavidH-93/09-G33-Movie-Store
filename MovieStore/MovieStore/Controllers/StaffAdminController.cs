@@ -31,14 +31,14 @@ namespace MovieStore.Controllers
             _roleManager = roleManager;
         }
 
-        public async Task<IActionResult> Index(string nameSearchString, string phoneSearchString, string TypeSearchString)
+        public async Task<IActionResult> Index(string nameSearchString, string phoneSearchString, string typeSearchString)
         {
             var staffs = from a in _context.Roles
                         join h in _context.UserRoles on a.Id equals h.RoleId
                         join c in _context.User on h.UserId equals c.Id
                         into temp
                         from m in temp
-                        where a.Name == "Customer"
+                        where a.Name == "Staff"
                         select m;
 
             if (!String.IsNullOrEmpty(nameSearchString))
@@ -59,9 +59,9 @@ namespace MovieStore.Controllers
                 staffs = staffs.Where(s => s.PhoneNumber.Contains(phoneSearchString.Trim()));
             }
 
-            if (!String.IsNullOrEmpty(TypeSearchString))
+            if (!String.IsNullOrEmpty(typeSearchString))
             {
-                staffs = staffs.Where(s => s.Type.Contains(TypeSearchString.Trim()));
+                staffs = staffs.Where(s => s.Position.Contains(typeSearchString.Trim()));
             }
 
             return View(await staffs.Select(staff => new StaffEditViewModel
@@ -70,7 +70,7 @@ namespace MovieStore.Controllers
                 FirstName = staff.FirstName,
                 LastName = staff.LastName,
                 PhoneNumber = staff.PhoneNumber,
-                Type = staff.Type,
+                Position = staff.Position,
                 Address = new AddressViewModel
                 {
                     City = new CityViewModel
@@ -114,7 +114,7 @@ namespace MovieStore.Controllers
                 LastName = staff.LastName,
                 Email = staff.Email,
                 PhoneNumber = staff.PhoneNumber,
-                Type = staff.Type,
+                Position = staff.Position,
                 Address = new AddressViewModel
                 {
                     Line1 = address.Line1,
@@ -149,7 +149,7 @@ namespace MovieStore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("UserName, FirstName, LastName, Email, Password, PhoneNumber, Type, Address")] StaffViewModel StaffViewModel)
+        public async Task<IActionResult> Create([Bind("UserName, FirstName, LastName, Email, Password, PhoneNumber, Position, Address")] StaffViewModel StaffViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -234,7 +234,7 @@ namespace MovieStore.Controllers
                     LastName = StaffViewModel.LastName,
                     Email = StaffViewModel.Email,
                     PhoneNumber = StaffViewModel.PhoneNumber,
-                    Type = StaffViewModel.Type,
+                    Position = StaffViewModel.Position,
                     AddressID = address.AddressID,
                 }, StaffViewModel.Password);
 
@@ -276,7 +276,7 @@ namespace MovieStore.Controllers
                 LastName = staff.LastName,
                 Email = staff.Email,
                 PhoneNumber = staff.PhoneNumber,
-                Type = staff.Type,
+                Position = staff.Position,
                 Address = new AddressViewModel
                 {
                     Line1 = address.Line1,
@@ -307,7 +307,7 @@ namespace MovieStore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(string id, [Bind("UserName, FirstName, LastName, Email, PhoneNumber, Type, Address, LockoutEnabled")] StaffEditViewModel StaffViewModel)
+        public async Task<IActionResult> Edit(string id, [Bind("UserName, FirstName, LastName, Email, PhoneNumber, Position, Address, LockoutEnabled")] StaffEditViewModel StaffViewModel)
         {
             if (id != StaffViewModel.Email)
             {
@@ -323,7 +323,7 @@ namespace MovieStore.Controllers
                 staff.LastName = StaffViewModel.LastName;
                 staff.Email = StaffViewModel.Email;
                 staff.PhoneNumber = StaffViewModel.PhoneNumber;
-                staff.Type = StaffViewModel.Type;
+                staff.Position = StaffViewModel.Position;
 
                 Address address = _context.Address.FirstOrDefault(l => l.AddressID == staff.AddressID);
 
