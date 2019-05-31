@@ -310,6 +310,8 @@ namespace MovieStore.Migrations
 
                     b.Property<double>("Total");
 
+                    b.Property<double>("TotalCents");
+
                     b.Property<string>("UserID");
 
                     b.HasKey("OrderID");

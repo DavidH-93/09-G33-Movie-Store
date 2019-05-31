@@ -59,31 +59,33 @@ namespace MovieStore.Controllers
                 staffs = staffs.Where(s => s.PhoneNumber.Contains(phoneSearchString.Trim()));
             }
 
-            if (!String.IsNullOrEmpty(typeSearchString))
+            /*if (!String.IsNullOrEmpty(typeSearchString))
             {
                 staffs = staffs.Where(s => s.Type.Contains(typeSearchString.Trim()));
-            }
+            }*/
 
-            return View(await staffs.Select(staff => new StaffEditViewModel
-            {
-                Email = staff.Email,
-                FirstName = staff.FirstName,
-                LastName = staff.LastName,
-                PhoneNumber = staff.PhoneNumber,
-                Type = staff.Type,
-                Address = new AddressViewModel
-                {
-                    City = new CityViewModel
-                    {
-                        Name = _context.City.FirstOrDefault(c => c.CityID == (_context.Address.FirstOrDefault(a => a.AddressID == staff.AddressID).CityID)).Name
-                    },
-                    Region = new RegionViewModel
-                    {
-                        Name = _context.Region.FirstOrDefault(r => r.RegionID == (_context.Address.FirstOrDefault(a => a.AddressID == staff.AddressID).RegionID)).Name
-                    }
-                },
-                LockoutEnabled = staff.LockoutEnabled
-            }).ToListAsync());
+            //return View(await staffs.Select(staff => new StaffEditViewModel
+            //{
+            //    Email = staff.Email,
+            //    FirstName = staff.FirstName,
+            //    LastName = staff.LastName,
+            //    PhoneNumber = staff.PhoneNumber,
+            //    Type = staff.Type,
+            //    Address = new AddressViewModel
+            //    {
+            //        City = new CityViewModel
+            //        {
+            //            Name = _context.City.FirstOrDefault(c => c.CityID == (_context.Address.FirstOrDefault(a => a.AddressID == staff.AddressID).CityID)).Name
+            //        },
+            //        Region = new RegionViewModel
+            //        {
+            //            Name = _context.Region.FirstOrDefault(r => r.RegionID == (_context.Address.FirstOrDefault(a => a.AddressID == staff.AddressID).RegionID)).Name
+            //        }
+            //    },
+            //    LockoutEnabled = staff.LockoutEnabled
+            //}).ToListAsync());
+
+            return View();
         }
 
         public async Task<IActionResult> Details(string id)
@@ -107,40 +109,42 @@ namespace MovieStore.Controllers
             Region region = _context.Region.FirstOrDefault(l => l.RegionID == address.RegionID);
             Country country = _context.Country.FirstOrDefault(l => l.CountryID == address.CountryID);
 
-            return View(new StaffViewModel
-            {
-                UserName = staff.UserName,
-                FirstName = staff.FirstName,
-                LastName = staff.LastName,
-                Email = staff.Email,
-                PhoneNumber = staff.PhoneNumber,
-                Type = staff.Type,
-                Address = new AddressViewModel
-                {
-                    Line1 = address.Line1,
-                    Line2 = address.Line2,
-                    Locality = new LocalityViewModel
-                    {
-                        Name = locality.Name
-                    },
-                    City = new CityViewModel
-                    {
-                        Name = city.Name
-                    },
-                    PostCode = new PostCodeViewModel
-                    {
-                        Code = postcode.Code
-                    },
-                    Region = new RegionViewModel
-                    {
-                        Name = region.Name
-                    },
-                    Country = new CountryViewModel
-                    {
-                        Name = country.Name
-                    }
-                }
-            });
+            //return View(new StaffViewModel
+            //{
+            //    UserName = staff.UserName,
+            //    FirstName = staff.FirstName,
+            //    LastName = staff.LastName,
+            //    Email = staff.Email,
+            //    PhoneNumber = staff.PhoneNumber,
+            //    Type = staff.Type,
+            //    Address = new AddressViewModel
+            //    {
+            //        Line1 = address.Line1,
+            //        Line2 = address.Line2,
+            //        Locality = new LocalityViewModel
+            //        {
+            //            Name = locality.Name
+            //        },
+            //        City = new CityViewModel
+            //        {
+            //            Name = city.Name
+            //        },
+            //        PostCode = new PostCodeViewModel
+            //        {
+            //            Code = postcode.Code
+            //        },
+            //        Region = new RegionViewModel
+            //        {
+            //            Name = region.Name
+            //        },
+            //        Country = new CountryViewModel
+            //        {
+            //            Name = country.Name
+            //        }
+            //    }
+            //});
+
+            return View();
         }
 
         public IActionResult Create()
