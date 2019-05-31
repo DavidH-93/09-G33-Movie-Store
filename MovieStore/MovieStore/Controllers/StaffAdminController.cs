@@ -38,7 +38,7 @@ namespace MovieStore.Controllers
                         join c in _context.User on h.UserId equals c.Id
                         into temp
                         from m in temp
-                        where a.Name == "Staff"
+                        where a.Name == "Customer"
                         select m;
 
             if (!String.IsNullOrEmpty(nameSearchString))
@@ -70,7 +70,7 @@ namespace MovieStore.Controllers
                 FirstName = staff.FirstName,
                 LastName = staff.LastName,
                 PhoneNumber = staff.PhoneNumber,
-                Position = staff.Type,
+                Type = staff.Type,
                 Address = new AddressViewModel
                 {
                     City = new CityViewModel
@@ -114,7 +114,7 @@ namespace MovieStore.Controllers
                 LastName = staff.LastName,
                 Email = staff.Email,
                 PhoneNumber = staff.PhoneNumber,
-                Position = staff.Type,
+                Type = staff.Type,
                 Address = new AddressViewModel
                 {
                     Line1 = address.Line1,
@@ -234,7 +234,7 @@ namespace MovieStore.Controllers
                     LastName = StaffViewModel.LastName,
                     Email = StaffViewModel.Email,
                     PhoneNumber = StaffViewModel.PhoneNumber,
-                    Type = StaffViewModel.Position,
+                    Type = StaffViewModel.Type,
                     AddressID = address.AddressID,
                 }, StaffViewModel.Password);
 
@@ -276,7 +276,7 @@ namespace MovieStore.Controllers
                 LastName = staff.LastName,
                 Email = staff.Email,
                 PhoneNumber = staff.PhoneNumber,
-                Position = staff.Type,
+                Type = staff.Type,
                 Address = new AddressViewModel
                 {
                     Line1 = address.Line1,
@@ -323,7 +323,7 @@ namespace MovieStore.Controllers
                 staff.LastName = StaffViewModel.LastName;
                 staff.Email = StaffViewModel.Email;
                 staff.PhoneNumber = StaffViewModel.PhoneNumber;
-                staff.Type = StaffViewModel.Position;
+                staff.Type = StaffViewModel.Type;
 
                 Address address = _context.Address.FirstOrDefault(l => l.AddressID == staff.AddressID);
 
