@@ -15,7 +15,8 @@ using Stripe;
 namespace MovieStore.Controllers
 
 {
-    public class PaymentController : Controller {
+    public class PaymentController : Controller
+    {
         private static long PaymentTotal;
         private static Models.Order orderInstance;
         private static IEnumerable<Models.OrderItem> orderItemsInstance;
@@ -42,15 +43,16 @@ namespace MovieStore.Controllers
             foreach (var item in orderItemsInstance)
             {
                 var movie = _movieRepo.GetSingle(o => o.MovieID == item.MovieID);
-                if (movie != null) {
-                    movie.Quantity -= item.Amount;
+                if (movie != null)
+                {
+                    movie.Stock -= item.Quantity;
                     _movieRepo.Update(movie);
                 }
             }
             orderInstance.Closed = true;
             orderInstance.Status = "Payment Recieved";
             _orderRepo.Update(orderInstance);
-            
+
             PaymentTotal = (long)orderInstance.Total * 100;
             vm = new OrderViewModel()
             {
@@ -68,7 +70,7 @@ namespace MovieStore.Controllers
         {
             var customers = new CustomerService();
             var charges = new ChargeService();
-            
+
             var customer = customers.Create(new CustomerCreateOptions
             {
                 Email = stripeEmail,
@@ -86,26 +88,6 @@ namespace MovieStore.Controllers
 
             return View();
         }
-        //[HttpPost]
-        //public IActionResult Charge(string StripeEmail, string StripeToken)
-        //{
-
-        //    var customerService = new CustomerService();
-        //    var chargeService = new ChargeService();
-
-        //    var customer = customerService.Create(new CustomerCreateOptions { 
-        //        Email = StripeEmail,
-        //        SourceToken = StripeToken
-        //    });
-
-        //    var charge = chargeService.Create(new ChargeCreateOptions {
-        //        Amount = 500,
-        //        Description = "Movie Store Stripe Test",
-        //        Currency = "aud",
-        //        CustomerId = customer.Id
-        //    });
-        //    return View();
-        //}
 
     }
 }

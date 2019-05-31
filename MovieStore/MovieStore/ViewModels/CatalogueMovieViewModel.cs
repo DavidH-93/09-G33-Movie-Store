@@ -10,16 +10,12 @@ namespace MovieStore.ViewModels
         public Guid MovieID { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public int Duration { get; set; }
         public double Price { get; set; }
-        public int Quantity { get; set; }
-        public DateTime ReleaseDate { get; set; }
-
-        public List<CatalogueGenreViewModel> Genres { get; set; }
-        public List<CatalogueActorViewModel> Cast { get; set; }
-        public List<CatalogueDirectorViewModel> Directors { get; set; }
-        public List<CatalogueProducerViewModel> Producers { get; set; }
-        public CatalogueStudioViewModel Studio { get; set; }  
+        public int Stock { get; set; }
+        public string Release { get; set; }
+        public int Duration { get; set; }
+        public int Rating { get; set; }
+        public string Genre { get; set; }
 
     }
 }

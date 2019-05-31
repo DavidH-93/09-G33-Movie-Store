@@ -5,52 +5,58 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card bg-transparent border-light">
+                <div class="card-header">
+                    Order Summary
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush bg-transparent border-light">
+                        <li class="list-group-item bg-transparent text-white">Quantity: @Model.NumItems</li>
+                        <li class="list-group-item bg-transparent text-white">Total: @Model.Total</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <div class="btn-group btn-group-justified">
+                        <a asp-controller="Order" asp-action="Cancel" asp-route-id="@Model.OrderID" class="btn btn-danger">Cancel</a>
+                        <a asp-controller="Payment" asp-action="Index" asp-route-id="@Model.OrderID" class="btn btn-warning">Pay</a>
+                        <a asp-controller="Order" asp-action="History" class="btn btn-primary">History</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            <ul class="list-unstyled">
+                @foreach (var item in Model.OrderItems)
+                {
+                    <li class="media">
+                        <div class="media-body">
+                            <div class="card bg-transparent border-success">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        @item.Title
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush bg-transparent border-success">
+                                        <li class="list-group-item bg-transparent text-white">Price: @item.Price</li>
+                                        <li class="list-group-item bg-transparent text-white">Quantity: @item.Quantity</li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer bg-transparent border-danger">
+                                    <div class="btn-group">
+                                        <a asp-controller="Catalogue" asp-action="Details" asp-route-id="@item.MovieID" class="btn btn-info">Details</a>
+                                        <a asp-controller="Order" asp-action="Remove" asp-route-id="@item.OrderItemID" class="btn btn-danger pull-right">Remove</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <td>
-                TItle
-            </td>
-            <td>
-                Quantity
-            </td>
-            <td>
-                Price
-            </td>
-            <td>
-                Total
-            </td>
-            <td>
-                @Html.ActionLink("Remove", "Remove")
-            </td>
-        </tr>
-     </thead>
-        @foreach (var item in Model.OrderItems)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Movie.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Total)
-                </td>
-                <td>
-                    @Html.ActionLink("Remove", "Remove", new { id = item.OrderItemID })
-                </td>
-            </tr>
-        }
-    </tbody>
-    @Html.DisplayNameFor(model => model.Total)
-
-</table>
+    </div>
+    </div>

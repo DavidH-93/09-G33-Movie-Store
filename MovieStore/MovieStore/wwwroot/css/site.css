@@ -12,11 +12,8 @@ color:#ffffff;
 #nav {
     margin-bottom:0;
 }
-#home-a, #account-a, #logout-btn, #catalogue-a, #order-a, #admin-a, #dashboard-a, #staff-a {
+#home-a, #logout-btn, #catalogue-a, #order-a, #admin-a, #dashboard-a, #staff-a, #payment-a {
     color: #ffffff;
-}
-#home-a {
-    padding-top:20px;
 }
 #search-form {
 }

@@ -201,24 +201,6 @@ namespace MovieStore.Migrations
                     b.ToTable("AccessLog");
                 });
 
-            modelBuilder.Entity("MovieStore.Models.Actor", b =>
-                {
-                    b.Property<Guid>("ActorID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("DOB");
-
-                    b.Property<string>("FirstName");
-
-                    b.Property<string>("Gender");
-
-                    b.Property<string>("LastName");
-
-                    b.HasKey("ActorID");
-
-                    b.ToTable("Actor");
-                });
-
             modelBuilder.Entity("MovieStore.Models.Address", b =>
                 {
                     b.Property<Guid>("AddressID")
@@ -271,36 +253,6 @@ namespace MovieStore.Migrations
                     b.ToTable("Country");
                 });
 
-            modelBuilder.Entity("MovieStore.Models.Director", b =>
-                {
-                    b.Property<Guid>("DirectorID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("DOB");
-
-                    b.Property<string>("FirstName");
-
-                    b.Property<string>("Gender");
-
-                    b.Property<string>("LastName");
-
-                    b.HasKey("DirectorID");
-
-                    b.ToTable("Director");
-                });
-
-            modelBuilder.Entity("MovieStore.Models.Genre", b =>
-                {
-                    b.Property<Guid>("GenreID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("GenreID");
-
-                    b.ToTable("Genre");
-                });
-
             modelBuilder.Entity("MovieStore.Models.Locality", b =>
                 {
                     b.Property<Guid>("LocalityID")
@@ -326,89 +278,21 @@ namespace MovieStore.Migrations
 
                     b.Property<int>("Duration");
 
-                    b.Property<double>("Price");
+                    b.Property<string>("Genre");
 
-                    b.Property<int>("Quantity");
+                    b.Property<double>("Price");
 
                     b.Property<int>("Rating");
 
-                    b.Property<DateTime>("ReleaseDate");
+                    b.Property<string>("Release");
+
+                    b.Property<int>("Stock");
 
                     b.Property<string>("Title");
 
                     b.HasKey("MovieID");
 
                     b.ToTable("Movie");
-                });
-
-            modelBuilder.Entity("MovieStore.Models.MovieActor", b =>
-                {
-                    b.Property<Guid>("MovieActorID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("ActorID");
-
-                    b.Property<Guid>("MovieID");
-
-                    b.HasKey("MovieActorID");
-
-                    b.ToTable("MovieActor");
-                });
-
-            modelBuilder.Entity("MovieStore.Models.MovieDirector", b =>
-                {
-                    b.Property<Guid>("MovieDirectorID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("DirectorID");
-
-                    b.Property<Guid>("MovieID");
-
-                    b.HasKey("MovieDirectorID");
-
-                    b.ToTable("MovieDirector");
-                });
-
-            modelBuilder.Entity("MovieStore.Models.MovieGenre", b =>
-                {
-                    b.Property<Guid>("MovieGenreID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("GenreID");
-
-                    b.Property<Guid>("MovieID");
-
-                    b.HasKey("MovieGenreID");
-
-                    b.ToTable("MovieGenre");
-                });
-
-            modelBuilder.Entity("MovieStore.Models.MovieProducer", b =>
-                {
-                    b.Property<Guid>("MovieProducerID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("MovieID");
-
-                    b.Property<Guid>("ProducerID");
-
-                    b.HasKey("MovieProducerID");
-
-                    b.ToTable("MovieProducer");
-                });
-
-            modelBuilder.Entity("MovieStore.Models.MovieStudio", b =>
-                {
-                    b.Property<Guid>("MovieStudioID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("MovieID");
-
-                    b.Property<Guid>("StudioID");
-
-                    b.HasKey("MovieStudioID");
-
-                    b.ToTable("MovieStudio");
                 });
 
             modelBuilder.Entity("MovieStore.Models.Order", b =>
@@ -419,6 +303,8 @@ namespace MovieStore.Migrations
                     b.Property<bool>("Closed");
 
                     b.Property<DateTime>("Creation");
+
+                    b.Property<int>("NumItems");
 
                     b.Property<string>("Status");
 
@@ -436,13 +322,17 @@ namespace MovieStore.Migrations
                     b.Property<Guid>("OrderItemID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Amount");
-
                     b.Property<Guid>("MovieID");
 
                     b.Property<Guid>("OrderID");
 
                     b.Property<double>("Price");
+
+                    b.Property<int>("Quantity");
+
+                    b.Property<string>("Title");
+
+                    b.Property<double>("Total");
 
                     b.Property<string>("UserID");
 
@@ -461,24 +351,6 @@ namespace MovieStore.Migrations
                     b.HasKey("PostCodeID");
 
                     b.ToTable("PostCode");
-                });
-
-            modelBuilder.Entity("MovieStore.Models.Producer", b =>
-                {
-                    b.Property<Guid>("ProducerID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("DOB");
-
-                    b.Property<string>("FirstName");
-
-                    b.Property<string>("Gender");
-
-                    b.Property<string>("LastName");
-
-                    b.HasKey("ProducerID");
-
-                    b.ToTable("Producer");
                 });
 
             modelBuilder.Entity("MovieStore.Models.Region", b =>
@@ -501,18 +373,6 @@ namespace MovieStore.Migrations
                     b.ToTable("Region");
                 });
 
-            modelBuilder.Entity("MovieStore.Models.Studio", b =>
-                {
-                    b.Property<Guid>("StudioID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("StudioID");
-
-                    b.ToTable("Studio");
-                });
-
             modelBuilder.Entity("MovieStore.Models.User", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
@@ -522,6 +382,8 @@ namespace MovieStore.Migrations
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
+
+                    b.Property<string>("Position");
 
                     b.ToTable("User");
 

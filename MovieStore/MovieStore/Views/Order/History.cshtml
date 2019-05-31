@@ -1,0 +1,49 @@
+﻿@model List<MovieStore.ViewModels.OrderViewModel>
+
+@{
+    ViewData["Title"] = "History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <ul class="list-unstyled">
+        @foreach (var o in Model)
+        {
+            <li class="media">
+                <div class="media-body">
+                    <div class="card bg-transparent border-primary">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <ul class="list-group bg-transparent list-group-horizontal">
+                                    <li class="list-group-item bg-transparent text-white">Order Created: @o.Creation</li>
+                                    <li class="list-group-item bg-transparent text-white">Total: $@o.Total</li>
+                                    <li class="list-group-item bg-transparent text-white">Quantity: @o.NumItems</li>
+                                    <li class="list-group-item bg-transparent text-white border-success">
+                                        Status: @o.Status
+                                    </li>
+
+                                </ul>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            @foreach (var i in o.OrderItems)
+                            {
+                                <ul class="list-group bg-transparent list-group-horizontal">
+                                    <li class="list-group-item bg-transparent text-white">@i.Quantity</li>
+                                    <li class="list-group-item bg-transparent text-white">@i.Title</li>
+                                    <li class="list-group-item bg-transparent text-white">@i.Price</li>
+                                    <li class="list-group-item bg-transparent text-white">
+                                        <a asp-controller="Catalogue" asp-action="Details" asp-route-id="@i.MovieID" class="btn btn-info">Details</a>
+                                    </li>
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                </div>
+                
+            </li>
+
+        }
+    </ul>
+
+    </div>

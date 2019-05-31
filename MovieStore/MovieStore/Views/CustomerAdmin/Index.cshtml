@@ -1,0 +1,95 @@
+﻿@model IEnumerable<MovieStore.ViewModels.UserViewModel>
+
+@{
+    ViewData["Title"] = "Customer List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customer List</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+    &nbsp;&nbsp;|&nbsp;&nbsp;
+    <a asp-action="Index">Clear Search</a>
+</p>
+
+<form asp-controller="CustomerAdmin" asp-action="Index">
+    <p>
+        Search by Name:&nbsp;&nbsp;<input type="text" name="nameSearchString">
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+<form asp-controller="CustomerAdmin" asp-action="Index">
+    <p>
+        Search by Phone: <input type="text" name="phoneSearchString">
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+<form asp-controller="CustomerAdmin" asp-action="Index">
+    <p>
+        Search by Type:&nbsp;&nbsp;&nbsp; <input type="text" name="positionSearchString">
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                Location
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Position)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LockoutEnabled)
+            </th>
+            <th>
+                Options
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @item.Email
+            </td>
+            <td>
+                @item.FirstName&nbsp;@item.LastName
+            </td>
+            <td>
+                @item.PhoneNumber
+            </td>
+            <td>
+                @item.Address.City.Name,&nbsp;@item.Address.Region.Name
+            </td>
+            <td>
+                @item.Position
+            </td>
+            <td>
+                @item.LockoutEnabled
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Email">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Email">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Email">Delete </a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-controller="Admin" asp-action="Index">Back to Admin Menu</a>
+</div>

@@ -4,40 +4,75 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card bg-transparent border-light">
+                    <div class="card-header">
+                        Search for Titles
+                    </div>
+                    <div class="card-body">
+                        <form id="search-form" asp-controller="Catalogue" asp-action="SearchTitle" class="form form-inline" method="post">
+                            <div class="form-group">
+                                <input class="form-control" type="search" placeholder="Title" name="title" aria-label="Search" />
+                                <button class="btn btn-outline-light" type="submit">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                </button>
+                            </div>
 
-<div id="featured-div" class="container-fluid">
-    <div class="card-group">
-        @foreach (var item in Model.Featured)
-        {
-            <div class="card text-white border-dark bg-transparent mb-4" style="max-width: 22rem;">
-                <div class="card-header">
-                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
-                </div>
-                <div class="card-body">
-                    <p class="card-text"> @Html.DisplayFor(modelItem => item.Description)</p>
-                </div>
-                <ul class="list-group list-group-flush border-dark bg-transparent">
-                    <li class="list-group-item border-dark bg-transparent">@foreach (var i in item.Genres)
-                    {
-                        @Html.DisplayFor(modelItem => i.Name)
-                    }</li>
-                    <li class="list-group-item border-dark bg-transparent">
-                        @Html.DisplayFor(modelItem => item.Duration)
-                    </li>
-                    <li class="list-group-item border-dark bg-transparent">
-                    @Html.DisplayFor(modelItem => item.ReleaseDate)
-                    </li>
-                </ul>
-                <div class="card-footer bg-transparent border-success">
-                    <div class="btn-group-justified" role="group">
-                        <a controller="Catalogue" asp-action="Details" class="btn btn-outline-danger">Details</a>
-                        <a controller="Order" asp-action="Add" class="btn btn-outline-success">
-                            @Html.DisplayFor(modelItem => item.Price)
-                        </a>
+                        </form>
                     </div>
                 </div>
+                <div class="card bg-transparent border-light">
+                        <div class="card-header">
+                            Search for Genres
+                        </div>
+                        <div class="card-body">
+                            <form id="search-form" asp-controller="Catalogue" asp-action="SearchGenre" class="form form-inline" method="post">
+                                <div class="form-group">
+                                    <input class="form-control" type="search" placeholder="Genre" name="genre" aria-label="Search" />
+                                    <button class="btn btn-outline-light" type="submit">
+                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <div class="col-8">
+                <ul class="list-unstyled">
+                    @foreach (var item in Model.Movies)
+                    {
+                        <li class="media">
+                            <div class="media-body">
+                                <div class="card bg-transparent border-danger">
+                                    <div class="card-header">
+                                        <div class="card-title display-4">@item.Title</div>
+                                        <div class="btn-group pull-right" role="group">
+                                            <a asp-controller="Catalogue" asp-action="Details" asp-route-id="@item.MovieID" class="btn btn-info">Details</a>
+                                            <a asp-controller="Order" asp-action="Add" asp-route-id="@item.MovieID" class="btn btn-success">$@item.Price</a>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>Synopsis</p>
+                                        <p class="card-text">
+                                            @item.Description
+                                        </p>
+                                    </div>
+                                    <div class="card-footer bg-transparent">
+                                        <ul class="list-group list-group-horizontal ">
+                                            <li class="list-group-item bg-transparent text-white">@item.Genre</li>
+                                            <li class="list-group-item bg-transparent text-white">Stock: @item.Stock</li>
+                                            <li class="list-group-item bg-transparent text-white">Release: @item.Release</li>
+                                            <li class="list-group-item bg-transparent text-white">Duration: @item.Duration</li>
+                                            <li class="list-group-item bg-transparent text-white">Rating: @item.Rating</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
             </div>
-        }
-
+        </div>
     </div>
-</div>
