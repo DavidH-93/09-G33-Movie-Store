@@ -2,7 +2,7 @@
 
 namespace MovieStore.ViewModels
 {
-    public class UserViewModel
+    public class StaffViewModel
     {
         [Required]
         [StringLength(30)]

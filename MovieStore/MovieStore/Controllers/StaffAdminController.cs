@@ -31,11 +31,11 @@ namespace MovieStore.Controllers
             _roleManager = roleManager;
         }
 
-        public async Task<IActionResult> Index(string nameSearchString, string phoneSearchString, string positionSearchString)
+        public async Task<IActionResult> Index(string nameSearchString, string phoneSearchString, string TypeSearchString)
         {
-            var staff = from a in _context.Roles
-                        join h in _context.staffRoles on a.Id equals h.RoleId
-                        join c in _context.staff on h.staffId equals c.Id
+            var staffs = from a in _context.Roles
+                        join h in _context.UserRoles on a.Id equals h.RoleId
+                        join c in _context.User on h.UserId equals c.Id
                         into temp
                         from m in temp
                         where a.Name == "Staff"
@@ -46,31 +46,31 @@ namespace MovieStore.Controllers
                 if (nameSearchString.Trim().Contains(' '))
                 {
                     String[] names = nameSearchString.Split(' ');
-                    staff = staff.Where(s => s.FirstName.Contains(names[0]) && s.LastName.Contains(names[1]));
+                    staffs = staffs.Where(s => s.FirstName.Contains(names[0]) && s.LastName.Contains(names[1]));
                 }
                 else
                 {
-                    staff = staff.Where(s => s.FirstName.Contains(nameSearchString) || s.LastName.Contains(nameSearchString));
+                    staffs = staffs.Where(s => s.FirstName.Contains(nameSearchString) || s.LastName.Contains(nameSearchString));
                 }
             }
 
             if (!String.IsNullOrEmpty(phoneSearchString))
             {
-                staff = staff.Where(s => s.PhoneNumber.Contains(phoneSearchString.Trim()));
+                staffs = staffs.Where(s => s.PhoneNumber.Contains(phoneSearchString.Trim()));
             }
 
-            if (!String.IsNullOrEmpty(positionSearchString))
+            if (!String.IsNullOrEmpty(TypeSearchString))
             {
-                staff = staff.Where(s => s.Position.Contains(positionSearchString.Trim()));
+                staffs = staffs.Where(s => s.Type.Contains(TypeSearchString.Trim()));
             }
 
-            return View(await staff.Select(staff => new staffEditViewModel
+            return View(await staffs.Select(staff => new StaffEditViewModel
             {
                 Email = staff.Email,
                 FirstName = staff.FirstName,
                 LastName = staff.LastName,
                 PhoneNumber = staff.PhoneNumber,
-                Position = staff.Position,
+                Position = staff.Type,
                 Address = new AddressViewModel
                 {
                     City = new CityViewModel
@@ -93,7 +93,7 @@ namespace MovieStore.Controllers
                 return NotFound();
             }
 
-            var staff = await _context.staff.FirstOrDefaultAsync(m => m.Email == id);
+            var staff = await _context.User.FirstOrDefaultAsync(m => m.Email == id);
             if (staff == null)
             {
                 return NotFound();
@@ -109,12 +109,12 @@ namespace MovieStore.Controllers
 
             return View(new StaffViewModel
             {
-                staffName = staff.staffName,
+                UserName = staff.UserName,
                 FirstName = staff.FirstName,
                 LastName = staff.LastName,
                 Email = staff.Email,
                 PhoneNumber = staff.PhoneNumber,
-                Position = staff.Position,
+                Position = staff.Type,
                 Address = new AddressViewModel
                 {
                     Line1 = address.Line1,
@@ -149,7 +149,7 @@ namespace MovieStore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("UserName, FirstName, LastName, Email, Password, PhoneNumber, Position, Address")] StaffViewModel StaffViewModel)
+        public async Task<IActionResult> Create([Bind("UserName, FirstName, LastName, Email, Password, PhoneNumber, Type, Address")] StaffViewModel StaffViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -234,11 +234,11 @@ namespace MovieStore.Controllers
                     LastName = StaffViewModel.LastName,
                     Email = StaffViewModel.Email,
                     PhoneNumber = StaffViewModel.PhoneNumber,
-                    Position = StaffViewModel.Position,
+                    Type = StaffViewModel.Position,
                     AddressID = address.AddressID,
                 }, StaffViewModel.Password);
 
-                staff staff = await _userManager.FindByEmailAsync(StaffViewModel.Email);
+                User staff = await _userManager.FindByEmailAsync(StaffViewModel.Email);
                 staff.LockoutEnabled = false;
                 await _userManager.UpdateAsync(staff);
 
@@ -276,7 +276,7 @@ namespace MovieStore.Controllers
                 LastName = staff.LastName,
                 Email = staff.Email,
                 PhoneNumber = staff.PhoneNumber,
-                Position = staff.Position,
+                Position = staff.Type,
                 Address = new AddressViewModel
                 {
                     Line1 = address.Line1,
@@ -307,7 +307,7 @@ namespace MovieStore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(string id, [Bind("UserName, FirstName, LastName, Email, PhoneNumber, Position, Address, LockoutEnabled")] staffEditViewModel StaffViewModel)
+        public async Task<IActionResult> Edit(string id, [Bind("UserName, FirstName, LastName, Email, PhoneNumber, Type, Address, LockoutEnabled")] StaffEditViewModel StaffViewModel)
         {
             if (id != StaffViewModel.Email)
             {
@@ -318,12 +318,12 @@ namespace MovieStore.Controllers
             {
                 var staff = await _userManager.FindByEmailAsync(id);
 
-                staff.staffName = StaffViewModel.staffName;
+                staff.UserName = StaffViewModel.UserName;
                 staff.FirstName = StaffViewModel.FirstName;
                 staff.LastName = StaffViewModel.LastName;
                 staff.Email = StaffViewModel.Email;
                 staff.PhoneNumber = StaffViewModel.PhoneNumber;
-                staff.Position = StaffViewModel.Position;
+                staff.Type = StaffViewModel.Position;
 
                 Address address = _context.Address.FirstOrDefault(l => l.AddressID == staff.AddressID);
 
@@ -444,7 +444,7 @@ namespace MovieStore.Controllers
 
         private bool StaffViewModelExists(string id)
         {
-            return _context.staff.Any(e => e.Email == id);
+            return _context.User.Any(e => e.Email == id);
         }
     }
 }
