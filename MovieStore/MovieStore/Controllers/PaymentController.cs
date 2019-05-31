@@ -40,15 +40,18 @@ namespace MovieStore.Controllers
             OrderViewModel vm;
             orderInstance = _orderRepo.GetSingle(o => o.OrderID == id);
             orderItemsInstance = _orderItemRepo.Query(i => i.OrderID == orderInstance.OrderID);
-            foreach (var item in orderItemsInstance)
-            {
-                var movie = _movieRepo.GetSingle(o => o.MovieID == item.MovieID);
-                if (movie != null)
+           
+           
+                foreach (var item in orderItemsInstance)
                 {
-                    movie.Stock -= item.Quantity;
-                    _movieRepo.Update(movie);
+                    var movie = _movieRepo.GetSingle(o => o.MovieID == item.MovieID);
+                    if (movie != null)
+                    {
+                        movie.Stock -= item.Quantity;
+                        _movieRepo.Update(movie);
+                    }
                 }
-            }
+          
             orderInstance.Closed = true;
             orderInstance.Status = "Payment Recieved";
             _orderRepo.Update(orderInstance);

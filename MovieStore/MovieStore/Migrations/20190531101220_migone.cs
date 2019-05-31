@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MovieStore.Migrations
 {
-    public partial class Initialise : Migration
+    public partial class migone : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,21 +20,6 @@ namespace MovieStore.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AccessLog", x => x.AccessLogID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Actor",
-                columns: table => new
-                {
-                    ActorID = table.Column<Guid>(nullable: false),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    Gender = table.Column<string>(nullable: true),
-                    DOB = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Actor", x => x.ActorID);
                 });
 
             migrationBuilder.CreateTable(
@@ -91,6 +76,7 @@ namespace MovieStore.Migrations
                     Discriminator = table.Column<string>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
+                    Position = table.Column<string>(nullable: true),
                     AddressID = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -111,33 +97,6 @@ namespace MovieStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Director",
-                columns: table => new
-                {
-                    DirectorID = table.Column<Guid>(nullable: false),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    Gender = table.Column<string>(nullable: true),
-                    DOB = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Director", x => x.DirectorID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Genre",
-                columns: table => new
-                {
-                    GenreID = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Genre", x => x.GenreID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Movie",
                 columns: table => new
                 {
@@ -145,79 +104,15 @@ namespace MovieStore.Migrations
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Price = table.Column<double>(nullable: false),
-                    Quantity = table.Column<int>(nullable: false),
-                    ReleaseDate = table.Column<DateTime>(nullable: false),
+                    Stock = table.Column<int>(nullable: false),
+                    Release = table.Column<string>(nullable: true),
                     Duration = table.Column<int>(nullable: false),
-                    Rating = table.Column<int>(nullable: false)
+                    Rating = table.Column<int>(nullable: false),
+                    Genre = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Movie", x => x.MovieID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MovieActor",
-                columns: table => new
-                {
-                    MovieActorID = table.Column<Guid>(nullable: false),
-                    MovieID = table.Column<Guid>(nullable: false),
-                    ActorID = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MovieActor", x => x.MovieActorID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MovieDirector",
-                columns: table => new
-                {
-                    MovieDirectorID = table.Column<Guid>(nullable: false),
-                    MovieID = table.Column<Guid>(nullable: false),
-                    DirectorID = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MovieDirector", x => x.MovieDirectorID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MovieGenre",
-                columns: table => new
-                {
-                    MovieGenreID = table.Column<Guid>(nullable: false),
-                    MovieID = table.Column<Guid>(nullable: false),
-                    GenreID = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MovieGenre", x => x.MovieGenreID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MovieProducer",
-                columns: table => new
-                {
-                    MovieProducerID = table.Column<Guid>(nullable: false),
-                    MovieID = table.Column<Guid>(nullable: false),
-                    ProducerID = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MovieProducer", x => x.MovieProducerID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MovieStudio",
-                columns: table => new
-                {
-                    MovieStudioID = table.Column<Guid>(nullable: false),
-                    MovieID = table.Column<Guid>(nullable: false),
-                    StudioID = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MovieStudio", x => x.MovieStudioID);
                 });
 
             migrationBuilder.CreateTable(
@@ -228,8 +123,10 @@ namespace MovieStore.Migrations
                     UserID = table.Column<string>(nullable: true),
                     Total = table.Column<double>(nullable: false),
                     Creation = table.Column<DateTime>(nullable: false),
+                    NumItems = table.Column<int>(nullable: false),
                     Closed = table.Column<bool>(nullable: false),
-                    Status = table.Column<string>(nullable: true)
+                    Status = table.Column<string>(nullable: true),
+                    TotalCents = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -244,8 +141,10 @@ namespace MovieStore.Migrations
                     UserID = table.Column<string>(nullable: true),
                     OrderID = table.Column<Guid>(nullable: false),
                     MovieID = table.Column<Guid>(nullable: false),
-                    Amount = table.Column<int>(nullable: false),
-                    Price = table.Column<double>(nullable: false)
+                    Title = table.Column<string>(nullable: true),
+                    Quantity = table.Column<int>(nullable: false),
+                    Price = table.Column<double>(nullable: false),
+                    Total = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -262,33 +161,6 @@ namespace MovieStore.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PostCode", x => x.PostCodeID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Producer",
-                columns: table => new
-                {
-                    ProducerID = table.Column<Guid>(nullable: false),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    Gender = table.Column<string>(nullable: true),
-                    DOB = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Producer", x => x.ProducerID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Studio",
-                columns: table => new
-                {
-                    StudioID = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Studio", x => x.StudioID);
                 });
 
             migrationBuilder.CreateTable(
@@ -527,9 +399,6 @@ namespace MovieStore.Migrations
                 name: "AccessLog");
 
             migrationBuilder.DropTable(
-                name: "Actor");
-
-            migrationBuilder.DropTable(
                 name: "Address");
 
             migrationBuilder.DropTable(
@@ -548,31 +417,10 @@ namespace MovieStore.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Director");
-
-            migrationBuilder.DropTable(
-                name: "Genre");
-
-            migrationBuilder.DropTable(
                 name: "Locality");
 
             migrationBuilder.DropTable(
                 name: "Movie");
-
-            migrationBuilder.DropTable(
-                name: "MovieActor");
-
-            migrationBuilder.DropTable(
-                name: "MovieDirector");
-
-            migrationBuilder.DropTable(
-                name: "MovieGenre");
-
-            migrationBuilder.DropTable(
-                name: "MovieProducer");
-
-            migrationBuilder.DropTable(
-                name: "MovieStudio");
 
             migrationBuilder.DropTable(
                 name: "Order");
@@ -582,12 +430,6 @@ namespace MovieStore.Migrations
 
             migrationBuilder.DropTable(
                 name: "PostCode");
-
-            migrationBuilder.DropTable(
-                name: "Producer");
-
-            migrationBuilder.DropTable(
-                name: "Studio");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
