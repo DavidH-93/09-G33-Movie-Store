@@ -61,7 +61,7 @@ namespace MovieStore.Controllers
 
             if (!String.IsNullOrEmpty(typeSearchString))
             {
-                staffs = staffs.Where(s => s.Position.Contains(typeSearchString.Trim()));
+                staffs = staffs.Where(s => s.Type.Contains(typeSearchString.Trim()));
             }
 
             return View(await staffs.Select(staff => new StaffEditViewModel
@@ -70,7 +70,7 @@ namespace MovieStore.Controllers
                 FirstName = staff.FirstName,
                 LastName = staff.LastName,
                 PhoneNumber = staff.PhoneNumber,
-                Position = staff.Position,
+                Type = staff.Type,
                 Address = new AddressViewModel
                 {
                     City = new CityViewModel
@@ -114,7 +114,7 @@ namespace MovieStore.Controllers
                 LastName = staff.LastName,
                 Email = staff.Email,
                 PhoneNumber = staff.PhoneNumber,
-                Position = staff.Position,
+                Type = staff.Type,
                 Address = new AddressViewModel
                 {
                     Line1 = address.Line1,
@@ -149,7 +149,7 @@ namespace MovieStore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("UserName, FirstName, LastName, Email, Password, PhoneNumber, Position, Address")] StaffViewModel StaffViewModel)
+        public async Task<IActionResult> Create([Bind("UserName, FirstName, LastName, Email, Password, PhoneNumber, Type, Address")] StaffViewModel StaffViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -227,18 +227,18 @@ namespace MovieStore.Controllers
                 _context.Address.Add(address);
                 _context.SaveChanges();
 
-                await _userManager.CreateAsync(new User
+                await _userManager.CreateAsync(new Staff
                 {
                     UserName = StaffViewModel.UserName,
                     FirstName = StaffViewModel.FirstName,
                     LastName = StaffViewModel.LastName,
                     Email = StaffViewModel.Email,
                     PhoneNumber = StaffViewModel.PhoneNumber,
-                    Position = StaffViewModel.Position,
+                    Type = StaffViewModel.Type,
                     AddressID = address.AddressID,
                 }, StaffViewModel.Password);
 
-                User staff = await _userManager.FindByEmailAsync(StaffViewModel.Email);
+                Staff staff = await _userManager.FindByEmailAsync(StaffViewModel.Email);
                 staff.LockoutEnabled = false;
                 await _userManager.UpdateAsync(staff);
 
@@ -276,7 +276,7 @@ namespace MovieStore.Controllers
                 LastName = staff.LastName,
                 Email = staff.Email,
                 PhoneNumber = staff.PhoneNumber,
-                Position = staff.Position,
+                Type = staff.Type,
                 Address = new AddressViewModel
                 {
                     Line1 = address.Line1,
@@ -307,7 +307,7 @@ namespace MovieStore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(string id, [Bind("UserName, FirstName, LastName, Email, PhoneNumber, Position, Address, LockoutEnabled")] StaffEditViewModel StaffViewModel)
+        public async Task<IActionResult> Edit(string id, [Bind("UserName, FirstName, LastName, Email, PhoneNumber, Type, Address, LockoutEnabled")] StaffEditViewModel StaffViewModel)
         {
             if (id != StaffViewModel.Email)
             {
@@ -323,7 +323,7 @@ namespace MovieStore.Controllers
                 staff.LastName = StaffViewModel.LastName;
                 staff.Email = StaffViewModel.Email;
                 staff.PhoneNumber = StaffViewModel.PhoneNumber;
-                staff.Position = StaffViewModel.Position;
+                staff.Type = StaffViewModel.Type;
 
                 Address address = _context.Address.FirstOrDefault(l => l.AddressID == staff.AddressID);
 

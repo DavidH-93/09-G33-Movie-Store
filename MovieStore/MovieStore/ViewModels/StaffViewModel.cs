@@ -39,6 +39,6 @@ namespace MovieStore.ViewModels
 
         [Required]
         [Display(Name = "Staff Position")]
-        public string Position { get; set; }
+        public string Type { get; set; }
     }
 }
