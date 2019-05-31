@@ -20,20 +20,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\Staff\Create.cshtml">
+    <Content Update="Views\StaffAdmin\Create.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Staff\Delete.cshtml">
+    <Content Update="Views\StaffAdmin\Delete.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Staff\Details.cshtml">
+    <Content Update="Views\StaffAdmin\Details.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Staff\Edit.cshtml">
+    <Content Update="Views\StaffAdmin\Edit.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\StaffAdmin\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Update="Views\CustomerAdmin\Create.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
@@ -48,9 +49,6 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\CustomerAdmin\Index.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\Staff\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>

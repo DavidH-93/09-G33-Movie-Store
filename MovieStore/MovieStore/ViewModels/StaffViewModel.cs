@@ -22,12 +22,6 @@ namespace MovieStore.ViewModels
         public string LastName { get; set; }
 
         [Required]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
-        [StringLength(30)]
-        [Display(Name = "StaffID")]
-        public string StaffID { get; set; }
-
-        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -44,7 +38,7 @@ namespace MovieStore.ViewModels
         public string PhoneNumber { get; set; }
 
         [Required]
-        [Display(Name = "Position")]
-        public string Type { get; set; }
+        [Display(Name = "Staff Position")]
+        public string Position { get; set; }
     }
 }

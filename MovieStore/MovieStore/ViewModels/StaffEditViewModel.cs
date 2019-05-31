@@ -2,7 +2,7 @@
 
 namespace MovieStore.ViewModels
 {
-    public class UserEditViewModel
+    public class StaffEditViewModel
     { 
         [Display(Name = "Username")]
         public string UserName { get; set; }
@@ -18,12 +18,6 @@ namespace MovieStore.ViewModels
         [StringLength(30)]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
-
-        [Required]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
-        [StringLength(30)]
-        [Display(Name = "StaffID")]
-        public string StaffID { get; set; }
 
         [Required]
         [EmailAddress]
@@ -42,7 +36,7 @@ namespace MovieStore.ViewModels
         public bool LockoutEnabled { get; set; }
 
         [Required]
-        [Display(Name = "Position")]
-        public string Type { get; set; }
+        [Display(Name = "Staff Position")]
+        public string Position { get; set; }
     }
 }
